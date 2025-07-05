@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Operator Lookup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+    h2 {
+      text-align: center;
+      color: #4f46e5;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4338ca;
+    }
+    .result {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+    .result p {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>📲 Operator Lookup</h2>
+    <input type="text" id="number" placeholder="Enter MSISDN (e.g. 923001234567)" />
+    <button onclick="lookup()">Search</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function lookup() {
+      const msisdn = document.getElementById('number').value;
+      const query = {
+        variables: {
+          input: {
+            msisdns: msisdn
+          }
+        },
+        operationName: "OperatorLookup",
+        query: "mutation OperatorLookup($input: OperatorLookupInput!) { availability { operatorLookup(input: $input) { operators { operator { name countryId logoUrl } } } } }"
+      };
+
+      fetch("https://prod-mp.rebtel.com/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "application 7443a5f6-01a7-4ce7-8e87-c36212fad4f5",
+          "Origin": "https://www.rebtel.com"
+        },
+        body: JSON.stringify(query)
+      })
+      .then(res => res.json())
+      .then(data => {
+        const operator = data?.data?.availability?.operatorLookup?.operators?.[0]?.operator;
+        const resultDiv = document.getElementById('result');
+        if (operator) {
+          const now = new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi' });
+          resultDiv.innerHTML = `
+            <p><strong>📡 Operator:</strong> ${operator.name}</p>
+            <p><strong>🌍 Country:</strong> ${operator.countryId}</p>
+            <p><strong>🕒 Time:</strong> ${now}</p>
+            <p><strong>👨‍💻 Developer:</strong> @CYBEREXPERTPK</p>
+          `;
+        } else {
+          resultDiv.innerHTML = "<p style='color:red;'>❌ Invalid or unsupported number</p>";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
