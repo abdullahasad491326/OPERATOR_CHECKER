@@ -1,112 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Operator Lookup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Operator Lookup</title>  <!--
+    ──────────────────────────────────────────────────────────
+      • Auto‑cycling gradient every 1 s (five vivid combos)
+      • Mobile‑first card, glassy look
+      • Direct call to Rebtel GraphQL (no proxy) ‑ same payload as your
+        original Bash + old HTML that you confirmed works.
+    ──────────────────────────────────────────────────────────
+  -->  <style>
+    :root{
+      --radius:1.25rem;
+      --indigo:#6366f1;--violet:#8b5cf6;--pink:#ec4899;
+      --slate-900:#0f172a;
+      --bg:linear-gradient(135deg,var(--indigo),var(--pink));
     }
-    .card {
-      background: #fff;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      width: 90%;
-      max-width: 400px;
-      box-sizing: border-box;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100dvh;display:grid;place-items:center;padding:2dvh;
+         background:var(--bg);transition:background .8s linear;
+         font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         color:var(--slate-900);}
+    .card{width:90%;max-width:420px;padding:2rem 2.25rem;
+          background:rgba(255,255,255,.85);backdrop-filter:blur(14px)saturate(180%);
+          border-radius:var(--radius);box-shadow:0 20px 30px rgba(0,0,0,.15);
+          text-align:center;}
+    h1{font-size:1.6rem;margin-bottom:1rem;font-weight:700}
+    input[type=tel]{width:100%;padding:.9rem 1.05rem;font-size:1rem;border-radius:var(--radius);
+                   border:2px solid #e5e7eb;transition:border .25s;}
+    input:focus{outline:none;border-color:var(--indigo)}
+    .btn{margin-top:1rem;width:100%;padding:.9rem 1.05rem;font-size:1rem;font-weight:600;border:none;
+         border-radius:var(--radius);color:#fff;cursor:pointer;
+         background:linear-gradient(135deg,var(--indigo),var(--violet));
+         transition:opacity .25s,transform .25s;}
+    .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .btn.loading{position:relative;color:transparent !important;}
+    .btn.loading::after{content:"";position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px;
+                        border-radius:50%;border:3px solid #fff;border-top-color:transparent;
+                        animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(1turn)}}
+    .result-box{margin-top:1.5rem;text-align:left;font-size:.95rem;border-left:6px solid var(--indigo);
+                padding:1rem 1.25rem;border-radius:calc(var(--radius) - 4px);background:#fafafa;
+                box-shadow:inset 0 1px 2px rgba(0,0,0,.05);word-break:break-word;display:none}
+    .result-box.error{border-left-color:#dc2626;color:#dc2626}
+    .result-box p{margin:.35rem 0}
+    @media(prefers-color-scheme:dark){
+      body{background:var(--bg);color:#e2e8f0}
+      .card{background:rgba(17,24,39,.65);box-shadow:0 20px 30px rgba(0,0,0,.4)}
+      input{background:#1e293b;border-color:#334155;color:#e2e8f0}input::placeholder{color:#64748b}
+      .btn{background:linear-gradient(135deg,#4f46e5,#a855f7)}
+      .result-box{background:#1e293b;color:#f1f5f9}
     }
-    h2 {
-      text-align: center;
-      color: #4f46e5;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin: 12px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    button {
-      width: 100%;
-      background-color: #4f46e5;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #4338ca;
-    }
-    .result {
-      margin-top: 16px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-    .result p {
-      margin: 6px 0;
-      font-size: 15px;
-    }
-  </style>
-</head>
+  </style></head>
 <body>
-  <div class="card">
-    <h2>📲 Operator Lookup</h2>
-    <input type="text" id="number" placeholder="Enter MSISDN (e.g. 923001234567)" />
-    <button onclick="lookup()">Search</button>
-    <div class="result" id="result"></div>
-  </div>
+  <main class="card">
+    <h1>📲 Operator Lookup</h1>
+    <input id="msisdn" type="tel" inputmode="numeric" placeholder="Enter MSISDN (e.g. 923001234567)" autocomplete="off" />
+    <button id="searchBtn" class="btn">Search</button>
+    <section id="resultBox" class="result-box"></section>
+  </main>  <script>
+    // ─── Gradient changer — 1‑second cycle ──────────────────────────────────
+    const gradients=[
+      'linear-gradient(135deg,#6366f1,#ec4899)',
+      'linear-gradient(135deg,#ef4444,#f97316)',
+      'linear-gradient(135deg,#14b8a6,#06b6d4)',
+      'linear-gradient(135deg,#a855f7,#ec4899)',
+      'linear-gradient(135deg,#10b981,#3b82f6)'
+    ];
+    let gi=0;setInterval(()=>{
+      gi=(gi+1)%gradients.length;
+      document.documentElement.style.setProperty('--bg',gradients[gi]);
+    },1000);
 
-  <script>
-    function lookup() {
-      const msisdn = document.getElementById('number').value;
-      const query = {
-        variables: {
-          input: {
-            msisdns: msisdn
-          }
-        },
-        operationName: "OperatorLookup",
-        query: "mutation OperatorLookup($input: OperatorLookupInput!) { availability { operatorLookup(input: $input) { operators { operator { name countryId logoUrl } } } } }"
+    // ─── DOM refs ──────────────────────────────────────────────────────────
+    const input=document.getElementById('msisdn');
+    const btn=document.getElementById('searchBtn');
+    const box=document.getElementById('resultBox');
+    input.addEventListener('keyup',e=>e.key==='Enter'&&lookup());
+    btn.addEventListener('click',lookup);
+
+    function setLoading(v){v?btn.classList.add('loading'):btn.classList.remove('loading');btn.disabled=v}
+
+    async function lookup(){
+      const msisdn=input.value.trim();
+      if(!/^\d{6,15}$/.test(msisdn))return showErr('❌ Enter a valid number');
+      setLoading(true);box.style.display='none';
+      const gql={
+        variables:{input:{msisdns:msisdn}},
+        operationName:'OperatorLookup',
+        query:`mutation OperatorLookup($input: OperatorLookupInput!) { availability { operatorLookup(input: $input) { operators { operator { name countryId logoUrl } } } } }`
       };
-
-      fetch("https://prod-mp.rebtel.com/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "application 7443a5f6-01a7-4ce7-8e87-c36212fad4f5",
-          "Origin": "https://www.rebtel.com"
-        },
-        body: JSON.stringify(query)
-      })
-      .then(res => res.json())
-      .then(data => {
-        const operator = data?.data?.availability?.operatorLookup?.operators?.[0]?.operator;
-        const resultDiv = document.getElementById('result');
-        if (operator) {
-          const now = new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi' });
-          resultDiv.innerHTML = `
-            <p><strong>📡 Operator:</strong> ${operator.name}</p>
-            <p><strong>🌍 Country:</strong> ${operator.countryId}</p>
-            <p><strong>🕒 Time:</strong> ${now}</p>
-            <p><strong>👨‍💻 Developer:</strong> @CYBEREXPERTPK</p>
-          `;
-        } else {
-          resultDiv.innerHTML = "<p style='color:red;'>❌ Invalid or unsupported number</p>";
+      try{
+        const res=await fetch('https://prod-mp.rebtel.com/graphql',{
+          method:'POST',headers:{'Content-Type':'application/json','Authorization':'application 7443a5f6-01a7-4ce7-8e87-c36212fad4f5'},
+          body:JSON.stringify(gql)
+        });
+        if(!res.ok)throw new Error(res.status);
+        const data=await res.json();
+        const op=data?.data?.availability?.operatorLookup?.operators?.[0]?.operator;
+        if(op){
+          const now=new Date().toLocaleString('en-PK',{timeZone:'Asia/Karachi'});
+          box.innerHTML=`<p><strong>📡 Operator:</strong> ${op.name}</p><p><strong>🌍 Country:</strong> ${op.countryId}</p><p><strong>🕒 Time:</strong> ${now}</p><p><strong>👨‍💻 Developer:</strong> @CYBEREXPERTPK</p>`;
+          box.classList.remove('error');
+        }else{
+          return showErr('❌ Invalid or unsupported number');
         }
-      });
+        box.style.display='block';
+      }catch(e){showErr('⚠️ Network/CORS error');}
+      finally{setLoading(false);}
     }
-  </script>
-</body>
+    function showErr(msg){box.textContent=msg;box.classList.add('error');box.style.display='block';}
+  </script></body>
 </html>
