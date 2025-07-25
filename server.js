@@ -26,7 +26,7 @@ app.get('/proxy', async (req, res) => {
 
 // اگر کسی اور روٹ کو ہینڈل کرنا ہو تو یہاں لکھیں، مثلا:
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'Operator.html'));
 });
 
 app.listen(PORT, () => {
