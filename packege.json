@@ -1,0 +1,13 @@
+{
+  "name": "operator-checker",
+  "version": "1.0.0",
+  "description": "Simple proxy server for operator lookup",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.12"
+  }
+}
