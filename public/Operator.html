@@ -2,50 +2,21 @@
 <html lang="ur" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>آپریٹر چیک کریں</title>
+  <title>آپریٹر چیک کریں اور سم ڈیٹا سرچ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 0; height: 100vh;
+      margin: 0; padding: 0; min-height: 100vh;
       background: linear-gradient(135deg, #7f00ff, #e100ff);
       font-family: 'Poppins', sans-serif;
       display: flex; justify-content: center; align-items: center;
-      overflow: hidden;
+      flex-direction: column;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       direction: rtl;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      top: -100px; left: -100px;
-      width: 300px; height: 300px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      filter: blur(80px);
-      animation: float1 10s ease-in-out infinite;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -150px; right: -150px;
-      width: 400px; height: 400px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      filter: blur(100px);
-      animation: float2 15s ease-in-out infinite;
-      z-index: 0;
-    }
-    @keyframes float1 {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(20px) translateX(30px); }
-    }
-    @keyframes float2 {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-25px) translateX(-25px); }
+      padding: 20px;
     }
     .card {
       position: relative;
@@ -53,22 +24,17 @@
       backdrop-filter: blur(15px);
       border-radius: 24px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      width: 95%;
+      width: 100%;
       max-width: 420px;
       padding: 30px 30px 40px;
       color: #fff;
       z-index: 1;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-      cursor: default;
       user-select: none;
+      margin-bottom: 40px;
     }
-    .card:hover {
-      box-shadow: 0 0 70px #e100ff, 0 0 30px #7f00ff;
-      transform: scale(1.03);
-    }
-    h2 {
+    .card h2 {
       margin-bottom: 25px;
       font-weight: 700;
       font-size: 2.4rem;
@@ -89,8 +55,6 @@
       box-shadow: inset 0 0 6px rgba(255,255,255,0.2);
       background: rgba(255,255,255,0.1);
       color: #fff;
-      position: relative;
-      z-index: 1;
       direction: ltr;
     }
     input::placeholder {
@@ -115,8 +79,6 @@
       letter-spacing: 1.2px;
       box-shadow: 0 0 25px #e100ff;
       transition: background 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
       user-select: none;
     }
     button:hover {
@@ -139,10 +101,9 @@
       color: #ffebff;
       text-align: center;
       font-weight: 700;
-      position: relative;
-      overflow-wrap: break-word;
       white-space: pre-line;
       direction: ltr;
+      overflow-wrap: break-word;
     }
     .error {
       color: #ff6b6b !important;
@@ -150,6 +111,7 @@
       text-align: center;
       user-select: none;
       direction: rtl;
+      margin-top: 8px;
     }
     .logo {
       margin-top: 15px;
@@ -158,7 +120,6 @@
       border-radius: 12px;
       user-select: none;
     }
-
     .whatsapp-button {
       display: inline-block;
       margin-top: 20px;
@@ -171,15 +132,32 @@
       text-decoration: none;
       box-shadow: 0 0 15px #25D366;
       transition: all 0.3s ease-in-out;
+      user-select: none;
     }
-
     .whatsapp-button:hover {
       background-color: #1da851;
       box-shadow: 0 0 25px #1da851;
     }
+
+    /* For Sim Search container */
+    #simSearchContainer {
+      max-width: 420px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 30px 30px 40px;
+      color: #fff;
+      user-select: none;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 40px;
+    }
   </style>
 </head>
 <body>
+  <!-- آپریٹر چیکنگ کارڈ -->
   <div class="card" role="main" aria-label="Operator Lookup Tool">
     <h2>📲 آپریٹر چیک کریں</h2>
     <input
@@ -195,7 +173,24 @@
     <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button">✅ چینل جوائن کریں</a>
   </div>
 
+  <!-- سم ڈیٹا سرچ کارڈ -->
+  <div id="simSearchContainer" role="region" aria-label="SIM Data Search">
+    <h2>🔍 سم ڈیٹا تلاش کریں</h2>
+    <input
+      id="simMobile"
+      type="text"
+      placeholder="موبائل نمبر درج کریں (مثلاً 03001234567)"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Mobile number for SIM search"
+    />
+    <button onclick="searchSimData()">تلاش کریں</button>
+    <div id="simResult" class="result" aria-live="polite" aria-atomic="true"></div>
+    <div id="simError" class="error" role="alert"></div>
+  </div>
+
 <script>
+  // Operator lookup function
   async function lookup() {
     const input = document.getElementById('number');
     let number = input.value.trim();
@@ -233,6 +228,54 @@
     } catch (error) {
       console.error(error);
       resultDiv.innerHTML = "<p class='error'>❌ کوئی مسئلہ پیش آگیا ہے، دوبارہ کوشش کریں۔</p>";
+    }
+  }
+
+  // SIM data search function
+  async function searchSimData() {
+    const mobileInput = document.getElementById('simMobile');
+    const resultDiv = document.getElementById('simResult');
+    const errorDiv = document.getElementById('simError');
+    let mobile = mobileInput.value.trim();
+
+    errorDiv.textContent = '';
+    resultDiv.textContent = '';
+
+    if (!/^03\d{9}$/.test(mobile)) {
+      errorDiv.textContent = '⚠️ براہ کرم درست 11 ہندسوں والا موبائل نمبر درج کریں جو 03 سے شروع ہو۔';
+      return;
+    }
+
+    resultDiv.textContent = '⌛ تلاش جاری ہے...';
+
+    try {
+      const resp = await fetch('/sim-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobileNumber: mobile }),
+      });
+      if (!resp.ok) {
+        if(resp.status === 404) {
+          errorDiv.textContent = '❌ ڈیٹا نہیں ملا۔';
+        } else {
+          errorDiv.textContent = '❌ سرور پر مسئلہ آیا ہے۔';
+        }
+        resultDiv.textContent = '';
+        return;
+      }
+      const data = await resp.json();
+
+      resultDiv.innerHTML = `
+        نام: <strong>${data.name}</strong><br><br>
+        شناختی کارڈ نمبر: <strong>${data.cnic}</strong><br><br>
+        پتہ: <strong>${data.address}</strong>
+      `;
+      errorDiv.textContent = '';
+
+    } catch (error) {
+      console.error(error);
+      errorDiv.textContent = '❌ کنکشن میں مسئلہ آیا ہے۔ دوبارہ کوشش کریں۔';
+      resultDiv.textContent = '';
     }
   }
 </script>
