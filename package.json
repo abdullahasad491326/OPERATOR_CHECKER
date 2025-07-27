@@ -1,13 +1,14 @@
 {
-  "name": "operator-checker",
+  "name": "operator-sim-search-app",
   "version": "1.0.0",
-  "description": "Simple proxy server for operator lookup",
+  "description": "Operator lookup and SIM data search app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "node-fetch": "^2.6.12"
+    "jsdom": "^22.1.0",
+    "node-fetch": "^2.6.7"
   }
 }
