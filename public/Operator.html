@@ -1,283 +1,729 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>آپریٹر چیک کریں اور سم ڈیٹا سرچ</title>
+  <title>Operator & SIM Data Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-    * { box-sizing: border-box; }
+    /* Global Variables & Themes */
+    :root {
+      /* Default Theme: Deep Space Violet */
+      --color-primary: #8a2be2; /* Blue Violet */
+      --color-secondary: #00ffff; /* Cyan */
+      --color-accent: #ff00ff;   /* Magenta */
+      --text-light: #e0e0e0;
+      --text-dark: #f0f0f0;
+      --bg-gradient-start: #1a0033; /* Darker Violet */
+      --bg-gradient-end: #000022;   /* Very Dark Blue */
+      --card-bg: rgba(26, 0, 51, 0.6); /* Semi-transparent dark violet */
+      --card-border: rgba(138, 43, 226, 0.4);
+      --input-bg: rgba(0, 255, 255, 0.08);
+      --input-border-focus: #00ffff;
+      --button-bg-start: #8a2be2;
+      --button-bg-end: #00ffff;
+      --error-bg: rgba(255, 69, 0, 0.2); /* Red-Orange transparent */
+      --error-text: #ff4500;
+      --success-color: #25D366; /* WhatsApp green */
+      --glow-intensity: 0 0 25px;
+    }
+
+    /* Cybernetic Green Theme */
+    body[data-theme="green"] {
+      --color-primary: #00ff80; /* Emerald Green */
+      --color-secondary: #00d4ff; /* Sky Blue */
+      --color-accent: #e600ff;   /* Neon Pink */
+      --bg-gradient-start: #001a0d;
+      --bg-gradient-end: #000a1a;
+      --card-bg: rgba(0, 26, 13, 0.6);
+      --card-border: rgba(0, 255, 128, 0.4);
+      --input-bg: rgba(0, 200, 255, 0.08);
+      --input-border-focus: #00ff80;
+      --button-bg-start: #00ff80;
+      --button-bg-end: #00d4ff;
+      --error-bg: rgba(255, 69, 0, 0.2);
+      --error-text: #ff4500;
+      --success-color: #25D366;
+    }
+
+    /* Infrared Red Theme */
+    body[data-theme="red"] {
+      --color-primary: #ff4500; /* Orange Red */
+      --color-secondary: #ff0066; /* Raspberry */
+      --color-accent: #00ffff;   /* Cyan */
+      --bg-gradient-start: #330d00;
+      --bg-gradient-end: #220000;
+      --card-bg: rgba(51, 13, 0, 0.6);
+      --card-border: rgba(255, 69, 0, 0.4);
+      --input-bg: rgba(255, 0, 102, 0.08);
+      --input-border-focus: #ff4500;
+      --button-bg-start: #ff4500;
+      --button-bg-end: #ff0066;
+      --error-bg: rgba(255, 69, 0, 0.2);
+      --error-text: #ff4500;
+      --success-color: #25D366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      margin: 0; padding: 0; min-height: 100vh;
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      font-family: 'Poppins', sans-serif;
-      display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 15px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      direction: rtl;
-      padding: 20px;
-    }
-    .card {
       position: relative;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(15px);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      overflow-x: hidden;
+    }
+
+    /* Background grid and particles */
+    body::before, body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    body::before { /* Grid lines */
+        background-image:
+            linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+        opacity: 0.8;
+    }
+
+    body::after { /* Subtle glowing particles/orbs */
+        background: radial-gradient(circle at 10% 20%, var(--color-accent) 0%, transparent 15%),
+                    radial-gradient(circle at 90% 80%, var(--color-secondary) 0%, transparent 15%);
+        opacity: 0.1;
+        animation: plasmaGlow 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes plasmaGlow {
+        0% { transform: scale(1) translate(0, 0); opacity: 0.1; }
+        50% { transform: scale(1.05) translate(10px, 10px); opacity: 0.15; }
+        100% { transform: scale(1) translate(0, 0); opacity: 0.1; }
+    }
+
+    .container {
+      max-width: 520px; /* Slightly wider container */
       width: 100%;
-      max-width: 420px;
-      padding: 30px 30px 40px;
-      color: #fff;
       z-index: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px) saturate(1.5); /* Stronger blur, added saturation */
+      border-radius: 28px; /* More rounded corners */
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4), var(--glow-intensity) var(--color-primary); /* More prominent shadow */
+      border: 1px solid var(--card-border);
+      padding: 35px 35px 45px;
+      margin-bottom: 45px;
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
       user-select: none;
-      margin-bottom: 40px;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
     }
-    .card h2 {
-      margin-bottom: 25px;
+
+    .card::before { /* Animated border glow */
+        content: '';
+        position: absolute;
+        top: -5px; bottom: -5px; left: -5px; right: -5px; /* Extend for full glow */
+        border-radius: 32px; /* Match card radius + padding */
+        background: linear-gradient(45deg, var(--color-secondary) 0%, var(--color-accent) 50%, var(--color-primary) 100%);
+        z-index: -1;
+        opacity: 0;
+        filter: blur(8px); /* Soften the glow */
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px); /* Lift effect */
+      box-shadow: 0 15px 50px rgba(0,0,0,0.6), var(--glow-intensity) var(--color-secondary);
+    }
+
+    .card:hover::before {
+        opacity: 1;
+        transform: scale(1.02); /* Slight scale for border glow */
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif; /* Futuristic heading font */
+      font-size: 2.8rem; /* Larger heading */
+      margin-bottom: 30px;
+      letter-spacing: 3px;
       font-weight: 700;
-      font-size: 2.4rem;
-      letter-spacing: 2px;
-      text-shadow: 0 0 15px #e100ff;
+      text-shadow: var(--glow-intensity) var(--color-accent);
       user-select: none;
+      color: var(--text-dark);
+      position: relative;
+      padding-bottom: 10px;
     }
-    input {
+
+    h2::after { /* Underline effect for heading */
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+        border-radius: 2px;
+        animation: underlinePulse 2s infinite alternate;
+    }
+
+    @keyframes underlinePulse {
+        0% { width: 60px; opacity: 0.8; }
+        100% { width: 80px; opacity: 1; }
+    }
+
+    .input-wrapper {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
       width: 100%;
-      padding: 14px 18px;
-      font-size: 16px;
-      border: none;
-      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 18px;
+      border-radius: 14px; /* More rounded */
+      border: 1px solid rgba(0, 255, 255, 0.2);
       outline: none;
-      margin-bottom: 8px;
+      background: var(--input-bg);
+      color: var(--text-dark);
       font-weight: 500;
-      transition: box-shadow 0.3s ease, background 0.3s ease;
-      box-shadow: inset 0 0 6px rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      direction: ltr;
+      box-shadow: inset 0 0 10px rgba(0,255,255,0.1);
+      direction: ltr; /* Ensure LTR for numbers */
+      transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      font-family: 'IBM Plex Mono', monospace; /* Monospace for data input */
+      text-align: center; /* Center align numbers for futuristic feel */
     }
+
     input::placeholder {
-      color: #ddd;
-      font-weight: 400;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'Montserrat', sans-serif; /* Placeholder in normal font */
+      text-align: center; /* Center align placeholder */
     }
+
     input:focus {
-      box-shadow: 0 0 16px #e100ff;
-      background: rgba(255,255,255,0.25);
+      background: rgba(0, 255, 255, 0.15);
+      border-color: var(--input-border-focus);
+      box-shadow: var(--glow-intensity) var(--input-border-focus), inset 0 0 15px rgba(0,255,255,0.4);
     }
+
+    .clear-input {
+        position: absolute;
+        right: 15px; /* Position to the right for LTR */
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        opacity: 0.8;
+        transition: opacity 0.2s ease, color 0.2s ease;
+        display: none;
+        z-index: 2; /* Ensure it's above input */
+    }
+
+    .clear-input:hover {
+        opacity: 1;
+        color: var(--color-secondary);
+    }
+
     button {
       width: 100%;
-      padding: 14px 0;
-      font-size: 17px;
+      padding: 16px 0;
+      font-size: 19px;
       font-weight: 700;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #7f00ff, #e100ff);
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--button-bg-start), var(--button-bg-end));
       color: white;
       cursor: pointer;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      box-shadow: 0 0 25px #e100ff;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      letter-spacing: 2px; /* More prominent spacing */
+      box-shadow: var(--glow-intensity) var(--color-secondary);
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       user-select: none;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #a633ff, #ff00ff);
-      box-shadow: 0 0 40px #ff00ff;
-    }
-    button:active {
-      transform: scale(0.97);
-    }
-    .result {
-      margin-top: 24px;
-      background: rgba(0,0,0,0.15);
-      padding: 20px 24px;
-      border-radius: 14px;
-      box-shadow: inset 0 0 14px rgba(255,255,255,0.25);
-      font-size: 16px;
-      min-height: 100px;
-      line-height: 1.5;
-      user-select: text;
-      color: #ffebff;
-      text-align: center;
-      font-weight: 700;
-      white-space: pre-line;
-      direction: ltr;
-      overflow-wrap: break-word;
-    }
-    .error {
-      color: #ff6b6b !important;
-      font-weight: 700;
-      text-align: center;
-      user-select: none;
-      direction: rtl;
-      margin-top: 8px;
-    }
-    .logo {
-      margin-top: 15px;
-      max-width: 120px;
-      filter: drop-shadow(0 0 3px #fff);
-      border-radius: 12px;
-      user-select: none;
-    }
-    .whatsapp-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      background-color: #25D366;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-      box-shadow: 0 0 15px #25D366;
-      transition: all 0.3s ease-in-out;
-      user-select: none;
-    }
-    .whatsapp-button:hover {
-      background-color: #1da851;
-      box-shadow: 0 0 25px #1da851;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif; /* Futuristic button text */
     }
 
-    /* For Sim Search container */
-    #simSearchContainer {
-      max-width: 420px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(15px);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      padding: 30px 30px 40px;
-      color: #fff;
-      user-select: none;
+    button:hover {
+      background: linear-gradient(90deg, var(--button-bg-end), var(--button-bg-start));
+      box-shadow: 0 0 60px var(--color-secondary), var(--glow-intensity) var(--color-primary);
+      transform: translateY(-3px);
+    }
+
+    button:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 15px var(--color-secondary);
+    }
+
+    button::before { /* Particle/ripple effect for buttons */
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+        pointer-events: none; /* Allow clicks to pass through */
+    }
+
+    button:focus::before,
+    button:active::before {
+        width: 300%;
+        height: 300%;
+        opacity: 0.2;
+        transition: 0s;
+    }
+
+    .result, .error {
+      padding: 22px 25px;
+      border-radius: 18px;
+      font-weight: 500;
+      font-size: 17px;
+      min-height: 90px;
+      line-height: 1.7;
+      overflow-wrap: break-word;
+      white-space: pre-line;
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin-bottom: 40px;
+      user-select: text;
+      background: rgba(0,0,0,0.3); /* Darker, more pronounced background */
+      box-shadow: inset 0 0 20px rgba(0,255,255,0.15), 0 0 0 rgba(0,0,0,0); /* Initial subtle inner glow */
+      color: var(--text-dark);
+      transition: box-shadow 0.4s ease, background 0.4s ease, border 0.4s ease;
+      border: 1px solid rgba(0, 255, 255, 0.1);
+      font-family: 'IBM Plex Mono', monospace; /* Monospace for result data */
+    }
+
+    .result.initial {
+        color: rgba(255, 255, 255, 0.5); /* Faded initial text */
+        text-shadow: none;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .result:not(.initial) { /* Add glow to results when populated */
+        box-shadow: inset 0 0 20px rgba(0,255,255,0.3), var(--glow-intensity) var(--color-secondary);
+    }
+
+    .error {
+      background: var(--error-bg);
+      color: var(--error-text);
+      box-shadow: var(--glow-intensity) var(--error-text);
+      border-color: var(--error-text);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif; /* Error messages less "data-like" */
+    }
+
+    .logo {
+      max-width: 110px;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 16px;
+      filter: drop-shadow(0 0 8px var(--color-secondary));
+      user-select: none;
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .logo:hover {
+        filter: drop-shadow(0 0 16px var(--color-secondary)) brightness(1.2);
+        transform: scale(1.05);
+    }
+
+    .whatsapp-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 14px;
+      background-color: var(--success-color);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 0 20px var(--success-color);
+      user-select: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+      letter-spacing: 1.5px;
+      margin-top: 30px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #21b354;
+      box-shadow: 0 0 40px var(--success-color), 0 0 15px rgba(0,255,0,0.6);
+      transform: translateY(-3px);
+    }
+    .whatsapp-button:active {
+        transform: scale(0.98);
+    }
+    .whatsapp-button .icon {
+        font-size: 22px;
+        margin-right: 10px;
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+    }
+
+    /* Theme Switcher */
+    .theme-switcher {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+        margin-bottom: 35px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 12px 20px;
+        border-radius: 25px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3), var(--glow-intensity) var(--color-accent);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .theme-button {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 3px solid rgba(255,255,255,0.3);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        position: relative;
+    }
+
+    .theme-button:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    }
+
+    .theme-button.active {
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 0 4px rgba(255,255,255,0.4), var(--glow-intensity) var(--color-secondary);
+        transform: scale(1.2);
+    }
+
+    .theme-button[data-theme="default"] { background: linear-gradient(135deg, #8a2be2, #00ffff); }
+    .theme-button[data-theme="green"] { background: linear-gradient(135deg, #00ff80, #00d4ff); }
+    .theme-button[data-theme="red"] { background: linear-gradient(135deg, #ff4500, #ff0066); }
+
+    /* Loading Spinner */
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid var(--color-secondary);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Small screen adjustments */
+    @media (max-width: 600px) {
+        h2 {
+            font-size: 2.2rem;
+            letter-spacing: 1.5px;
+        }
+        input[type="text"] {
+            padding: 14px 18px;
+            font-size: 16px;
+        }
+        button {
+            padding: 14px 0;
+            font-size: 17px;
+            letter-spacing: 1.5px;
+        }
+        .result, .error {
+            padding: 18px 20px;
+            font-size: 15px;
+            min-height: 80px;
+        }
+        .whatsapp-button {
+            padding: 12px 24px;
+            font-size: 15px;
+        }
+        .whatsapp-button .icon {
+            font-size: 18px;
+        }
+        .theme-switcher {
+            gap: 8px;
+            padding: 8px 15px;
+        }
+        .theme-button {
+            width: 30px;
+            height: 30px;
+        }
     }
   </style>
 </head>
 <body>
-  <!-- آپریٹر چیکنگ کارڈ -->
-  <div class="card" role="main" aria-label="Operator Lookup Tool">
-    <h2>📲 آپریٹر چیک کریں</h2>
-    <input
-      type="text"
-      id="number"
-      placeholder="نمبر درج کریں (مثلاً 03001234567)"
-      aria-label="Phone number input"
-      autocomplete="off"
-      spellcheck="false"
-    />
-    <button onclick="lookup()" aria-label="Search operator">تلاش کریں</button>
-    <div class="result" id="result" aria-live="polite" aria-atomic="true">یہاں نیٹ ورک دکھائی دے گا</div>
-    <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button">✅ چینل جوائن کریں</a>
+  <div class="theme-switcher">
+    <button class="theme-button active" data-theme="default" aria-label="Deep Space Violet Theme"></button>
+    <button class="theme-button" data-theme="green" aria-label="Cybernetic Green Theme"></button>
+    <button class="theme-button" data-theme="red" aria-label="Infrared Red Theme"></button>
   </div>
 
-  <!-- سم ڈیٹا سرچ کارڈ -->
-  <div id="simSearchContainer" role="region" aria-label="SIM Data Search">
-    <h2>🔍 سم ڈیٹا تلاش کریں</h2>
-    <input
-      id="simMobile"
-      type="text"
-      placeholder="موبائل نمبر درج کریں (مثلاً 03001234567)"
-      autocomplete="off"
-      spellcheck="false"
-      aria-label="Mobile number for SIM search"
-    />
-    <button onclick="searchSimData()">تلاش کریں</button>
-    <div id="simResult" class="result" aria-live="polite" aria-atomic="true"></div>
-    <div id="simError" class="error" role="alert"></div>
+  <div class="container">
+    <section class="card" role="main" aria-label="Mobile Network Operator Lookup Tool">
+      <h2><span class="icon">📡</span> Operator Check</h2>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="number"
+          placeholder="e.g., 03001234567"
+          aria-label="Enter phone number"
+          autocomplete="off"
+          spellcheck="false"
+          maxlength="11"
+        />
+        <button class="clear-input" aria-label="Clear input">✕</button>
+      </div>
+      <button onclick="lookup()" aria-label="Search mobile operator">Search Operator</button>
+
+      <div id="result" class="result initial" aria-live="polite" aria-atomic="true">
+        Network information will appear here.
+      </div>
+
+      <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button" aria-label="Join our WhatsApp Channel">
+        <span class="icon">💬</span> Join Our Channel
+      </a>
+    </section>
+
+    <section class="card" role="region" aria-label="SIM Data Search Tool">
+      <h2><span class="icon">🔍</span> SIM Data Search</h2>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="simMobile"
+          placeholder="e.g., 03001234567"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Enter mobile number for SIM data"
+          maxlength="11"
+        />
+        <button class="clear-input" aria-label="Clear input">✕</button>
+      </div>
+      <button onclick="searchSimData()" aria-label="Search SIM data">Search SIM Data</button>
+
+      <div id="simError" class="error" role="alert" aria-live="assertive" aria-atomic="true" style="display:none;"></div>
+      <div id="simResult" class="result initial" aria-live="polite" aria-atomic="true">
+        SIM data will be displayed here.
+      </div>
+
+      <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button" aria-label="Join our WhatsApp Channel">
+        <span class="icon">💬</span> Join Our Channel
+      </a>
+    </section>
   </div>
 
-<script>
-  // Operator lookup function
-  async function lookup() {
-    const input = document.getElementById('number');
-    let number = input.value.trim();
+  <script>
+    // Theme switching logic
+    document.querySelectorAll('.theme-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const theme = button.dataset.theme;
+            document.body.dataset.theme = theme;
+            document.querySelectorAll('.theme-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            localStorage.setItem('selectedTheme', theme);
+        });
+    });
 
-    if (!/^(0\d{10}|3\d{9})$/.test(number)) {
-      document.getElementById('result').innerHTML = "<p class='error'>❌ براہ کرم درست نمبر درج کریں (مثلاً 03001234567)</p>";
-      return;
-    }
-
-    if (number.startsWith('0')) {
-      number = number.slice(1);
-    }
-
-    const fullNumber = '92' + number;
-    const resultDiv = document.getElementById('result');
-    resultDiv.textContent = '⌛ چیک کیا جا رہا ہے...';
-
-    try {
-      const response = await fetch(`/proxy?number=${encodeURIComponent(fullNumber)}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-
-      if (data?.Items?.length > 0) {
-        const provider = data.Items[0];
-        const name = provider.Name || "نام دستیاب نہیں";
-        const logo = provider.LogoUrl || '';
-
-        resultDiv.innerHTML = `
-          📡 نیٹ ورک: <strong>${name.toUpperCase()}</strong> NETWORK<br>
-          ${logo ? `<img src="${logo}" alt="${name} لوگو" class="logo" loading="lazy" />` : ''}
-        `;
-      } else {
-        resultDiv.innerHTML = "<p class='error'>❌ نیٹ ورک کی معلومات نہیں مل سکیں</p>";
-      }
-    } catch (error) {
-      console.error(error);
-      resultDiv.innerHTML = "<p class='error'>❌ کوئی مسئلہ پیش آگیا ہے، دوبارہ کوشش کریں۔</p>";
-    }
-  }
-
-  // SIM data search function
-  async function searchSimData() {
-    const mobileInput = document.getElementById('simMobile');
-    const resultDiv = document.getElementById('simResult');
-    const errorDiv = document.getElementById('simError');
-    let mobile = mobileInput.value.trim();
-
-    errorDiv.textContent = '';
-    resultDiv.textContent = '';
-
-    if (!/^03\d{9}$/.test(mobile)) {
-      errorDiv.textContent = '⚠️ براہ کرم درست 11 ہندسوں والا موبائل نمبر درج کریں جو 03 سے شروع ہو۔';
-      return;
-    }
-
-    resultDiv.textContent = '⌛ تلاش جاری ہے...';
-
-    try {
-      const resp = await fetch('/sim-search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobileNumber: mobile }),
-      });
-      if (!resp.ok) {
-        if(resp.status === 404) {
-          errorDiv.textContent = '❌ ڈیٹا نہیں ملا۔';
+    // Load saved theme on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            document.body.dataset.theme = savedTheme;
+            document.querySelectorAll('.theme-button').forEach(btn => {
+                if (btn.dataset.theme === savedTheme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         } else {
-          errorDiv.textContent = '❌ سرور پر مسئلہ آیا ہے۔';
+            document.querySelector('.theme-button[data-theme="default"]').classList.add('active');
         }
-        resultDiv.textContent = '';
+
+        setupClearButtons();
+    });
+
+    function setupClearButtons() {
+        document.querySelectorAll('.input-wrapper input').forEach(input => {
+            const clearButton = input.nextElementSibling;
+            if (clearButton && clearButton.classList.contains('clear-input')) {
+                input.addEventListener('input', () => {
+                    clearButton.style.display = input.value.length > 0 ? 'block' : 'none';
+                });
+                clearButton.addEventListener('click', () => {
+                    input.value = '';
+                    clearButton.style.display = 'none';
+                    input.focus();
+                });
+                if (input.value.length > 0) {
+                    clearButton.style.display = 'block';
+                }
+            }
+        });
+    }
+
+    // Operator lookup function
+    async function lookup() {
+      const input = document.getElementById('number');
+      let number = input.value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.classList.remove('error');
+      resultDiv.classList.remove('initial');
+
+      // Add a subtle glow/pulsate to the card on action
+      const card = resultDiv.closest('.card');
+      card.style.boxShadow = `var(--glow-intensity) var(--color-accent), 0 15px 50px rgba(0,0,0,0.6)`;
+      setTimeout(() => {
+        card.style.boxShadow = `0 10px 40px rgba(0,0,0,0.4), var(--glow-intensity) var(--color-primary)`;
+      }, 500);
+
+      if (!/^03\d{9}$/.test(number)) {
+        resultDiv.innerHTML = "❌ Please enter a valid 11-digit mobile number starting with '03' (e.g., 03001234567).";
+        resultDiv.classList.add('error');
         return;
       }
-      const data = await resp.json();
 
-      resultDiv.innerHTML = `
-        نام: <strong>${data.name}</strong><br><br>
-        شناختی کارڈ نمبر: <strong>${data.cnic}</strong><br><br>
-        پتہ: <strong>${data.address}</strong>
-      `;
-      errorDiv.textContent = '';
+      number = '92' + number.slice(1); // Format for backend
 
-    } catch (error) {
-      console.error(error);
-      errorDiv.textContent = '❌ کنکشن میں مسئلہ آیا ہے۔ دوبارہ کوشش کریں۔';
-      resultDiv.textContent = '';
+      resultDiv.innerHTML = '⌛ Checking... <span class="spinner"></span>';
+
+      try {
+        const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! Status: ${response.status}. Message: ${errorText}`);
+        }
+        const data = await response.json();
+
+        if (data && data.Items && data.Items.length > 0) {
+          const provider = data.Items[0];
+          const name = provider.Name || "N/A";
+          const logo = provider.LogoUrl || '';
+
+          resultDiv.innerHTML = `
+            <p><strong>Network:</strong> ${name.toUpperCase()}</p>
+            ${logo ? `<img src="${logo}" alt="${name} logo" class="logo" loading="lazy" />` : ''}
+          `;
+          resultDiv.classList.remove('error');
+        } else {
+          resultDiv.innerHTML = "❌ Network information not found or number is invalid.";
+          resultDiv.classList.add('error');
+        }
+      } catch (error) {
+        console.error("Error during operator lookup:", error);
+        resultDiv.innerHTML = "❌ An issue occurred, please try again.";
+        resultDiv.classList.add('error');
+      }
     }
-  }
-</script>
+
+    // SIM data search function
+    async function searchSimData() {
+      const mobileInput = document.getElementById('simMobile');
+      const simResultDiv = document.getElementById('simResult');
+      const simErrorDiv = document.getElementById('simError');
+      let mobile = mobileInput.value.trim();
+
+      simResultDiv.textContent = '';
+      simErrorDiv.textContent = '';
+      simErrorDiv.style.display = 'none';
+      simResultDiv.classList.remove('error');
+      simResultDiv.classList.remove('initial');
+
+      const card = simResultDiv.closest('.card');
+      card.style.boxShadow = `var(--glow-intensity) var(--color-accent), 0 15px 50px rgba(0,0,0,0.6)`;
+      setTimeout(() => {
+        card.style.boxShadow = `0 10px 40px rgba(0,0,0,0.4), var(--glow-intensity) var(--color-primary)`;
+      }, 500);
+
+      if (!/^03\d{9}$/.test(mobile)) {
+        simErrorDiv.textContent = '⚠️ Please enter a valid 11-digit mobile number starting with \'03\'.';
+        simErrorDiv.style.display = 'block';
+        return;
+      }
+
+      simResultDiv.innerHTML = '⌛ Searching... <span class="spinner"></span>';
+
+      try {
+        const response = await fetch('/sim-search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNumber: mobile }),
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          if (response.status === 404) {
+            simErrorDiv.textContent = errorResponse.message || '❌ Data not found.';
+          } else {
+            simErrorDiv.textContent = errorResponse.message || '❌ Server issue encountered.';
+          }
+          simErrorDiv.style.display = 'block';
+          simResultDiv.textContent = '';
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data && data.name && data.cnic && data.address) {
+            simResultDiv.innerHTML = `
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>CNIC:</strong> ${data.cnic}</p>
+            <p><strong>Address:</strong> ${data.address}</p>
+            `;
+            simErrorDiv.style.display = 'none';
+            simResultDiv.classList.remove('error');
+        } else {
+            simErrorDiv.textContent = '❌ SIM data incomplete or unavailable.';
+            simErrorDiv.style.display = 'block';
+            simResultDiv.textContent = '';
+        }
+
+      } catch (error) {
+        console.error("Error during SIM data search:", error);
+        simErrorDiv.textContent = '❌ Connection issue. Please try again.';
+        simErrorDiv.style.display = 'block';
+        simResultDiv.textContent = '';
+      }
+    }
+  </script>
 </body>
 </html>
