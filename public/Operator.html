@@ -7,9 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Simplified CSS for performance and clarity.
-      This ensures the website runs smoothly on all devices.
-    */
+    /* Simplified CSS for performance and clarity. */
     :root {
       --primary: #00c4ff;
       --secondary: #8e44ad;
@@ -167,6 +165,22 @@
         color: var(--text-muted);
     }
     .advanced-output .output-value.success { color: var(--success); }
+
+    /* New SMS Sender Styles (adapted) */
+    .sms-textarea {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        outline: none;
+        background: transparent;
+        color: var(--text-light);
+        font-family: 'Bai Jamjuree', sans-serif;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        resize: vertical;
+        min-height: 80px;
+    }
   </style>
 </head>
 <body>
@@ -178,13 +192,16 @@
     </div>
 
     <section class="card">
-      <h2><i class="fas fa-satellite-dish icon"></i> Operator Check</h2>
-      <div class="input-wrapper">
-        <input type="text" id="number" placeholder="Enter 11-digit mobile number" maxlength="11" />
-        <button class="clear-input"><i class="fas fa-times"></i></button>
-      </div>
-      <button onclick="lookup()">Search Operator</button>
-      <div id="result" class="result initial">Awaiting network data...</div>
+        <h2><i class="fas fa-sms icon"></i> PAK SMS Sender</h2>
+        <div class="input-wrapper">
+            <input type="text" id="smsMobile" placeholder="Enter recipient's 11-digit number" maxlength="11" />
+            <button class="clear-input"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="input-wrapper">
+            <textarea id="smsMessage" class="sms-textarea" rows="4" placeholder="Enter your message text (with PIN)" required></textarea>
+        </div>
+        <button onclick="sendSms()">Send SMS</button>
+        <div id="smsStatus" class="result initial">Send messages securely...</div>
     </section>
 
     <section class="card">
@@ -197,16 +214,25 @@
       <div id="simError" class="error" style="display:none;"></div>
       <div id="simResult" class="result initial">Initiating data retrieval...</div>
     </section>
-    
+
     <section class="card">
-      <h2><i class="fas fa-id-card icon"></i> CNIC Data Search</h2>
+      <h2><i class="fas fa-satellite-dish icon"></i> Operator Check</h2>
       <div class="input-wrapper">
-        <input type="text" id="cnic" placeholder="Enter 13-digit CNIC without dashes" maxlength="13" />
+        <input type="text" id="number" placeholder="Enter 11-digit mobile number" maxlength="11" />
         <button class="clear-input"><i class="fas fa-times"></i></button>
       </div>
-      <button onclick="searchCnicData()">Search CNIC Data</button>
-      <div id="cnicError" class="error" style="display:none;"></div>
-      <div id="cnicResult" class="advanced-output"></div>
+      <button onclick="lookup()">Search Operator</button>
+      <div id="result" class="result initial">Awaiting network data...</div>
+    </section>
+
+    <section class="card">
+        <h2><i class="fas fa-id-card-clip icon"></i> CNIC Search</h2>
+        <div class="input-wrapper">
+            <input type="text" id="cnicNumber" placeholder="Enter 13-digit CNIC number" maxlength="13" />
+            <button class="clear-input"><i class="fas fa-times"></i></button>
+        </div>
+        <button onclick="searchCnicById()">Search CNIC</button>
+        <div id="cnicSearchOutput" class="advanced-output"></div>
     </section>
   </div>
   
@@ -232,143 +258,166 @@
                 localStorage.setItem('selectedTheme', button.dataset.theme);
             });
         });
-        document.querySelectorAll('.input-wrapper input').forEach(input => {
-            const clearButton = input.nextElementSibling;
-            input.addEventListener('input', () => clearButton.style.display = input.value.length > 0 ? 'block' : 'none');
-            clearButton.addEventListener('click', () => { input.value = ''; clearButton.style.display = 'none'; input.focus(); });
-            if (input.value.length > 0) clearButton.style.display = 'block';
+        document.querySelectorAll('.input-wrapper input, .input-wrapper textarea').forEach(input => {
+            const clearButton = input.parentElement.querySelector('.clear-input');
+            if (clearButton) {
+              input.addEventListener('input', () => clearButton.style.display = input.value.length > 0 ? 'block' : 'none');
+              clearButton.addEventListener('click', () => { input.value = ''; clearButton.style.display = 'none'; input.focus(); });
+              if (input.value.length > 0) clearButton.style.display = 'block';
+            }
         });
     });
 
     async function lookup() {
-      const input = document.getElementById('number');
-      let number = input.value.trim();
-      const resultDiv = document.getElementById('result');
-      resultDiv.classList.remove('error', 'initial');
-      resultDiv.innerHTML = `<p>Retrieving network data... <span class="spinner"></span></p>`;
-      if (!/^03\d{9}$/.test(number)) {
-        resultDiv.classList.add('error');
-        resultDiv.innerHTML = "❌ Error: Invalid number.";
-        return;
-      }
-      number = '92' + number.slice(1);
-      try {
-        const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
-        const data = await response.json();
-        if (response.ok && data?.Items?.length > 0) {
-          const provider = data.Items[0];
-          const name = provider.Name || "Unknown";
-          resultDiv.innerHTML = `<strong>NETWORK:</strong> ${name.toUpperCase()}<br/><strong>STATUS:</strong> <span style='color: var(--success);'>ACTIVE</span>`;
-        } else {
-          resultDiv.classList.add('error');
-          resultDiv.innerHTML = "❌ Data not found.";
+        const input = document.getElementById('number');
+        let number = input.value.trim();
+        const resultDiv = document.getElementById('result');
+        resultDiv.classList.remove('error', 'initial');
+        resultDiv.innerHTML = `<p>Retrieving network data... <span class="spinner"></span></p>`;
+        if (!/^03\d{9}$/.test(number)) {
+            resultDiv.classList.add('error');
+            resultDiv.innerHTML = "❌ Error: Invalid number.";
+            return;
         }
-      } catch (error) {
-        resultDiv.classList.add('error');
-        resultDiv.innerHTML = "❌ Connection error.";
-      }
+        number = '92' + number.slice(1);
+        try {
+            const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
+            const data = await response.json();
+            if (response.ok && data?.Items?.length > 0) {
+                const provider = data.Items[0];
+                const name = provider.Name || "Unknown";
+                resultDiv.innerHTML = `<strong>NETWORK:</strong> ${name.toUpperCase()}<br/><strong>STATUS:</strong> <span style='color: var(--success);'>ACTIVE</span>`;
+            } else {
+                resultDiv.classList.add('error');
+                resultDiv.innerHTML = "❌ Data not found.";
+            }
+        } catch (error) {
+            resultDiv.classList.add('error');
+            resultDiv.innerHTML = "❌ Connection error.";
+        }
     }
 
     async function searchSimData() {
-      const mobileInput = document.getElementById('simMobile');
-      const simResultDiv = document.getElementById('simResult');
-      const simErrorDiv = document.getElementById('simError');
-      let mobile = mobileInput.value.trim();
-      simResultDiv.classList.remove('error', 'initial');
-      simResultDiv.innerHTML = `<p>Executing data trace... <span class="spinner"></span></p>`;
-      simErrorDiv.style.display = 'none';
-      if (!/^03\d{9}$/.test(mobile)) {
-        simErrorDiv.style.display = 'block';
-        simErrorDiv.innerHTML = '⚠️ Invalid number.';
-        simResultDiv.innerHTML = '';
-        return;
-      }
-      try {
-        const response = await fetch('/sim-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobileNumber: mobile }) });
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          simErrorDiv.style.display = 'block';
-          simErrorDiv.innerHTML = errorResponse.message || '❌ Server error.';
-          simResultDiv.innerHTML = '';
-          return;
+        const mobileInput = document.getElementById('simMobile');
+        const simResultDiv = document.getElementById('simResult');
+        const simErrorDiv = document.getElementById('simError');
+        let mobile = mobileInput.value.trim();
+        simResultDiv.classList.remove('error', 'initial');
+        simResultDiv.innerHTML = `<p>Executing data trace... <span class="spinner"></span></p>`;
+        simErrorDiv.style.display = 'none';
+        if (!/^03\d{9}$/.test(mobile)) {
+            simErrorDiv.style.display = 'block';
+            simErrorDiv.innerHTML = '⚠️ Invalid number.';
+            simResultDiv.innerHTML = '';
+            return;
         }
-        const data = await response.json();
-        if (data?.name && data?.cnic && data?.address) {
-          simResultDiv.innerHTML = `
-            <strong>NAME:</strong> ${data.name}<br/>
-            <strong>CNIC:</strong> ${data.cnic}<br/>
-            <strong>ADDRESS:</strong> ${data.address}<br/>
-            <strong>STATUS:</strong> <span style='color: var(--success);'>ACQUIRED</span>
-          `;
-          simErrorDiv.style.display = 'none';
-        } else {
-          simErrorDiv.style.display = 'block';
-          simErrorDiv.innerHTML = '❌ Trace incomplete.';
-          simResultDiv.innerHTML = '';
+        try {
+            const response = await fetch('/sim-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobileNumber: mobile }) });
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                simErrorDiv.style.display = 'block';
+                simErrorDiv.innerHTML = errorResponse.error || '❌ Server error.';
+                simResultDiv.innerHTML = '';
+                return;
+            }
+            const data = await response.json();
+            if (data?.name && data?.cnic && data?.address) {
+                simResultDiv.innerHTML = `
+                    <strong>NAME:</strong> ${data.name}<br/>
+                    <strong>CNIC:</strong> ${data.cnic}<br/>
+                    <strong>ADDRESS:</strong> ${data.address}<br/>
+                    <strong>STATUS:</strong> <span style='color: var(--success);'>ACQUIRED</span>
+                `;
+                simErrorDiv.style.display = 'none';
+            } else {
+                simErrorDiv.style.display = 'block';
+                simErrorDiv.innerHTML = '❌ Trace incomplete.';
+                simResultDiv.innerHTML = '';
+            }
+        } catch (error) {
+            simErrorDiv.style.display = 'block';
+            simErrorDiv.innerHTML = '❌ Connection error.';
+            simResultDiv.innerHTML = '';
         }
-      } catch (error) {
-        simErrorDiv.style.display = 'block';
-        simErrorDiv.innerHTML = '❌ Connection error.';
-        simResultDiv.innerHTML = '';
-      }
     }
 
-    async function searchCnicData() {
-        const cnicInput = document.getElementById('cnic');
+    async function searchCnicById() {
+        const cnicInput = document.getElementById('cnicNumber');
         const cnic = cnicInput.value.trim();
-        const cnicResultDiv = document.getElementById('cnicResult');
-        const cnicErrorDiv = document.getElementById('cnicError');
-
-        cnicResultDiv.classList.remove('active');
-        cnicResultDiv.innerHTML = '';
-        cnicErrorDiv.style.display = 'none';
+        const outputDiv = document.getElementById('cnicSearchOutput');
+        
+        outputDiv.classList.remove('active');
+        outputDiv.innerHTML = '';
         
         if (!/^\d{13}$/.test(cnic)) {
-            cnicErrorDiv.style.display = 'block';
-            cnicErrorDiv.innerHTML = '⚠️ Invalid CNIC format. Please enter a 13-digit number.';
+            outputDiv.classList.add('active');
+            outputDiv.style.color = 'var(--error)';
+            outputDiv.innerHTML = `
+                <div class="output-item"><i class="fas fa-exclamation-triangle output-icon"></i><span class="output-value" style="color:var(--error)">Invalid CNIC format. Please enter a 13-digit number.</span></div>
+            `;
             return;
         }
 
-        cnicResultDiv.classList.add('active');
-        cnicResultDiv.innerHTML = `
-            <div class="output-item"><i class="fas fa-spinner fa-spin output-icon"></i><span class="output-value">Searching for CNIC data...</span></div>
+        outputDiv.classList.add('active');
+        outputDiv.innerHTML = `
+            <div class="output-item"><i class="fas fa-spinner fa-spin output-icon"></i><span class="output-value">Searching for data...</span></div>
         `;
+        
+        // This is a placeholder function as a new API is required.
+        setTimeout(() => {
+            outputDiv.innerHTML = `
+                <div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ Functionality not available. This feature requires a separate backend API to search by CNIC number.</span></div>
+            `;
+        }, 1500);
+    }
 
+    // New function for Crown One SMS
+    async function sendCrownOneSms() {
+        const mobileInput = document.getElementById('smsMobile');
+        const messageInput = document.getElementById('smsMessage');
+        const statusDiv = document.getElementById('smsStatus');
+        
+        const mobile = mobileInput.value.trim();
+        const message = messageInput.value.trim();
+
+        statusDiv.classList.remove('error', 'initial');
+        statusDiv.innerHTML = `<p>Sending SMS... <span class="spinner"></span></p>`;
+
+        if (!/^03[0-9]{9}$/.test(mobile)) {
+            statusDiv.classList.add('error');
+            statusDiv.innerHTML = "❌ Invalid mobile number format. Use 03XXXXXXXXX.";
+            return;
+        }
+
+        if (message.length === 0) {
+            statusDiv.classList.add('error');
+            statusDiv.innerHTML = "❌ Message cannot be empty.";
+            return;
+        }
+        
         try {
-            const response = await fetch('/cnic-search', {
+            const res = await fetch('/send-crownone-sms', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cnicNumber: cnic }),
+                body: JSON.stringify({ mobile, message })
             });
 
-            if (!response.ok) {
-                const errorResponse = await response.json();
-                cnicErrorDiv.style.display = 'block';
-                cnicErrorDiv.innerHTML = errorResponse.message || '❌ Server error.';
-                cnicResultDiv.classList.remove('active');
-                return;
-            }
-
-            const data = await response.json();
-
-            if (data?.name && data?.phone && data?.address) {
-                cnicResultDiv.innerHTML = `
-                    <div class="output-item"><i class="fas fa-user output-icon"></i><span class="output-label">NAME:</span><span class="output-value">${data.name}</span></div>
-                    <div class="output-item"><i class="fas fa-phone output-icon"></i><span class="output-label">PHONE:</span><span class="output-value">${data.phone}</span></div>
-                    <div class="output-item"><i class="fas fa-map-marker-alt output-icon"></i><span class="output-label">ADDRESS:</span><span class="output-value">${data.address}</span></div>
-                    <div class="output-item"><i class="fas fa-check-circle output-icon"></i><span class="output-label">STATUS:</span><span class="output-value success">ACQUIRED</span></div>
-                `;
+            const result = await res.json();
+            
+            if (res.ok && result.success) {
+                statusDiv.innerHTML = `<strong>✅ Success:</strong> Message sent!`;
+                mobileInput.value = '';
+                messageInput.value = '';
             } else {
-                cnicErrorDiv.style.display = 'block';
-                cnicErrorDiv.innerHTML = '❌ Data not found for this CNIC.';
-                cnicResultDiv.classList.remove('active');
+                statusDiv.classList.add('error');
+                statusDiv.innerHTML = `<strong>❌ Failed:</strong> ${result.error || 'Server error.'}`;
             }
-        } catch (error) {
-            cnicErrorDiv.style.display = 'block';
-            cnicErrorDiv.innerHTML = '❌ Connection error.';
-            cnicResultDiv.classList.remove('active');
+        } catch (err) {
+            statusDiv.classList.add('error');
+            statusDiv.innerHTML = "❌ Failed to connect to server.";
         }
     }
   </script>
 </body>
-</html>
+  </html>
+  
