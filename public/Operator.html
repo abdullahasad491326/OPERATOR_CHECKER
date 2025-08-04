@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Simplified CSS for performance and clarity. */
+    /* ... (CSS code remains the same) ... */
     :root {
       --primary: #00c4ff;
       --secondary: #8e44ad;
@@ -341,6 +341,7 @@
         }
     }
 
+    // UPDATED FUNCTION FOR CNIC SEARCH
     async function searchCnicById() {
         const cnicInput = document.getElementById('cnicNumber');
         const cnic = cnicInput.value.trim();
@@ -363,15 +364,33 @@
             <div class="output-item"><i class="fas fa-spinner fa-spin output-icon"></i><span class="output-value">Searching for data...</span></div>
         `;
         
-        // This is a placeholder function as a new API is required.
-        setTimeout(() => {
+        try {
+            const response = await fetch('/cnic-search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cnicNumber: cnic })
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                outputDiv.innerHTML = `<div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ ${errorResponse.error || 'Server error.'}</span></div>`;
+                return;
+            }
+
+            const data = await response.json();
             outputDiv.innerHTML = `
-                <div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ Functionality not available. This feature requires a separate backend API to search by CNIC number.</span></div>
+                <div class="output-item"><i class="fas fa-user output-icon"></i><span class="output-label">Name:</span><span class="output-value success">${data.name}</span></div>
+                <div class="output-item"><i class="fas fa-id-card-alt output-icon"></i><span class="output-label">CNIC:</span><span class="output-value">${data.cnic}</span></div>
+                <div class="output-item"><i class="fas fa-mobile-alt output-icon"></i><span class="output-label">Mobile:</span><span class="output-value">${data.mobile}</span></div>
+                <div class="output-item"><i class="fas fa-home output-icon"></i><span class="output-label">Address:</span><span class="output-value">${data.address}</span></div>
             `;
-        }, 1500);
+        } catch (error) {
+            outputDiv.innerHTML = `<div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ Connection error.</span></div>`;
+            console.error('Fetch error:', error);
+        }
     }
     
-    // NOTE: This function's backend call must be updated to use the new /send-sms endpoint.
+    // SMS sender function remains the same
     async function sendCrownOneSms() {
         const mobileInput = document.getElementById('smsMobile');
         const messageInput = document.getElementById('smsMessage');
@@ -396,7 +415,7 @@
         }
         
         try {
-            const res = await fetch('/send-sms', { // Corrected endpoint
+            const res = await fetch('/send-sms', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ mobile, message })
@@ -420,4 +439,4 @@
   </script>
 </body>
   </html>
-          
+    
