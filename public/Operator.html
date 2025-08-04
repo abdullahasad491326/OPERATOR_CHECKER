@@ -192,7 +192,7 @@
     </div>
 
     <section class="card">
-        <h2><i class="fas fa-sms icon"></i> PAK SMS Sender</h2>
+        <h2><i class="fas fa-sms icon"></i> Secure SMS Sender</h2>
         <div class="input-wrapper">
             <input type="text" id="smsMobile" placeholder="Enter recipient's 11-digit number" maxlength="11" />
             <button class="clear-input"><i class="fas fa-times"></i></button>
@@ -200,7 +200,7 @@
         <div class="input-wrapper">
             <textarea id="smsMessage" class="sms-textarea" rows="4" placeholder="Enter your message text (with PIN)" required></textarea>
         </div>
-        <button onclick="sendSms()">Send SMS</button>
+        <button onclick="sendCrownOneSms()">Send SMS</button>
         <div id="smsStatus" class="result initial">Send messages securely...</div>
     </section>
 
@@ -370,8 +370,8 @@
             `;
         }, 1500);
     }
-
-    // New function for Crown One SMS
+    
+    // NOTE: This function's backend call must be updated to use the new /send-sms endpoint.
     async function sendCrownOneSms() {
         const mobileInput = document.getElementById('smsMobile');
         const messageInput = document.getElementById('smsMessage');
@@ -396,7 +396,7 @@
         }
         
         try {
-            const res = await fetch('/send-crownone-sms', {
+            const res = await fetch('/send-sms', { // Corrected endpoint
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ mobile, message })
@@ -420,4 +420,4 @@
   </script>
 </body>
   </html>
-  
+          
