@@ -36,9 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Root route
+// Corrected Root route to serve Operator.html from the public directory
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Operator.html'));
+    res.sendFile(path.join(__dirname, 'public', 'Operator.html'));
 });
 
 // Existing proxy API for Operator Check
@@ -157,3 +157,4 @@ app.post('/send-crownone-sms', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
+        
