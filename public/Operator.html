@@ -2,840 +2,270 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>QuantumFlow Analytics | Data Nexus</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <title>Developer Pak Updates ✅</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
   <style>
-    /* Global Variables & Themes */
+    /* Simplified CSS for performance and clarity.
+      This ensures the website runs smoothly on all devices.
+    */
     :root {
-      /* Default Theme: Quantum Violet */
-      --color-primary: #8e44ad; /* Darker Amethyst */
-      --color-secondary: #00c4ff; /* Brighter Electric Blue */
-      --color-accent: #ff00ea;   /* Neon Pink */
-      --bg-dark-1: #0A0015;
-      --bg-dark-2: #020005;
-      --text-light: #f0f8ff; /* AliceBlue */
-      --text-medium: #b3e5fc;
-      --text-dark: #64b5f6;
-      --card-bg: rgba(10, 0, 20, 0.75); /* Deeper, slightly more transparent */
-      --card-border: rgba(142, 68, 173, 0.6);
-      --input-bg: rgba(0, 196, 255, 0.05); /* Lighter input background */
-      --input-border-focus: #00c4ff;
-      --button-bg-start: #8e44ad;
-      --button-bg-end: #00c4ff;
-      --error-bg: rgba(255, 69, 0, 0.3);
-      --error-text: #FF5722; /* Deeper Orange Red */
-      --success-color: #2ECC71; /* Brighter green */
-      --glow-strength: 0 0 45px; /* Stronger glows */
-      --console-line-color: rgba(0, 196, 255, 0.5);
-      --whatsapp-icon-color: #25D366; /* Standard WhatsApp green */
+      --primary: #00c4ff;
+      --secondary: #8e44ad;
+      --background: #0a0015;
+      --card-bg: rgba(2, 0, 5, 0.8);
+      --text-light: #f0f8ff;
+      --text-muted: #64b5f6;
+      --border-color: rgba(142, 68, 173, 0.4);
+      --error: #FF5722;
+      --success: #2ECC71;
     }
-
-    /* Cybernetic Emerald Theme */
     body[data-theme="emerald"] {
-      --color-primary: #00a896; /* Darker Emerald Green */
-      --color-secondary: #00e8c7; /* Lighter Aqua */
-      --color-accent: #f72585;   /* Raspberry Pink */
-      --bg-dark-1: #001515;
-      --bg-dark-2: #000505;
-      --card-bg: rgba(0, 20, 20, 0.75);
-      --card-border: rgba(0, 168, 150, 0.6);
-      --input-bg: rgba(0, 232, 199, 0.05);
-      --input-border-focus: #00e8c7;
-      --button-bg-start: #00a896;
-      --button-bg-end: #00e8c7;
-      --error-bg: rgba(255, 69, 0, 0.3);
-      --error-text: #FF5722;
-      --success-color: #2ECC71;
-      --console-line-color: rgba(0, 232, 199, 0.5);
+      --primary: #00e8c7; --secondary: #00a896; --background: #001515;
+      --card-bg: rgba(0, 5, 5, 0.8); --border-color: rgba(0, 168, 150, 0.4);
     }
-
-    /* Obsidian Crimson Theme */
     body[data-theme="crimson"] {
-      --color-primary: #c0392b; /* Darker Alizarin Crimson */
-      --color-secondary: #ff5722; /* Brighter Coral */
-      --color-accent: #00c4ff;   /* Electric Blue */
-      --bg-dark-1: #150500;
-      --bg-dark-2: #050200;
-      --card-bg: rgba(20, 5, 0, 0.75);
-      --card-border: rgba(192, 57, 43, 0.6);
-      --input-bg: rgba(255, 87, 34, 0.05);
-      --input-border-focus: #ff5722;
-      --button-bg-start: #c0392b;
-      --button-bg-end: #ff5722;
-      --error-bg: rgba(255, 69, 0, 0.3);
-      --error-text: #FF5722;
-      --success-color: #2ECC71;
-      --console-line-color: rgba(255, 87, 34, 0.5);
+      --primary: #ff5722; --secondary: #c0392b; --background: #150500;
+      --card-bg: rgba(5, 2, 0, 0.8); --border-color: rgba(192, 57, 43, 0.4);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: radial-gradient(circle at top left, var(--bg-dark-1) 0%, var(--bg-dark-2) 100%);
+      background-color: var(--background);
       font-family: 'Bai Jamjuree', sans-serif;
       color: var(--text-light);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 50px 15px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: auto;
-      perspective: 1000px; /* For 3D transformations */
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px;
     }
-
-    /* Background Micro-Particle Field & Grid & Aurora */
-    body::before, body::after, .aurora-background {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -3; /* Lowest layer for background elements */
-    }
-
-    body::before { /* Grid/Matrix lines */
-        background-image:
-            linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px), /* Fainter grid */
-            linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
-        background-size: 80px 80px; /* Larger grid squares */
-        animation: gridPan 90s linear infinite; /* Slower pan */
-        opacity: 0.8;
-    }
-
-    @keyframes gridPan {
-        0% { background-position: 0 0; }
-        100% { background-position: 80px 80px; }
-    }
-
-    body::after { /* Floating Particles */
-        background: url('data:image/svg+xml;utf8,<svg width="4" height="4" viewBox="0 0 4 4" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(0,196,255,0.2)"/></svg>') repeat; /* Slightly less opaque particles */
-        background-size: 200px 200px; /* Larger particle distribution */
-        opacity: 0.6;
-        animation: particleFlow 60s linear infinite alternate; /* Slower flow */
-        filter: blur(0.7px); /* Slightly more blur */
-    }
-
-    @keyframes particleFlow {
-        0% { background-position: 0 0; }
-        100% { background-position: 400px 400px; }
-    }
-
-    /* New: Aurora/Plasma background effect */
-    .aurora-background {
-        background: radial-gradient(circle at 15% 50%, var(--color-secondary) 0%, transparent 20%),
-                    radial-gradient(circle at 85% 20%, var(--color-accent) 0%, transparent 20%),
-                    radial-gradient(circle at 50% 90%, var(--color-primary) 0%, transparent 20%);
-        background-blend-mode: screen; /* Blend colors beautifully */
-        opacity: 0.15; /* Subtle */
-        filter: blur(100px); /* Very soft blur */
-        animation: auroraShift 120s linear infinite alternate; /* Very slow, ethereal shift */
-        z-index: -4; /* Below all other background layers */
-    }
-
-    @keyframes auroraShift {
-        0% { background-position: 0% 0%, 100% 0%, 50% 100%; }
-        50% { background-position: 25% 100%, 75% 50%, 0% 0%; }
-        100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
-    }
-
-    .container {
-      max-width: 650px; /* Even wider for more modern feel */
-      width: 100%;
-      z-index: 1; /* Ensure content is above background */
-      transform-style: preserve-3d; /* For child 3D transforms */
-    }
-
+    .container { max-width: 500px; width: 100%; }
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(30px) brightness(1.25) contrast(1.15); /* Even more intense glass effect */
-      border-radius: 35px; /* Even softer, more modern corners */
-      box-shadow: var(--glow-strength) var(--color-primary), inset 0 0 20px rgba(0,196,255,0.15); /* More intense inner glow */
-      border: 1px solid var(--card-border);
-      padding: 50px; /* More padding for spacious feel */
-      margin-bottom: 60px;
-      text-align: center;
-      user-select: none;
-      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2), box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
-      position: relative;
-      overflow: hidden;
-      transform: rotateX(0deg); /* Initial state for 3D */
+      backdrop-filter: blur(5px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px; margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
     }
-
-    .card::before { /* Internal animated glow - refined */
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        border-radius: 35px;
-        background: linear-gradient(45deg, var(--color-secondary) 0%, var(--color-accent) 50%, var(--color-primary) 100%);
-        opacity: 0;
-        filter: blur(15px); /* More blur */
-        z-index: -1;
-        transition: opacity 0.6s ease;
-        animation: cardInnerPulse 3.5s infinite alternate ease-in-out; /* Slower pulse */
-    }
-
-    @keyframes cardInnerPulse {
-        0% { opacity: 0; transform: scale(0.97); }
-        50% { opacity: 0.15; transform: scale(1.01); } /* More noticeable peak */
-        100% { opacity: 0; transform: scale(0.97); }
-    }
-
-    .card:hover {
-      transform: translateY(-10px) rotateX(3deg) scale(1.005); /* More pronounced lift, tilt, and slight grow */
-      box-shadow: 0 25px 80px rgba(0,0,0,0.7), var(--glow-strength) var(--color-secondary), inset 0 0 30px rgba(0,196,255,0.3); /* Deeper shadow and inner glow */
-    }
-
-    .card:hover::before {
-        opacity: 0.3; /* Show the inner glow on hover */
-    }
-
+    .card:hover { transform: translateY(-3px); }
     h2 {
       font-family: 'Syncopate', sans-serif;
-      font-size: 3.8rem; /* Even larger heading */
-      margin-bottom: 40px;
-      letter-spacing: 5px; /* Wider spacing */
-      font-weight: 700;
-      text-shadow: var(--glow-strength) var(--color-accent), 0 0 10px rgba(255,255,255,0.8); /* Additional white glow */
-      color: var(--text-light);
-      position: relative;
-      padding-bottom: 20px; /* More space for underline */
-      line-height: 1.1;
-      text-transform: uppercase;
+      font-size: 1.8rem; text-align: center;
+      margin-bottom: 25px;
+      color: var(--primary);
     }
-
-    h2 .icon {
-        font-size: 0.7em; /* Slightly smaller icon relative to text */
-        margin-right: 15px;
-        color: var(--color-secondary);
-        filter: drop-shadow(0 0 12px var(--color-secondary)); /* Stronger icon glow */
-    }
-
-    h2::after { /* Advanced animated underline */
-        content: '';
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 0;
-        width: 80%; /* Shorter underline */
-        height: 4px; /* Thicker */
-        background: linear-gradient(90deg, transparent, var(--color-secondary), var(--color-accent), var(--color-primary), transparent);
-        border-radius: 2px;
-        animation: headingWave 3s infinite linear; /* Slower wave */
-        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); /* Sharper fade edges */
-        box-shadow: 0 0 15px var(--color-secondary);
-    }
-
-    @keyframes headingWave {
-        0% { background-position: -300% 0; }
-        100% { background-position: 300% 0; }
-    }
-
-    .input-wrapper {
-        position: relative;
-        margin-bottom: 30px;
-    }
-
+    h2 .icon { font-size: 1.2em; margin-right: 10px; }
+    .input-wrapper { position: relative; margin-bottom: 20px; }
     input[type="text"] {
-      width: 100%;
-      padding: 20px 25px; /* More padding */
-      font-size: 22px; /* Larger font */
-      border-radius: 18px; /* Softer edges */
-      border: 2px solid rgba(0, 196, 255, 0.35); /* Thicker initial border, slightly less opaque */
-      outline: none;
-      background: var(--input-bg);
+      width: 100%; padding: 12px 15px;
+      font-size: 16px; border-radius: 8px;
+      border: 1px solid var(--border-color);
+      outline: none; background: transparent;
       color: var(--text-light);
-      font-weight: 500;
-      box-shadow: inset 0 0 15px rgba(0,196,255,0.2), 0 0 0px var(--color-secondary); /* Initial subtle shadow */
-      direction: ltr;
-      transition: box-shadow 0.5s ease, background 0.5s ease, border-color 0.5s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1.2);
-      font-family: 'Share Tech Mono', monospace;
-      text-align: center;
-      text-shadow: 0 0 5px rgba(255,255,255,0.3); /* Subtle text glow */
-    }
-
-    input::placeholder {
-      color: var(--text-medium);
       font-family: 'Bai Jamjuree', sans-serif;
-      text-align: center;
-      opacity: 0.7;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
-    input:focus {
-      background: rgba(0, 196, 255, 0.1); /* Brighter background on focus */
-      border-color: var(--input-border-focus);
-      box-shadow: var(--glow-strength) var(--input-border-focus), inset 0 0 25px rgba(0,196,255,0.6); /* Stronger glow and inner shadow */
-      transform: scale(1.02); /* More pronounced grow on focus */
-    }
-
+    input::placeholder { color: var(--text-muted); }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 5px var(--primary); }
     .clear-input {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: var(--text-medium);
-        font-size: 24px; /* Larger icon */
-        cursor: pointer;
-        padding: 5px;
-        opacity: 0.8;
-        transition: opacity 0.3s ease, color 0.3s ease, transform 0.2s ease;
-        display: none;
-        z-index: 2;
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--text-muted); font-size: 16px;
+      cursor: pointer; display: none;
     }
-
-    .clear-input:hover {
-        opacity: 1;
-        color: var(--color-accent);
-        transform: translateY(-50%) scale(1.1); /* Subtle grow on hover */
-    }
-
     button {
-      width: 100%;
-      padding: 20px 0; /* More padding */
-      font-size: 22px; /* Larger font */
-      font-weight: 700;
-      border: none;
-      border-radius: 18px;
-      background: linear-gradient(90deg, var(--button-bg-start), var(--button-bg-end));
-      color: white;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 3px; /* Wider spacing */
-      box-shadow: var(--glow-strength) var(--color-secondary), inset 0 0 15px rgba(255,255,255,0.1); /* Inner white glow */
-      transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1.2);
-      user-select: none;
-      margin-bottom: 35px;
-      position: relative;
-      overflow: hidden;
-      font-family: 'Syncopate', sans-serif;
-      text-shadow: 0 0 15px rgba(255,255,255,0.8); /* Brighter text glow */
+      width: 100%; padding: 12px 0;
+      font-size: 16px; font-weight: 600;
+      border: none; border-radius: 8px;
+      background: var(--secondary); color: white;
+      cursor: pointer; text-transform: uppercase;
+      transition: background-color 0.2s ease, transform 0.2s ease;
     }
-
-    button:hover {
-      background: linear-gradient(90deg, var(--button-bg-end), var(--button-bg-start));
-      box-shadow: 0 0 100px var(--color-secondary), var(--glow-strength) var(--color-accent); /* Stronger overall glow */
-      transform: translateY(-7px) scale(1.01); /* More pronounced lift and slight grow */
-    }
-
-    button:active {
-      transform: scale(0.95); /* Deeper press */
-      box-shadow: 0 0 30px var(--color-secondary);
-    }
-
-    button::before { /* Advanced "scanline" or "data-transfer" effect on button - refined */
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -120%; /* Start further left */
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 50%, transparent); /* Gradient scanline */
-        transform: skewX(-25deg); /* More pronounced skew */
-        transition: left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); /* Faster, more bouncy transition */
-        opacity: 0.8;
-    }
-
-    button:hover::before {
-        left: 120%; /* Move across further right */
-    }
-
+    button:hover { background: var(--primary); transform: translateY(-2px); }
     .result, .error {
-      padding: 30px 35px; /* More padding */
-      border-radius: 25px; /* Even softer edges */
-      font-weight: 400;
-      font-size: 19px; /* Slightly larger font */
-      min-height: 120px; /* Taller result box */
-      line-height: 2; /* Increased line height for readability */
-      overflow-wrap: break-word;
-      white-space: pre-line;
-      text-align: left;
-      user-select: text;
-      background: rgba(0,0,0,0.5); /* Deeper background */
-      box-shadow: inset 0 0 30px rgba(0,196,255,0.15); /* Initial subtle inner glow */
-      color: var(--text-light);
-      transition: box-shadow 0.6s ease, background 0.6s ease, border 0.6s ease;
-      border: 1px solid rgba(0, 196, 255, 0.2); /* Slightly more visible border */
-      font-family: 'Share Tech Mono', monospace;
-      position: relative;
-      overflow: hidden; /* For dynamic text effect */
-    }
-
-    .result::before { /* Console scanlines - refined */
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 100%;
-        background: linear-gradient(to bottom, transparent, var(--console-line-color) 1px, transparent 2px, transparent 18px); /* Less frequent lines */
-        background-size: 100% 25px; /* Line every 25px */
-        animation: scanlineScroll 12s linear infinite; /* Slower scroll */
-        opacity: 0.2; /* Slightly more opaque */
-    }
-
-    @keyframes scanlineScroll {
-        0% { background-position: 0 0; }
-        100% { background-position: 0 -250px; }
-    }
-
-    .result strong {
-        color: var(--color-secondary);
-        text-shadow: 0 0 10px var(--color-secondary), 0 0 5px rgba(255,255,255,0.5); /* Stronger and softer white glow */
-    }
-
-    .result p {
-        margin-bottom: 10px;
-        text-indent: -1.2em; /* Deeper indent */
-        padding-left: 1.2em;
-    }
-    .result p:last-child {
-        margin-bottom: 0;
-    }
-
-    .result.initial {
-        color: var(--text-medium);
-        text-shadow: none;
-        font-family: 'Bai Jamjuree', sans-serif;
-        text-align: center;
-        background: rgba(0,0,0,0.35); /* Slightly darker initial background */
-        box-shadow: inset 0 0 15px rgba(255,255,255,0.08);
-        border: 1px dashed rgba(255,255,255,0.15); /* More visible dashed border */
-    }
-
-    .result:not(.initial)::before {
-        opacity: 0.4; /* Stronger scanlines for active results */
-    }
-    .result:not(.initial) {
-        box-shadow: inset 0 0 30px rgba(0,196,255,0.35), var(--glow-strength) var(--color-secondary); /* Stronger glow and inner shadow */
-    }
-
-    /* Dynamic Text Typing Effect */
-    .typing-effect p {
-      overflow: hidden; /* Ensures the text is only revealed as it's typed */
-      white-space: nowrap; /* Keeps the text on a single line */
-      margin: 0 auto;
-      letter-spacing: .05em; /* Adjust as needed */
-      animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
-      border-right: .15em solid var(--color-secondary); /* The blinking caret */
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: var(--color-secondary); }
-    }
-
-    .error {
-      background: var(--error-bg);
-      color: var(--error-text);
-      box-shadow: var(--glow-strength) var(--error-text);
-      border-color: var(--error-text);
-      font-weight: 600;
-      font-family: 'Bai Jamjuree', sans-serif;
+      padding: 20px; border-radius: 8px;
+      font-size: 14px; line-height: 1.6;
       text-align: center;
-      text-shadow: 0 0 8px rgba(255,69,0,0.5); /* Error text glow */
+      background: rgba(0,0,0,0.5);
+      border: 1px dashed var(--border-color);
     }
-
-    .logo {
-      max-width: 150px; /* Larger logo */
-      height: auto;
-      margin-top: 30px;
-      border-radius: 20px; /* Softer border */
-      filter: drop-shadow(0 0 15px var(--color-accent)) brightness(1.3) saturate(1.2); /* Stronger glow, brighter, more saturated */
-      user-select: none;
-      transition: filter 0.5s ease, transform 0.5s ease;
-      animation: logoPulse 2.5s infinite alternate ease-in-out; /* Slower pulse */
+    .result strong { color: var(--primary); }
+    .result.initial { color: var(--text-muted); }
+    .error {
+      background: rgba(255, 69, 0, 0.2);
+      color: var(--error); border-color: var(--error);
     }
-
-    @keyframes logoPulse {
-        0% { filter: drop-shadow(0 0 15px var(--color-accent)) brightness(1.3) saturate(1.2); transform: scale(1); }
-        100% { filter: drop-shadow(0 0 30px var(--color-secondary)) brightness(1.7) saturate(1.5); transform: scale(1.03); } /* Stronger effect at peak */
-    }
-
-    .logo:hover {
-        filter: drop-shadow(0 0 45px var(--color-accent)) brightness(1.8) saturate(2);
-        transform: scale(1.15) rotateZ(2deg); /* More dynamic hover */
-        animation: none;
-    }
-
-    .whatsapp-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px 36px; /* More padding */
-      border-radius: 18px; /* Softer edges */
-      background-color: var(--success-color);
-      color: #fff;
-      font-size: 20px; /* Larger font */
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 0 30px var(--success-color); /* Stronger glow */
-      user-select: none;
-      transition: background-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1.2);
-      cursor: pointer;
-      letter-spacing: 2.5px;
-      margin-top: 45px;
-      font-family: 'Syncopate', sans-serif;
-      text-shadow: 0 0 10px rgba(0,255,0,0.5); /* Subtle green text glow */
-    }
-
-    .whatsapp-button .icon {
-        font-size: 28px; /* Larger icon */
-        margin-right: 15px;
-        filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
-    }
-
-    .whatsapp-button:hover {
-      background-color: #27AE60;
-      box-shadow: 0 0 60px var(--success-color), 0 0 30px rgba(0,255,0,1); /* Even stronger glow */
-      transform: translateY(-8px) scale(1.02); /* More pronounced lift and slight grow */
-    }
-    .whatsapp-button:active {
-        transform: scale(0.96);
-    }
-
-    /* Theme Switcher */
-    .theme-switcher {
-        display: flex;
-        gap: 20px; /* More spacing */
-        margin-top: 35px;
-        margin-bottom: 50px;
-        z-index: 10;
-        background: rgba(0, 0, 0, 0.6); /* Darker background */
-        padding: 20px 30px; /* More padding */
-        border-radius: 35px; /* Softer corners */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5), var(--glow-strength) rgba(255,255,255,0.15); /* Deeper shadow, brighter glow */
-        border: 1px solid rgba(255,255,255,0.2); /* More visible border */
-        animation: switcherPulse 3.5s infinite ease-in-out; /* Slower pulse */
-    }
-
-    @keyframes switcherPulse {
-        0% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0px var(--color-accent); }
-        50% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--color-secondary); } /* Stronger glow at peak */
-        100% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0px var(--color-primary); }
-    }
-
-    .theme-button {
-        width: 45px; /* Larger buttons */
-        height: 45px;
-        border-radius: 50%;
-        border: 5px solid rgba(255,255,255,0.5); /* Thicker border */
-        cursor: pointer;
-        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1.2), box-shadow 0.4s ease, border-color 0.4s ease;
-        position: relative;
-        overflow: hidden;
-        filter: saturate(1.2); /* Slightly more saturated */
-    }
-
-    .theme-button::before { /* Inner pulsating circle - refined */
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.4); /* More opaque */
-        transition: all 0.4s ease;
-        opacity: 0;
-        filter: blur(2px); /* Subtle blur */
-    }
-
-    .theme-button.active::before {
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-        animation: themeRipple 1.8s infinite ease-out; /* Slower, more pronounced ripple */
-    }
-
-    @keyframes themeRipple {
-        0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-        50% { opacity: 1; }
-        100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0; } /* Larger ripple */
-    }
-
-    .theme-button:hover {
-        transform: scale(1.25); /* More pronounced grow */
-        box-shadow: 0 0 25px rgba(255,255,255,1); /* Brighter hover glow */
-    }
-
-    .theme-button.active {
-        border-color: var(--color-secondary);
-        box-shadow: 0 0 0 6px rgba(255,255,255,0.4), var(--glow-strength) var(--color-secondary); /* Thicker, brighter outline */
-        transform: scale(1.3); /* Even larger active state */
-    }
-
-    .theme-button[data-theme="default"] { background: linear-gradient(135deg, #8e44ad, #00c4ff); }
-    .theme-button[data-theme="emerald"] { background: linear-gradient(135deg, #00a896, #00e8c7); }
-    .theme-button[data-theme="crimson"] { background: linear-gradient(135deg, #c0392b, #ff5722); }
-
-    /* Loading Spinner - refined */
     .spinner {
-      border: 6px solid rgba(255, 255, 255, 0.2); /* Thicker border */
-      border-top: 6px solid var(--color-secondary);
-      border-right: 6px solid var(--color-accent);
-      border-left: 6px solid var(--color-primary); /* Triple color spinner */
-      border-radius: 50%;
-      width: 40px; /* Larger spinner */
-      height: 40px;
-      animation: spin 0.6s linear infinite, glowPulse 1.5s infinite alternate; /* Faster spin, with glow */
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 15px;
-      filter: drop-shadow(0 0 8px var(--color-secondary));
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%; width: 20px; height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block; vertical-align: middle; margin-left: 8px;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .whatsapp-button {
+      position: fixed; right: 25px; bottom: 25px;
+      padding: 12px 20px;
+      background: var(--success);
+      color: white; border-radius: 50px;
+      text-decoration: none; font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
     }
-
-    @keyframes glowPulse {
-        0% { filter: drop-shadow(0 0 8px var(--color-secondary)); }
-        50% { filter: drop-shadow(0 0 15px var(--color-accent)); }
-        100% { filter: drop-shadow(0 0 8px var(--color-secondary)); }
+    .whatsapp-button:hover { transform: scale(1.05); }
+    .whatsapp-button .icon { margin-right: 8px; }
+    .theme-switcher {
+      display: flex; gap: 15px; margin-bottom: 25px;
+      padding: 10px; border-radius: 50px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-        body { padding: 30px 10px; }
-        .card { padding: 35px; border-radius: 30px; margin-bottom: 40px;}
-        h2 { font-size: 2.8rem; letter-spacing: 4px; margin-bottom: 30px; }
-        input[type="text"] { padding: 18px 22px; font-size: 20px; }
-        button { padding: 18px 0; font-size: 20px; letter-spacing: 2px; }
-        .result, .error { padding: 25px; font-size: 17px; min-height: 100px; }
-        .whatsapp-button { padding: 16px 32px; font-size: 18px; }
-        .theme-switcher { padding: 15px 25px; gap: 15px; }
-        .theme-button { width: 40px; height: 40px; }
-        .logo { max-width: 130px; }
+    .theme-button {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
-
-    @media (max-width: 480px) {
-        h2 { font-size: 2.2rem; letter-spacing: 2.5px; margin-bottom: 25px; }
-        input[type="text"] { font-size: 17px; padding: 16px 20px; }
-        button { font-size: 17px; letter-spacing: 1.8px; }
-        .result, .error { font-size: 16px; min-height: 90px; }
-        .whatsapp-button { font-size: 15px; padding: 14px 28px; }
-        .theme-button { width: 35px; height: 35px; }
-        .logo { max-width: 100px; }
+    .theme-button:hover { transform: scale(1.1); }
+    .theme-button.active { border-color: var(--primary); }
+    .theme-button[data-theme="default"] { background-color: #00c4ff; }
+    .theme-button[data-theme="emerald"] { background-color: #00e8c7; }
+    .theme-button[data-theme="crimson"] { background-color: #ff5722; }
+    
+    /* Advanced Output Styling */
+    .advanced-output {
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-top: 20px;
+        text-align: left;
+        display: none;
     }
+    .advanced-output.active { display: block; }
+    .advanced-output .output-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .advanced-output .output-item:last-child { margin-bottom: 0; }
+    .advanced-output .output-icon {
+        color: var(--primary);
+        font-size: 1.2em;
+        width: 25px;
+        text-align: center;
+    }
+    .advanced-output .output-label {
+        font-weight: 600;
+        color: var(--text-light);
+        margin-right: 10px;
+    }
+    .advanced-output .output-value {
+        flex-grow: 1;
+        font-size: 1em;
+        color: var(--text-muted);
+    }
+    .advanced-output .output-value.success { color: var(--success); }
   </style>
 </head>
 <body>
-  <div class="aurora-background"></div> <div class="theme-switcher">
-    <button class="theme-button active" data-theme="default" aria-label="Quantum Violet Theme"></button>
-    <button class="theme-button" data-theme="emerald" aria-label="Cybernetic Emerald Theme"></button>
-    <button class="theme-button" data-theme="crimson" aria-label="Obsidian Crimson Theme"></button>
-  </div>
   <div class="container">
-    <section class="card" role="main" aria-label="Mobile Network Operator Lookup Tool">
+    <div class="theme-switcher">
+      <button class="theme-button active" data-theme="default"></button>
+      <button class="theme-button" data-theme="emerald"></button>
+      <button class="theme-button" data-theme="crimson"></button>
+    </div>
+
+    <section class="card">
       <h2><i class="fas fa-satellite-dish icon"></i> Operator Check</h2>
       <div class="input-wrapper">
-        <input
-          type="text"
-          id="number"
-          placeholder="Enter 11-digit mobile number (e.g., 03001234567)"
-          aria-label="Enter phone number"
-          autocomplete="off"
-          spellcheck="false"
-          maxlength="11"
-        />
-        <button class="clear-input" aria-label="Clear input"><i class="fas fa-times"></i></button>
+        <input type="text" id="number" placeholder="Enter 11-digit mobile number" maxlength="11" />
+        <button class="clear-input"><i class="fas fa-times"></i></button>
       </div>
-      <button onclick="lookup()" aria-label="Search mobile operator">Search Operator</button>
-
-      <div id="result" class="result initial" aria-live="polite" aria-atomic="true">
-        <p>Awaiting network data stream...</p>
-      </div>
-
-      <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button" aria-label="Join our QuantumFlow Channel">
-        <i class="fab fa-whatsapp icon"></i> Join Our Channel
-      </a>
+      <button onclick="lookup()">Search Operator</button>
+      <div id="result" class="result initial">Awaiting network data...</div>
     </section>
 
-    <section class="card" role="region" aria-label="SIM Data Search Tool">
+    <section class="card">
       <h2><i class="fas fa-microchip icon"></i> SIM Data Search</h2>
       <div class="input-wrapper">
-        <input
-          type="text"
-          id="simMobile"
-          placeholder="Enter 11-digit mobile number (e.g., 03001234567)"
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Enter mobile number for SIM data"
-          maxlength="11"
-        />
-        <button class="clear-input" aria-label="Clear input"><i class="fas fa-times"></i></button>
+        <input type="text" id="simMobile" placeholder="Enter 11-digit mobile number" maxlength="11" />
+        <button class="clear-input"><i class="fas fa-times"></i></button>
       </div>
-      <button onclick="searchSimData()" aria-label="Search SIM data">Search SIM Data</button>
-
-      <div id="simError" class="error" role="alert" aria-live="assertive" aria-atomic="true" style="display:none;"></div>
-      <div id="simResult" class="result initial" aria-live="polite" aria-atomic="true">
-        <p>Initiating data retrieval protocol...</p>
+      <button onclick="searchSimData()">Search SIM Data</button>
+      <div id="simError" class="error" style="display:none;"></div>
+      <div id="simResult" class="result initial">Initiating data retrieval...</div>
+    </section>
+    
+    <section class="card">
+      <h2><i class="fas fa-id-card icon"></i> CNIC Data Search</h2>
+      <div class="input-wrapper">
+        <input type="text" id="cnic" placeholder="Enter 13-digit CNIC without dashes" maxlength="13" />
+        <button class="clear-input"><i class="fas fa-times"></i></button>
       </div>
-
-      <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button" aria-label="Join our QuantumFlow Channel">
-        <i class="fab fa-whatsapp icon"></i> Join Our Channel
-      </a>
+      <button onclick="searchCnicData()">Search CNIC Data</button>
+      <div id="cnicError" class="error" style="display:none;"></div>
+      <div id="cnicResult" class="advanced-output"></div>
     </section>
   </div>
-  <script>
-    // Theme switching logic
-    document.querySelectorAll('.theme-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const theme = button.dataset.theme;
-            document.body.dataset.theme = theme;
-            document.querySelectorAll('.theme-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            localStorage.setItem('selectedTheme', theme);
-            // playSound('theme_change_sound'); // Play sound
-        });
-    });
+  
+  <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button">
+    <i class="fab fa-whatsapp icon"></i> Join Channel
+  </a>
 
-    // Load saved theme on page load
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const themeButtons = document.querySelectorAll('.theme-button');
         const savedTheme = localStorage.getItem('selectedTheme');
         if (savedTheme) {
             document.body.dataset.theme = savedTheme;
-            document.querySelectorAll('.theme-button').forEach(btn => {
-                if (btn.dataset.theme === savedTheme) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
+            themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === savedTheme));
         } else {
-            document.querySelector('.theme-button[data-theme="default"]').classList.add('active');
+            themeButtons[0].classList.add('active');
         }
-        setupClearButtons();
-    });
-
-    function setupClearButtons() {
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                document.body.dataset.theme = button.dataset.theme;
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                localStorage.setItem('selectedTheme', button.dataset.theme);
+            });
+        });
         document.querySelectorAll('.input-wrapper input').forEach(input => {
             const clearButton = input.nextElementSibling;
-            if (clearButton && clearButton.classList.contains('clear-input')) {
-                input.addEventListener('input', () => {
-                    clearButton.style.display = input.value.length > 0 ? 'block' : 'none';
-                });
-                clearButton.addEventListener('click', () => {
-                    input.value = '';
-                    clearButton.style.display = 'none';
-                    input.focus();
-                    // playSound('clear_input_sound'); // Play sound
-                });
-                if (input.value.length > 0) {
-                    clearButton.style.display = 'block';
-                }
-            }
+            input.addEventListener('input', () => clearButton.style.display = input.value.length > 0 ? 'block' : 'none');
+            clearButton.addEventListener('click', () => { input.value = ''; clearButton.style.display = 'none'; input.focus(); });
+            if (input.value.length > 0) clearButton.style.display = 'block';
         });
-    }
-
-    // Optional: Function to play sounds (requires audio elements in HTML)
-    /*
-    function playSound(id) {
-        const audio = document.getElementById(id);
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play().catch(e => console.error("Sound playback failed:", e));
-        }
-    }
-    */
-
-    // New: Function to simulate typing effect
-    function typeText(element, text, speed = 25) { // speed in ms per character
-        return new Promise(resolve => {
-            element.classList.add('typing-effect'); // Add class to trigger CSS animation
-            element.innerHTML = `<p>${text}</p>`; // Wrap text in p for animation
-            
-            // Remove the typing effect class after the animation duration
-            // (Assumes 2s typing animation from CSS)
-            setTimeout(() => {
-                element.classList.remove('typing-effect');
-                resolve();
-            }, 2000 + 100); // 2 seconds + small buffer
-        });
-    }
+    });
 
     async function lookup() {
       const input = document.getElementById('number');
       let number = input.value.trim();
       const resultDiv = document.getElementById('result');
-      resultDiv.classList.remove('error');
-      resultDiv.classList.remove('initial');
-      resultDiv.innerHTML = ''; // Clear content before typing animation
-
-      // Trigger card pulse
-      triggerCardPulse(resultDiv.closest('.card'));
-      // playSound('button_click_sound'); // Play sound
-
+      resultDiv.classList.remove('error', 'initial');
+      resultDiv.innerHTML = `<p>Retrieving network data... <span class="spinner"></span></p>`;
       if (!/^03\d{9}$/.test(number)) {
-        await typeText(resultDiv, "❌ Error: Invalid input. Please enter a valid 11-digit mobile number starting with '03'.");
         resultDiv.classList.add('error');
-        // playSound('error_sound'); // Play sound
+        resultDiv.innerHTML = "❌ Error: Invalid number.";
         return;
       }
-
       number = '92' + number.slice(1);
-
-      await typeText(resultDiv, 'Retrieving network data... <span class="spinner"></span>', 50); // Slower typing for loading
-      resultDiv.innerHTML = 'Retrieving network data... <span class="spinner"></span>'; // Keep spinner after typing
-
       try {
         const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`HTTP error! Status: ${response.status}. Message: ${errorText}`);
-        }
         const data = await response.json();
-
-        if (data && data.Items && data.Items.length > 0) {
+        if (response.ok && data?.Items?.length > 0) {
           const provider = data.Items[0];
           const name = provider.Name || "Unknown";
-          const logo = provider.LogoUrl || '';
-
-          const content = `
-            <p><strong>[NETWORK ID]:</strong> ${name.toUpperCase()}</p>
-            ${logo ? `<img src="${logo}" alt="${name} logo" class="logo" loading="lazy" />` : ''}
-            <p><strong>[STATUS]:</strong> <span style='color: var(--success-color);'>ACTIVE</span></p>
-          `;
-          await typeText(resultDiv, content); // Type out the final result
-          resultDiv.classList.remove('error');
-          // playSound('success_sound'); // Play sound
+          resultDiv.innerHTML = `<strong>NETWORK:</strong> ${name.toUpperCase()}<br/><strong>STATUS:</strong> <span style='color: var(--success);'>ACTIVE</span>`;
         } else {
-          await typeText(resultDiv, "❌ Data Integrity Check Failed: Network information not found or number is invalid.");
           resultDiv.classList.add('error');
-          // playSound('error_sound'); // Play sound
+          resultDiv.innerHTML = "❌ Data not found.";
         }
       } catch (error) {
-        console.error("QuantumFlow Error during operator lookup:", error);
-        await typeText(resultDiv, "❌ System Error: Connection anomaly detected. Please re-attempt operation.");
         resultDiv.classList.add('error');
-        // playSound('error_sound'); // Play sound
+        resultDiv.innerHTML = "❌ Connection error.";
       }
     }
 
@@ -844,85 +274,101 @@
       const simResultDiv = document.getElementById('simResult');
       const simErrorDiv = document.getElementById('simError');
       let mobile = mobileInput.value.trim();
-
-      simResultDiv.innerHTML = ''; // Clear content before typing animation
-      simErrorDiv.innerHTML = '';
+      simResultDiv.classList.remove('error', 'initial');
+      simResultDiv.innerHTML = `<p>Executing data trace... <span class="spinner"></span></p>`;
       simErrorDiv.style.display = 'none';
-      simResultDiv.classList.remove('error');
-      simResultDiv.classList.remove('initial');
-
-      // Trigger card pulse
-      triggerCardPulse(simResultDiv.closest('.card'));
-      // playSound('button_click_sound'); // Play sound
-
       if (!/^03\d{9}$/.test(mobile)) {
-        await typeText(simErrorDiv, '⚠️ Input Error: Please enter a valid 11-digit mobile number starting with \'03\'.');
         simErrorDiv.style.display = 'block';
-        // playSound('error_sound'); // Play sound
+        simErrorDiv.innerHTML = '⚠️ Invalid number.';
+        simResultDiv.innerHTML = '';
         return;
       }
-
-      await typeText(simResultDiv, 'Executing data trace... <span class="spinner"></span>', 50); // Slower typing for loading
-      simResultDiv.innerHTML = 'Executing data trace... <span class="spinner"></span>'; // Keep spinner after typing
-
       try {
-        const response = await fetch('/sim-search', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobileNumber: mobile }),
-        });
-
+        const response = await fetch('/sim-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobileNumber: mobile }) });
         if (!response.ok) {
           const errorResponse = await response.json();
-          let errorMessage;
-          if (response.status === 404) {
-            errorMessage = errorResponse.message ? `❌ Data Protocol Error: ${errorResponse.message}` : '❌ Data not found. Trace terminated.';
-          } else {
-            errorMessage = errorResponse.message ? `❌ Server Core Anomaly: ${errorResponse.message}` : '❌ Server issue encountered.';
-          }
-          await typeText(simErrorDiv, errorMessage);
           simErrorDiv.style.display = 'block';
+          simErrorDiv.innerHTML = errorResponse.message || '❌ Server error.';
           simResultDiv.innerHTML = '';
-          // playSound('error_sound'); // Play sound
           return;
         }
-
         const data = await response.json();
-
-        if (data && data.name && data.cnic && data.address) {
-            const content = `
-            <p><strong>[RECORD 01]:</strong> NAME: ${data.name}</p>
-            <p><strong>[RECORD 02]:</strong> CNIC: ${data.cnic}</p>
-            <p><strong>[RECORD 03]:</strong> ADDRESS: ${data.address}</p>
-            <p><strong>[STATUS]:</strong> <span style='color: var(--success-color);'>DATA ACQUIRED</span></p>
-            `;
-            await typeText(simResultDiv, content);
-            simErrorDiv.style.display = 'none';
-            simResultDiv.classList.remove('error');
-            // playSound('success_sound'); // Play sound
+        if (data?.name && data?.cnic && data?.address) {
+          simResultDiv.innerHTML = `
+            <strong>NAME:</strong> ${data.name}<br/>
+            <strong>CNIC:</strong> ${data.cnic}<br/>
+            <strong>ADDRESS:</strong> ${data.address}<br/>
+            <strong>STATUS:</strong> <span style='color: var(--success);'>ACQUIRED</span>
+          `;
+          simErrorDiv.style.display = 'none';
         } else {
-            await typeText(simErrorDiv, '❌ Trace Incomplete: SIM data incomplete or unavailable.');
-            simErrorDiv.style.display = 'block';
-            simResultDiv.innerHTML = '';
-            // playSound('error_sound'); // Play sound
+          simErrorDiv.style.display = 'block';
+          simErrorDiv.innerHTML = '❌ Trace incomplete.';
+          simResultDiv.innerHTML = '';
         }
-
       } catch (error) {
-        console.error("QuantumFlow Error during SIM data search:", error);
-        await typeText(simErrorDiv, '❌ Network Interruption: Connection anomaly detected. Please re-attempt operation.');
         simErrorDiv.style.display = 'block';
+        simErrorDiv.innerHTML = '❌ Connection error.';
         simResultDiv.innerHTML = '';
-        // playSound('error_sound'); // Play sound
       }
     }
 
-    // Function to trigger a single pulse/glow on the card
-    function triggerCardPulse(cardElement) {
-        cardElement.classList.add('pulse-active');
-        setTimeout(() => {
-            cardElement.classList.remove('pulse-active');
-        }, 600); // Slightly longer pulse
+    async function searchCnicData() {
+        const cnicInput = document.getElementById('cnic');
+        const cnic = cnicInput.value.trim();
+        const cnicResultDiv = document.getElementById('cnicResult');
+        const cnicErrorDiv = document.getElementById('cnicError');
+
+        cnicResultDiv.classList.remove('active');
+        cnicResultDiv.innerHTML = '';
+        cnicErrorDiv.style.display = 'none';
+        
+        if (!/^\d{13}$/.test(cnic)) {
+            cnicErrorDiv.style.display = 'block';
+            cnicErrorDiv.innerHTML = '⚠️ Invalid CNIC format. Please enter a 13-digit number.';
+            return;
+        }
+
+        cnicResultDiv.classList.add('active');
+        cnicResultDiv.innerHTML = `
+            <div class="output-item"><i class="fas fa-spinner fa-spin output-icon"></i><span class="output-value">Searching for CNIC data...</span></div>
+        `;
+
+        try {
+            const response = await fetch('/cnic-search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cnicNumber: cnic }),
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                cnicErrorDiv.style.display = 'block';
+                cnicErrorDiv.innerHTML = errorResponse.message || '❌ Server error.';
+                cnicResultDiv.classList.remove('active');
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data?.name && data?.phone && data?.address) {
+                cnicResultDiv.innerHTML = `
+                    <div class="output-item"><i class="fas fa-user output-icon"></i><span class="output-label">NAME:</span><span class="output-value">${data.name}</span></div>
+                    <div class="output-item"><i class="fas fa-phone output-icon"></i><span class="output-label">PHONE:</span><span class="output-value">${data.phone}</span></div>
+                    <div class="output-item"><i class="fas fa-map-marker-alt output-icon"></i><span class="output-label">ADDRESS:</span><span class="output-value">${data.address}</span></div>
+                    <div class="output-item"><i class="fas fa-check-circle output-icon"></i><span class="output-label">STATUS:</span><span class="output-value success">ACQUIRED</span></div>
+                `;
+            } else {
+                cnicErrorDiv.style.display = 'block';
+                cnicErrorDiv.innerHTML = '❌ Data not found for this CNIC.';
+                cnicResultDiv.classList.remove('active');
+            }
+        } catch (error) {
+            cnicErrorDiv.style.display = 'block';
+            cnicErrorDiv.innerHTML = '❌ Connection error.';
+            cnicResultDiv.classList.remove('active');
+        }
     }
   </script>
-  </body>
+</body>
 </html>
