@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure SMS Sender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #1f1c2c, #928dab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 35px;
+      width: 90%;
+      max-width: 400px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      border-radius: 22px;
+      background: linear-gradient(45deg, #00ffe0, #0075ff, #ff00c8, #ff6a00);
+      z-index: -1;
+      background-size: 300% 300%;
+      animation: borderMove 6s ease infinite;
+    }
+
+    @keyframes borderMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      color: #ddd;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 18px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 2px #00ffe0;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #00ffe0, #0075ff);
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .response {
+      margin-top: 15px;
+      background: rgba(255,255,255,0.1);
+      color: #00ffae;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #00ffe0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Secure SMS Sender</h2>
+    <form id="smsForm">
+      <label for="mobile">Mobile Number</label>
+      <input type="text" id="mobile" placeholder="03XXXXXXXXX" required />
+
+      <label for="message">Message</label>
+      <textarea id="message" rows="4" placeholder="Enter message (with PIN)" required></textarea>
+
+      <button type="submit">Send SMS</button>
+    </form>
+
+    <div class="response" id="responseBox"></div>
+    <div class="footer">Developed by @CYBEREXPERTPK</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('smsForm');
+    const responseBox = document.getElementById('responseBox');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const mobile = document.getElementById('mobile').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!/^03[0-9]{9}$/.test(mobile)) {
+        responseBox.style.display = 'block';
+        responseBox.innerText = "❌ Invalid mobile number format. Use 03XXXXXXXXX.";
+        return;
+      }
+      if (!message) {
+        responseBox.style.display = 'block';
+        responseBox.innerText = "❌ Message cannot be empty.";
+        return;
+      }
+
+      responseBox.style.display = 'block';
+      responseBox.innerText = "⏳ Sending SMS... Please wait.";
+
+      try {
+        const res = await fetch("/send-sms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ mobile, message })
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.success) {
+            responseBox.innerText = "✅ Success: Message sent!";
+            form.reset();
+        } else {
+            responseBox.innerText = "❌ Failed to send SMS.\n" + (result.error || "Server error.");
+        }
+      } catch (err) {
+        responseBox.innerText = "❌ Failed to connect to server. Check your connection.";
+        console.error(err);
+      }
+    });
+  </script>
+
+</body>
+  </html>
+  
