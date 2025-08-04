@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Index.html'));
+    res.sendFile(path.join(__dirname, 'Operator.html'));
 });
 
 // Existing proxy API for Operator Check
@@ -157,4 +157,3 @@ app.post('/send-crownone-sms', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
-      
