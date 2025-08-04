@@ -17,9 +17,12 @@ app.set('trust proxy', true);
 // Body parsers (for POST data)
 app.use(express.json());
 
-// Root route to serve the new sms.html file
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Root route to serve the sms.html file from the public directory
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sms.html'));
+    res.sendFile(path.join(__dirname, 'public', 'sms.html'));
 });
 
 // Generic API endpoint for SMS sending (SECURE)
@@ -85,4 +88,3 @@ app.post('/send-sms', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
-    
