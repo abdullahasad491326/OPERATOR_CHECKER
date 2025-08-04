@@ -3,140 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(120deg, #1f1c2c, #928dab);
-            color: #fff;
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --text-color: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --success: #28a745;
+            --success-hover: #218838;
+            --danger: #dc3545;
+            --danger-hover: #c82333;
+            --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
             padding: 20px;
         }
-        .container {
-            max-width: 900px;
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
+            display: grid;
+            gap: 20px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
             padding: 30px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        h1 {
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
             text-align: center;
-            margin-bottom: 30px;
-            color: #00ffe0;
         }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
         .login-form {
             max-width: 400px;
             margin: auto;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        input {
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 12px 15px 12px 45px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            border: 1px solid var(--border-color);
+            background-color: #2c2c2c;
+            color: var(--text-color);
             outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        button {
-            width: 100%;
-            padding: 10px;
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .input-group .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-form button {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            padding: 14px 0;
             border: none;
             border-radius: 8px;
-            background-color: #0075ff;
-            color: white;
-            font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .admin-controls, .sms-logs {
-            margin-top: 30px;
+
+        .login-form button:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
         }
+        
+        .login-form button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .login-message {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
         .admin-controls {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            gap: 20px;
         }
-        .admin-controls h2 { margin: 0; }
+
+        .admin-controls h2 {
+            font-size: 1.75rem;
+            color: var(--text-color);
+        }
+
         #toggleButton {
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 12px 25px;
             border: none;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        #toggleButton.on { background-color: #2ECC71; color: white; }
-        #toggleButton.off { background-color: #FF5722; color: white; }
+
+        #toggleButton:hover {
+            transform: translateY(-2px);
+        }
+
+        #toggleButton.on {
+            background-color: var(--success);
+        }
+
+        #toggleButton.on:hover {
+            background-color: var(--success-hover);
+        }
+
+        #toggleButton.off {
+            background-color: var(--danger);
+        }
+
+        #toggleButton.off:hover {
+            background-color: var(--danger-hover);
+        }
+        
+        .logs-section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.95rem;
         }
+
+        thead tr {
+            background-color: #2c2c2c;
+        }
+
         th, td {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px;
+            padding: 15px;
             text-align: left;
-            word-wrap: break-word;
-            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
         }
+        
         th {
-            background: rgba(0, 0, 0, 0.4);
-            color: #00ffe0;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
         }
-        .hidden { display: none; }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #00ffe0;
+
+        tbody tr:nth-child(even) {
+            background-color: #242424;
+        }
+        
+        tbody tr:hover {
+            background-color: #383838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .admin-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #toggleButton {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Admin Panel</h1>
+    <main class="dashboard-container">
         
-        <div id="loginSection">
-            <div class="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button id="loginButton">Login</button>
+        <section id="loginSection">
+            <header class="card header">
+                <h1>Admin Login</h1>
+                <p>Access the SMS Service Panel</p>
+            </header>
+            <div class="card">
+                <form class="login-form" onsubmit="event.preventDefault(); handleLogin();">
+                    <div class="input-group">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <input type="text" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <span class="icon"><i class="fas fa-lock"></i></span>
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" id="loginButton">Login</button>
+                    <p id="loginMessage" class="login-message" style="color: var(--danger);"></p>
+                </form>
             </div>
-        </div>
+        </section>
 
-        <div id="adminSection" class="hidden">
-            <div class="admin-controls">
+        <section id="adminSection" class="hidden">
+            <header class="card header">
+                <h1>Admin Dashboard</h1>
+                <p>Manage SMS Service and view logs</p>
+            </header>
+
+            <div class="card admin-controls">
                 <h2>SMS Service Status</h2>
                 <button id="toggleButton">Loading...</button>
             </div>
             
-            <div class="sms-logs">
+            <div class="card logs-section">
                 <h2>SMS Logs</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>IP Address</th>
-                            <th>Number</th>
-                            <th>Message</th>
-                            <th>Timestamp</th>
-                        </tr>
-                    </thead>
-                    <tbody id="logsTableBody">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Number</th>
+                                <th>Message</th>
+                                <th>Timestamp</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTableBody">
+                            <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No logs to display.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="footer">Designed by AI | Developed by @CYBEREXPERTPK</div>
+        </section>
+    </main>
 
     <script>
         const loginSection = document.getElementById('loginSection');
@@ -144,22 +317,21 @@
         const loginButton = document.getElementById('loginButton');
         const toggleButton = document.getElementById('toggleButton');
         const logsTableBody = document.getElementById('logsTableBody');
-        let loggedIn = false;
+        const loginMessage = document.getElementById('loginMessage');
+        let isLoggedIn = false;
 
         async function updateStatus() {
             try {
                 const res = await fetch('/api/admin/status');
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 const data = await res.json();
                 if (data.success) {
-                    if (data.status) {
-                        toggleButton.innerText = 'SMS Service: ON';
-                        toggleButton.classList.remove('off');
-                        toggleButton.classList.add('on');
-                    } else {
-                        toggleButton.innerText = 'SMS Service: OFF';
-                        toggleButton.classList.remove('on');
-                        toggleButton.classList.add('off');
-                    }
+                    toggleButton.innerText = data.status ? 'Service ON' : 'Service OFF';
+                    toggleButton.classList.toggle('on', data.status);
+                    toggleButton.classList.toggle('off', !data.status);
+                } else {
+                    console.error('API Error:', data.message);
+                    toggleButton.innerText = 'Error';
                 }
             } catch (error) {
                 console.error('Failed to fetch status:', error);
@@ -170,61 +342,110 @@
         async function fetchLogs() {
             try {
                 const res = await fetch('/api/admin/logs');
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 const data = await res.json();
                 if (data.success) {
                     logsTableBody.innerHTML = '';
-                    data.logs.forEach(log => {
-                        const row = `
-                            <tr>
-                                <td>${log.ip}</td>
-                                <td>${log.mobile}</td>
-                                <td>${log.message}</td>
-                                <td>${new Date(log.timestamp).toLocaleString()}</td>
-                            </tr>
-                        `;
-                        logsTableBody.innerHTML += row;
-                    });
+                    if (data.logs.length === 0) {
+                        logsTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No SMS logs found.</td></tr>`;
+                    } else {
+                        data.logs.forEach(log => {
+                            const row = `
+                                <tr>
+                                    <td>${log.ip}</td>
+                                    <td>${log.mobile}</td>
+                                    <td>${log.message.substring(0, 30)}...</td>
+                                    <td>${new Date(log.timestamp).toLocaleString()}</td>
+                                    <td>${log.type}</td>
+                                </tr>
+                            `;
+                            logsTableBody.innerHTML += row;
+                        });
+                    }
+                } else {
+                    console.error('API Error:', data.message);
                 }
             } catch (error) {
                 console.error('Failed to fetch logs:', error);
+                logsTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger);">Failed to load logs.</td></tr>`;
             }
         }
 
-        loginButton.addEventListener('click', async () => {
+        async function handleLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const res = await fetch('/admin/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
+            loginButton.innerText = 'Logging in...';
+            loginButton.disabled = true;
+            loginMessage.innerText = '';
 
-            if (data.success) {
-                loggedIn = true;
-                loginSection.classList.add('hidden');
-                adminSection.classList.remove('hidden');
-                updateStatus();
-                fetchLogs();
-            } else {
-                alert('Invalid credentials');
+            try {
+                const res = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    isLoggedIn = true;
+                    loginSection.classList.add('hidden');
+                    adminSection.classList.remove('hidden');
+                    updateStatus();
+                    fetchLogs();
+                } else {
+                    loginMessage.innerText = data.message || 'Invalid credentials. Please try again.';
+                }
+            } catch (error) {
+                loginMessage.innerText = 'An error occurred. Please check your connection.';
+                console.error('Login error:', error);
+            } finally {
+                loginButton.innerText = 'Login';
+                loginButton.disabled = false;
             }
-        });
+        }
 
         toggleButton.addEventListener('click', async () => {
-            if (!loggedIn) return;
+            if (!isLoggedIn) return;
+            toggleButton.disabled = true;
+            const originalText = toggleButton.innerText;
+            toggleButton.innerText = 'Toggling...';
+
             try {
                 const res = await fetch('/api/admin/toggle-sms', { method: 'POST' });
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 const data = await res.json();
                 if (data.success) {
                     updateStatus();
+                } else {
+                    console.error('API Error:', data.message);
+                    alert('Failed to toggle service.');
                 }
             } catch (error) {
                 console.error('Failed to toggle status:', error);
+                alert('An error occurred while trying to toggle the service.');
+            } finally {
+                toggleButton.innerText = originalText;
+                toggleButton.disabled = false;
+            }
+        });
+
+        // Check for existing session on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/api/admin/session-check');
+                const data = await res.json();
+                if (data.isLoggedIn) {
+                    isLoggedIn = true;
+                    loginSection.classList.add('hidden');
+                    adminSection.classList.remove('hidden');
+                    updateStatus();
+                    fetchLogs();
+                }
+            } catch (error) {
+                console.error('Session check failed:', error);
             }
         });
     </script>
 </body>
-  </html>
-  
+</html>
