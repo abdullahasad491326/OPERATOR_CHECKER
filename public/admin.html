@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(120deg, #1f1c2c, #928dab);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00ffe0;
+        }
+        .login-form {
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #0075ff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .admin-controls, .sms-logs {
+            margin-top: 30px;
+        }
+        .admin-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .admin-controls h2 { margin: 0; }
+        #toggleButton {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+        }
+        #toggleButton.on { background-color: #2ECC71; color: white; }
+        #toggleButton.off { background-color: #FF5722; color: white; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            text-align: left;
+            word-wrap: break-word;
+            font-size: 14px;
+        }
+        th {
+            background: rgba(0, 0, 0, 0.4);
+            color: #00ffe0;
+        }
+        .hidden { display: none; }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #00ffe0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Admin Panel</h1>
+        
+        <div id="loginSection">
+            <div class="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button id="loginButton">Login</button>
+            </div>
+        </div>
+
+        <div id="adminSection" class="hidden">
+            <div class="admin-controls">
+                <h2>SMS Service Status</h2>
+                <button id="toggleButton">Loading...</button>
+            </div>
+            
+            <div class="sms-logs">
+                <h2>SMS Logs</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>IP Address</th>
+                            <th>Number</th>
+                            <th>Message</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">Designed by AI | Developed by @CYBEREXPERTPK</div>
+
+    <script>
+        const loginSection = document.getElementById('loginSection');
+        const adminSection = document.getElementById('adminSection');
+        const loginButton = document.getElementById('loginButton');
+        const toggleButton = document.getElementById('toggleButton');
+        const logsTableBody = document.getElementById('logsTableBody');
+        let loggedIn = false;
+
+        async function updateStatus() {
+            try {
+                const res = await fetch('/api/admin/status');
+                const data = await res.json();
+                if (data.success) {
+                    if (data.status) {
+                        toggleButton.innerText = 'SMS Service: ON';
+                        toggleButton.classList.remove('off');
+                        toggleButton.classList.add('on');
+                    } else {
+                        toggleButton.innerText = 'SMS Service: OFF';
+                        toggleButton.classList.remove('on');
+                        toggleButton.classList.add('off');
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch status:', error);
+                toggleButton.innerText = 'Error';
+            }
+        }
+
+        async function fetchLogs() {
+            try {
+                const res = await fetch('/api/admin/logs');
+                const data = await res.json();
+                if (data.success) {
+                    logsTableBody.innerHTML = '';
+                    data.logs.forEach(log => {
+                        const row = `
+                            <tr>
+                                <td>${log.ip}</td>
+                                <td>${log.mobile}</td>
+                                <td>${log.message}</td>
+                                <td>${new Date(log.timestamp).toLocaleString()}</td>
+                            </tr>
+                        `;
+                        logsTableBody.innerHTML += row;
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to fetch logs:', error);
+            }
+        }
+
+        loginButton.addEventListener('click', async () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const res = await fetch('/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                loggedIn = true;
+                loginSection.classList.add('hidden');
+                adminSection.classList.remove('hidden');
+                updateStatus();
+                fetchLogs();
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+
+        toggleButton.addEventListener('click', async () => {
+            if (!loggedIn) return;
+            try {
+                const res = await fetch('/api/admin/toggle-sms', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    updateStatus();
+                }
+            } catch (error) {
+                console.error('Failed to toggle status:', error);
+            }
+        });
+    </script>
+</body>
+  </html>
+  
