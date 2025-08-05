@@ -14,7 +14,7 @@ let smsEnabled = true;
 // --- SMS Logging and Rate Limiting ---
 const smsLogs = []; // In-memory storage for SMS logs
 const smsAttempts = new Map();
-const MAX_SMS_ATTEMPTS = 3;
+const MAX_SMS_ATTEMPTS = 2;
 const ATTEMPT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Middleware to get user's IP
@@ -147,7 +147,7 @@ app.post('/cnic-search', async (req, res) => {
 // API endpoint for SMS sending
 app.post('/send-sms', async (req, res) => {
     if (!smsEnabled) {
-        return res.status(403).json({ error: 'SMS service is currently disabled.' });
+        return res.status(403).json({ error: 'SMS service is currently disabled By Web Owner.' });
     }
     const userIp = req.ip;
     const now = Date.now();
