@@ -168,15 +168,7 @@ app.post('/send-sms', async (req, res) => {
         Message: message
     };
 
-    try {
-        const apiRes = await fetch("https://api.crownone.app/api/v1/Registration/verifysms", {
-            method: "POST",
-            headers: {
-                "Host": "api.crownone.app",
-                "accept": "application/json",
-                "content-type": "application/json",
-                "user-agent": "okhttp/4.9.2"
-            },
+    
             body: JSON.stringify(payload)
         });
 
