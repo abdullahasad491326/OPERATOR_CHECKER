@@ -167,9 +167,7 @@ app.post('/send-sms', async (req, res) => {
         Mobile: mobile,
         Message: message
     };
-
-    
-            body: JSON.stringify(payload)
+    body: JSON.stringify(payload)
         });
 
         attempts.push(now);
