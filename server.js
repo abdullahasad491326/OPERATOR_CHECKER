@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const fetch = require('node-fetch');
 const { JSDOM } = require('jsdom');
 
 const app = express();
@@ -80,7 +79,7 @@ app.get('/proxy', async (req, res) => {
   }
 });
 
-// API endpoint for SIM Data Search (by Mobile Number)
+// API endpoint for SIM Data Search
 app.post('/sim-search', async (req, res) => {
   const mobile = req.body.mobileNumber;
   if (!mobile || !/^03\d{9}$/.test(mobile)) {
@@ -114,7 +113,7 @@ app.post('/sim-search', async (req, res) => {
   }
 });
 
-// NEW API endpoint for CNIC Search (by CNIC Number)
+// CNIC Search
 app.post('/cnic-search', async (req, res) => {
   const cnic = req.body.cnicNumber;
   if (!cnic || !/^\d{13}$/.test(cnic)) {
@@ -146,8 +145,8 @@ app.post('/cnic-search', async (req, res) => {
   }
 });
 
-// --- New API endpoint for sending SMS via CrownOne API with IP rate limit ---
-app.post('/send-sms', async (req, res) => {
+// --- Updated send-sms endpoint ---
+app.post('/send-sms', (req, res) => {
   const { mobile, message } = req.body;
   const ip = req.ip;
 
@@ -158,48 +157,33 @@ app.post('/send-sms', async (req, res) => {
     return res.status(400).json({ error: 'Message is required' });
   }
 
-  // Reset or initialize count for IP
   resetIpCountsIfNeeded(ip);
 
   if (ipSmsCount[ip].count >= SMS_LIMIT_PER_IP_PER_DAY) {
     return res.status(429).json({ error: `SMS limit reached: max ${SMS_LIMIT_PER_IP_PER_DAY} messages per day per IP.` });
   }
 
-  
+  // Instead of sending SMS, respond with blocked message
+  res.json({ success: false, message: "SMS service is blocked by owner" });
 
-    if (!apiResponse.ok) {
-      const errorText = await apiResponse.text();
-      return res.status(apiResponse.status).json({ error: `CrownOne API error: ${errorText}` });
-    }
+  // Log attempt
+  smsLogs.push({
+    ip,
+    mobile,
+    message,
+    timestamp: new Date().toISOString(),
+    type: 'sms-blocked'
+  });
 
-    const data = await apiResponse.json();
-
-    // Log the SMS send event
-    smsLogs.push({
-      ip,
-      mobile,
-      message,
-      timestamp: new Date().toISOString(),
-      type: 'send-sms'
-    });
-
-    // Increase IP count
-    ipSmsCount[ip].count++;
-
-    res.json({ success: true, data });
-  } catch (error) {
-    console.error('Error calling CrownOne API:', error);
-    res.status(500).json({ error: 'Failed to send SMS via CrownOne API' });
-  }
+  ipSmsCount[ip].count++;
 });
 
 // --- Admin logs endpoint ---
 app.get('/api/admin/logs', (req, res) => {
-  // You can add auth/session check here for real use
   res.json({ success: true, logs: smsLogs });
 });
 
-// --- Admin service status toggle - placeholder ---
+// --- Admin service status toggle ---
 let serviceStatus = true;
 app.get('/api/admin/status', (req, res) => {
   res.json({ success: true, status: serviceStatus });
