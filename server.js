@@ -123,6 +123,42 @@ app.post('/cnic-search', async (req, res) => {
     }
 });
 
+// --------- New CrownOne SMS Verification Endpoint ----------
+app.post('/verify-sms', async (req, res) => {
+    const { phoneNumber, code } = req.body;
+    if (!phoneNumber || !code) {
+        return res.status(400).json({ error: 'Missing phoneNumber or code in request body' });
+    }
+
+    try {
+        const apiRes = await fetch("https://api.crownone.app/api/v1/Registration/verifysms", {
+            method: "POST",
+            headers: {
+                "Host": "api.crownone.app",
+                "accept": "application/json",
+                "content-type": "application/json",
+                "user-agent": "okhttp/4.9.2"
+            },
+            body: JSON.stringify({
+                phone: phoneNumber,
+                code: code
+            })
+        });
+
+        if (!apiRes.ok) {
+            const errorText = await apiRes.text();
+            return res.status(apiRes.status).json({ error: 'API request failed', details: errorText });
+        }
+
+        const data = await apiRes.json();
+        res.json(data);
+
+    } catch (error) {
+        console.error('Error calling CrownOne API:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
