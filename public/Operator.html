@@ -316,7 +316,7 @@
             if (!response.ok) {
                 const errorResponse = await response.json();
                 simErrorDiv.style.display = 'block';
-                simErrorDiv.innerHTML = errorResponse.error || '❌ Server error.';
+                simErrorDiv.innerHTML = errorResponse.error || '❌ CURRENTLY SERVICE DISABLED BY WEB OWNER.';
                 simResultDiv.innerHTML = '';
                 return;
             }
