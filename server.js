@@ -117,38 +117,6 @@ app.post('/sim-search', async (req, res) => {
     }
 });
 
-// --- CNIC Search ---
-app.post('/cnic-search', async (req, res) => {
-    const cnic = req.body.cnicNumber;
-    if (!cnic || !/^\d{13}$/.test(cnic)) {
-        return res.status(400).json({ error: 'Invalid or missing CNIC number' });
-    }
-    try {
-        const response = await fetch('https://minahilsimsdata.pro/cnic.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Referer: 'https://minahilsimsdata.pro/cnic.php',
-                Origin: 'https://minahilsimsdata.pro'
-            },
-            body: new URLSearchParams({ cnicNumber: cnic, submit: '' })
-        });
-        const text = await response.text();
-        if (text.includes('Data Not Found')) {
-            return res.status(404).json({ error: 'Data Not Found' });
-        }
-        const dom = new JSDOM(text);
-        const cells = [...dom.window.document.querySelectorAll('td')].map(td => td.textContent.trim()).filter(Boolean);
-        const name = cells[1] || 'N/A';
-        const mobile = cells[2] || 'N/A';
-        const address = cells.slice(3).join(' ') || 'N/A';
-        res.json({ name, cnic, mobile, address });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
 // --- Send SMS with Debug ---
 app.post('/send-sms', async (req, res) => {
     const { mobile, message } = req.body;
