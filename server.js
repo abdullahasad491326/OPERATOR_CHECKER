@@ -165,20 +165,7 @@ app.post('/send-sms', async (req, res) => {
     return res.status(429).json({ error: `SMS limit reached: max ${SMS_LIMIT_PER_IP_PER_DAY} messages per day per IP.` });
   }
 
-  try {
-    const apiResponse = await fetch("https://api.crownone.app/api/v1/Registration/verifysms", {
-      method: "POST",
-      headers: {
-        "Host": "api.crownone.app",
-        "accept": "application/json",
-        "content-type": "application/json",
-        "user-agent": "okhttp/4.9.2"
-      },
-      body: JSON.stringify({
-        mobile: mobile,
-        message: message
-      })
-    });
+  
 
     if (!apiResponse.ok) {
       const errorText = await apiResponse.text();
