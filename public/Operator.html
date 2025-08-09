@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <title>Developer Pak Updates ✅</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* ... (CSS code remains the same) ... */
     :root {
       --primary: #00c4ff;
       --secondary: #8e44ad;
@@ -20,166 +19,204 @@
       --success: #2ECC71;
     }
     body[data-theme="emerald"] {
-      --primary: #00e8c7; --secondary: #00a896; --background: #001515;
-      --card-bg: rgba(0, 5, 5, 0.8); --border-color: rgba(0, 168, 150, 0.4);
+      --primary: #00e8c7;
+      --secondary: #00a896;
+      --background: #001515;
+      --card-bg: rgba(0, 5, 5, 0.8);
+      --border-color: rgba(0, 168, 150, 0.4);
     }
     body[data-theme="crimson"] {
-      --primary: #ff5722; --secondary: #c0392b; --background: #150500;
-      --card-bg: rgba(5, 2, 0, 0.8); --border-color: rgba(192, 57, 43, 0.4);
+      --primary: #ff5722;
+      --secondary: #c0392b;
+      --background: #150500;
+      --card-bg: rgba(5, 2, 0, 0.8);
+      --border-color: rgba(192, 57, 43, 0.4);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       background-color: var(--background);
       font-family: 'Bai Jamjuree', sans-serif;
       color: var(--text-light);
       min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
     }
-    .container { max-width: 500px; width: 100%; }
+    .container {
+      max-width: 500px;
+      width: 100%;
+    }
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(5px);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 30px; margin-bottom: 25px;
+      padding: 30px;
+      margin-bottom: 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: transform 0.2s ease;
     }
-    .card:hover { transform: translateY(-3px); }
+    .card:hover {
+      transform: translateY(-3px);
+    }
     h2 {
       font-family: 'Syncopate', sans-serif;
-      font-size: 1.8rem; text-align: center;
+      font-size: 1.8rem;
+      text-align: center;
       margin-bottom: 25px;
       color: var(--primary);
     }
-    h2 .icon { font-size: 1.2em; margin-right: 10px; }
-    .input-wrapper { position: relative; margin-bottom: 20px; }
-    input[type="text"] {
-      width: 100%; padding: 12px 15px;
-      font-size: 16px; border-radius: 8px;
+    h2 .icon {
+      font-size: 1.2em;
+      margin-right: 10px;
+    }
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border-radius: 8px;
       border: 1px solid var(--border-color);
-      outline: none; background: transparent;
+      outline: none;
+      background: transparent;
       color: var(--text-light);
       font-family: 'Bai Jamjuree', sans-serif;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    input::placeholder { color: var(--text-muted); }
-    input:focus { border-color: var(--primary); box-shadow: 0 0 5px var(--primary); }
+    input::placeholder, textarea::placeholder {
+      color: var(--text-muted);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 5px var(--primary);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
     .clear-input {
-      position: absolute; right: 10px; top: 50%;
+      position: absolute;
+      right: 10px;
+      top: 50%;
       transform: translateY(-50%);
-      background: none; border: none;
-      color: var(--text-muted); font-size: 16px;
-      cursor: pointer; display: none;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
     }
     button {
-      width: 100%; padding: 12px 0;
-      font-size: 16px; font-weight: 600;
-      border: none; border-radius: 8px;
-      background: var(--secondary); color: white;
-      cursor: pointer; text-transform: uppercase;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      background: var(--secondary);
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
       transition: background-color 0.2s ease, transform 0.2s ease;
     }
-    button:hover { background: var(--primary); transform: translateY(-2px); }
+    button:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
     .result, .error {
-      padding: 20px; border-radius: 8px;
-      font-size: 14px; line-height: 1.6;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.6;
       text-align: center;
       background: rgba(0,0,0,0.5);
       border: 1px dashed var(--border-color);
     }
-    .result strong { color: var(--primary); }
-    .result.initial { color: var(--text-muted); }
+    .result strong {
+      color: var(--primary);
+    }
+    .result.initial {
+      color: var(--text-muted);
+    }
     .error {
       background: rgba(255, 69, 0, 0.2);
-      color: var(--error); border-color: var(--error);
+      color: var(--error);
+      border-color: var(--error);
     }
     .spinner {
       border: 3px solid rgba(255, 255, 255, 0.2);
       border-top: 3px solid var(--primary);
-      border-radius: 50%; width: 20px; height: 20px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
       animation: spin 1s linear infinite;
-      display: inline-block; vertical-align: middle; margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     .whatsapp-button {
-      position: fixed; right: 25px; bottom: 25px;
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
       padding: 12px 20px;
       background: var(--success);
-      color: white; border-radius: 50px;
-      text-decoration: none; font-weight: 600;
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: transform 0.2s ease;
     }
-    .whatsapp-button:hover { transform: scale(1.05); }
-    .whatsapp-button .icon { margin-right: 8px; }
+    .whatsapp-button:hover {
+      transform: scale(1.05);
+    }
+    .whatsapp-button .icon {
+      margin-right: 8px;
+    }
     .theme-switcher {
-      display: flex; gap: 15px; margin-bottom: 25px;
-      padding: 10px; border-radius: 50px;
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding: 10px;
+      border-radius: 50px;
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .theme-button {
-      width: 30px; height: 30px; border-radius: 50%;
-      border: 2px solid transparent; cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .theme-button:hover { transform: scale(1.1); }
-    .theme-button.active { border-color: var(--primary); }
-    .theme-button[data-theme="default"] { background-color: #00c4ff; }
-    .theme-button[data-theme="emerald"] { background-color: #00e8c7; }
-    .theme-button[data-theme="crimson"] { background-color: #ff5722; }
-    
-    /* Advanced Output Styling */
-    .advanced-output {
-        padding: 15px;
-        background: rgba(0, 0, 0, 0.6);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        margin-top: 20px;
-        text-align: left;
-        display: none;
+    .theme-button:hover {
+      transform: scale(1.1);
     }
-    .advanced-output.active { display: block; }
-    .advanced-output .output-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
+    .theme-button.active {
+      border-color: var(--primary);
     }
-    .advanced-output .output-item:last-child { margin-bottom: 0; }
-    .advanced-output .output-icon {
-        color: var(--primary);
-        font-size: 1.2em;
-        width: 25px;
-        text-align: center;
+    .theme-button[data-theme="default"] {
+      background-color: #00c4ff;
     }
-    .advanced-output .output-label {
-        font-weight: 600;
-        color: var(--text-light);
-        margin-right: 10px;
+    .theme-button[data-theme="emerald"] {
+      background-color: #00e8c7;
     }
-    .advanced-output .output-value {
-        flex-grow: 1;
-        font-size: 1em;
-        color: var(--text-muted);
-    }
-    .advanced-output .output-value.success { color: var(--success); }
-
-    /* New SMS Sender Styles (adapted) */
-    .sms-textarea {
-        width: 100%;
-        padding: 12px 15px;
-        font-size: 16px;
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-        outline: none;
-        background: transparent;
-        color: var(--text-light);
-        font-family: 'Bai Jamjuree', sans-serif;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        resize: vertical;
-        min-height: 80px;
+    .theme-button[data-theme="crimson"] {
+      background-color: #ff5722;
     }
   </style>
 </head>
@@ -190,18 +227,17 @@
       <button class="theme-button" data-theme="emerald"></button>
       <button class="theme-button" data-theme="crimson"></button>
     </div>
-
     <section class="card">
-        <h2><i class="fas fa-sms icon"></i> Secure SMS Sender</h2>
-        <div class="input-wrapper">
-            <input type="text" id="smsMobile" placeholder="Enter recipient's 11-digit number" maxlength="11" />
-            <button class="clear-input"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="input-wrapper">
-            <textarea id="smsMessage" class="sms-textarea" rows="4" placeholder="Enter your message text (with PIN)" required></textarea>
-        </div>
-        <button onclick="sendCrownOneSms()">Send SMS</button>
-        <div id="smsStatus" class="result initial">Send messages securely...</div>
+      <h2><i class="fas fa-sms icon"></i> Secure SMS Sender</h2>
+      <div class="input-wrapper">
+        <input type="text" id="smsMobile" placeholder="Enter recipient's 11-digit number" maxlength="11" />
+        <button class="clear-input"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="input-wrapper">
+        <textarea id="smsMessage" placeholder="Enter your message text (with PIN)" required></textarea>
+      </div>
+      <button onclick="sendCrownOneSms()">Send SMS</button>
+      <div id="smsStatus" class="result initial">Send messages securely...</div>
     </section>
 
     <section class="card">
@@ -224,219 +260,165 @@
       <button onclick="lookup()">Search Operator</button>
       <div id="result" class="result initial">Awaiting network data...</div>
     </section>
-
-    <section class="card">
-        <h2><i class="fas fa-id-card-clip icon"></i> CNIC Search</h2>
-        <div class="input-wrapper">
-            <input type="text" id="cnicNumber" placeholder="Enter 13-digit CNIC number" maxlength="13" />
-            <button class="clear-input"><i class="fas fa-times"></i></button>
-        </div>
-        <button onclick="searchCnicById()">Search CNIC</button>
-        <div id="cnicSearchOutput" class="advanced-output"></div>
-    </section>
   </div>
-  
+
   <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="whatsapp-button">
     <i class="fab fa-whatsapp icon"></i> Join Channel
   </a>
-
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const themeButtons = document.querySelectorAll('.theme-button');
-        const savedTheme = localStorage.getItem('selectedTheme');
-        if (savedTheme) {
-            document.body.dataset.theme = savedTheme;
-            themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === savedTheme));
-        } else {
-            themeButtons[0].classList.add('active');
-        }
-        themeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                document.body.dataset.theme = button.dataset.theme;
-                themeButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                localStorage.setItem('selectedTheme', button.dataset.theme);
-            });
-        });
-        document.querySelectorAll('.input-wrapper input, .input-wrapper textarea').forEach(input => {
-            const clearButton = input.parentElement.querySelector('.clear-input');
-            if (clearButton) {
-              input.addEventListener('input', () => clearButton.style.display = input.value.length > 0 ? 'block' : 'none');
-              clearButton.addEventListener('click', () => { input.value = ''; clearButton.style.display = 'none'; input.focus(); });
-              if (input.value.length > 0) clearButton.style.display = 'block';
-            }
-        });
+  document.addEventListener('DOMContentLoaded', () => {
+    const themeButtons = document.querySelectorAll('.theme-button');
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      document.body.dataset.theme = savedTheme;
+      themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === savedTheme));
+    } else {
+      themeButtons[0].classList.add('active');
+    }
+    themeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        document.body.dataset.theme = button.dataset.theme;
+        themeButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        localStorage.setItem('selectedTheme', button.dataset.theme);
+      });
     });
+    document.querySelectorAll('.input-wrapper input, .input-wrapper textarea').forEach(input => {
+      const clearButton = input.parentElement.querySelector('.clear-input');
+      if (clearButton) {
+        input.addEventListener('input', () => clearButton.style.display = input.value.length > 0 ? 'block' : 'none');
+        clearButton.addEventListener('click', () => {
+          input.value = '';
+          clearButton.style.display = 'none';
+          input.focus();
+        });
+        if (input.value.length > 0) clearButton.style.display = 'block';
+      }
+    });
+  });
 
-    async function lookup() {
-        const input = document.getElementById('number');
-        let number = input.value.trim();
-        const resultDiv = document.getElementById('result');
-        resultDiv.classList.remove('error', 'initial');
-        resultDiv.innerHTML = `<p>Retrieving network data... <span class="spinner"></span></p>`;
-        if (!/^03\d{9}$/.test(number)) {
-            resultDiv.classList.add('error');
-            resultDiv.innerHTML = "❌ Error: Invalid number.";
-            return;
-        }
-        number = '92' + number.slice(1);
-        try {
-            const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
-            const data = await response.json();
-            if (response.ok && data?.Items?.length > 0) {
-                const provider = data.Items[0];
-                const name = provider.Name || "Unknown";
-                resultDiv.innerHTML = `<strong>NETWORK:</strong> ${name.toUpperCase()}<br/><strong>STATUS:</strong> <span style='color: var(--success);'>ACTIVE</span>`;
-            } else {
-                resultDiv.classList.add('error');
-                resultDiv.innerHTML = "❌ Data not found.";
-            }
-        } catch (error) {
-            resultDiv.classList.add('error');
-            resultDiv.innerHTML = "❌ Connection error.";
-        }
+  async function lookup() {
+    const input = document.getElementById('number');
+    let number = input.value.trim();
+    const resultDiv = document.getElementById('result');
+    resultDiv.classList.remove('error', 'initial');
+    resultDiv.innerHTML = `<p>Retrieving network data... <span class="spinner"></span></p>`;
+    if (!/^03\d{9}$/.test(number)) {
+      resultDiv.classList.add('error');
+      resultDiv.innerHTML = "❌ Error: Invalid number.";
+      return;
     }
-
-    async function searchSimData() {
-        const mobileInput = document.getElementById('simMobile');
-        const simResultDiv = document.getElementById('simResult');
-        const simErrorDiv = document.getElementById('simError');
-        let mobile = mobileInput.value.trim();
-        simResultDiv.classList.remove('error', 'initial');
-        simResultDiv.innerHTML = `<p>Executing data trace... <span class="spinner"></span></p>`;
-        simErrorDiv.style.display = 'none';
-        if (!/^03\d{9}$/.test(mobile)) {
-            simErrorDiv.style.display = 'block';
-            simErrorDiv.innerHTML = '⚠️ Invalid number.';
-            simResultDiv.innerHTML = '';
-            return;
-        }
-        try {
-            const response = await fetch('/sim-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobileNumber: mobile }) });
-            if (!response.ok) {
-                const errorResponse = await response.json();
-                simErrorDiv.style.display = 'block';
-                simErrorDiv.innerHTML = errorResponse.error || '❌ CURRENTLY SERVICE DISABLED BY WEB OWNER.';
-                simResultDiv.innerHTML = '';
-                return;
-            }
-            const data = await response.json();
-            if (data?.name && data?.cnic && data?.address) {
-                simResultDiv.innerHTML = `
-                    <strong>NAME:</strong> ${data.name}<br/>
-                    <strong>CNIC:</strong> ${data.cnic}<br/>
-                    <strong>ADDRESS:</strong> ${data.address}<br/>
-                    <strong>STATUS:</strong> <span style='color: var(--success);'>ACQUIRED</span>
-                `;
-                simErrorDiv.style.display = 'none';
-            } else {
-                simErrorDiv.style.display = 'block';
-                simErrorDiv.innerHTML = '❌ Trace incomplete.';
-                simResultDiv.innerHTML = '';
-            }
-        } catch (error) {
-            simErrorDiv.style.display = 'block';
-            simErrorDiv.innerHTML = '❌ Connection error.';
-            simResultDiv.innerHTML = '';
-        }
+    number = '92' + number.slice(1);
+    try {
+      const response = await fetch(`/proxy?number=${encodeURIComponent(number)}`);
+      const data = await response.json();
+      if (response.ok && data?.Items?.length > 0) {
+        const provider = data.Items[0];
+        const name = provider.Name || "Unknown";
+        resultDiv.innerHTML = `<strong>NETWORK:</strong> ${name.toUpperCase()}<br/><strong>STATUS:</strong> <span style='color: var(--success);'>ACTIVE</span>`;
+      } else {
+        resultDiv.classList.add('error');
+        resultDiv.innerHTML = "❌ Data not found.";
+      }
+    } catch (error) {
+      resultDiv.classList.add('error');
+      resultDiv.innerHTML = "❌ Connection error.";
     }
+  }
 
-    // UPDATED FUNCTION FOR CNIC SEARCH
-    async function searchCnicById() {
-        const cnicInput = document.getElementById('cnicNumber');
-        const cnic = cnicInput.value.trim();
-        const outputDiv = document.getElementById('cnicSearchOutput');
-        
-        outputDiv.classList.remove('active');
-        outputDiv.innerHTML = '';
-        
-        if (!/^\d{13}$/.test(cnic)) {
-            outputDiv.classList.add('active');
-            outputDiv.style.color = 'var(--error)';
-            outputDiv.innerHTML = `
-                <div class="output-item"><i class="fas fa-exclamation-triangle output-icon"></i><span class="output-value" style="color:var(--error)">Invalid CNIC format. Please enter a 13-digit number.</span></div>
-            `;
-            return;
-        }
-
-        outputDiv.classList.add('active');
-        outputDiv.innerHTML = `
-            <div class="output-item"><i class="fas fa-spinner fa-spin output-icon"></i><span class="output-value">Searching for data...</span></div>
+  async function searchSimData() {
+    const mobileInput = document.getElementById('simMobile');
+    const simResultDiv = document.getElementById('simResult');
+    const simErrorDiv = document.getElementById('simError');
+    let mobile = mobileInput.value.trim();
+    simResultDiv.classList.remove('error', 'initial');
+    simResultDiv.innerHTML = `<p>Executing data trace... <span class="spinner"></span></p>`;
+    simErrorDiv.style.display = 'none';
+    if (!/^03\d{9}$/.test(mobile)) {
+      simErrorDiv.style.display = 'block';
+      simErrorDiv.innerHTML = '⚠️ Invalid number.';
+      simResultDiv.innerHTML = '';
+      return;
+    }
+    try {
+      const response = await fetch('/sim-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobileNumber: mobile })
+      });
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        simErrorDiv.style.display = 'block';
+        simErrorDiv.innerHTML = errorResponse.error || '❌ CURRENTLY SERVICE DISABLED BY WEB OWNER.';
+        simResultDiv.innerHTML = '';
+        return;
+      }
+      const data = await response.json();
+      if (data?.name && data?.cnic && data?.address) {
+        simResultDiv.innerHTML = `
+          <strong>NAME:</strong> ${data.name}<br/>
+          <strong>CNIC:</strong> ${data.cnic}<br/>
+          <strong>ADDRESS:</strong> ${data.address}<br/>
+          <strong>STATUS:</strong> <span style='color: var(--success);'>ACQUIRED</span>
         `;
-        
-        try {
-            const response = await fetch('/cnic-search', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cnicNumber: cnic })
-            });
-
-            if (!response.ok) {
-                const errorResponse = await response.json();
-                outputDiv.innerHTML = `<div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ ${errorResponse.error || 'Server error.'}</span></div>`;
-                return;
-            }
-
-            const data = await response.json();
-            outputDiv.innerHTML = `
-                <div class="output-item"><i class="fas fa-user output-icon"></i><span class="output-label">Name:</span><span class="output-value success">${data.name}</span></div>
-                <div class="output-item"><i class="fas fa-id-card-alt output-icon"></i><span class="output-label">CNIC:</span><span class="output-value">${data.cnic}</span></div>
-                <div class="output-item"><i class="fas fa-mobile-alt output-icon"></i><span class="output-label">Mobile:</span><span class="output-value">${data.mobile}</span></div>
-                <div class="output-item"><i class="fas fa-home output-icon"></i><span class="output-label">Address:</span><span class="output-value">${data.address}</span></div>
-            `;
-        } catch (error) {
-            outputDiv.innerHTML = `<div class="output-item"><i class="fas fa-exclamation-circle output-icon"></i><span class="output-value" style="color:var(--error)">❌ Connection error.</span></div>`;
-            console.error('Fetch error:', error);
-        }
+        simErrorDiv.style.display = 'none';
+      } else {
+        simErrorDiv.style.display = 'block';
+        simErrorDiv.innerHTML = '❌ Trace incomplete.';
+        simResultDiv.innerHTML = '';
+      }
+    } catch (error) {
+      simErrorDiv.style.display = 'block';
+      simErrorDiv.innerHTML = '❌ Connection error.';
+      simResultDiv.innerHTML = '';
     }
-    
-    // SMS sender function remains the same
-    async function sendCrownOneSms() {
-        const mobileInput = document.getElementById('smsMobile');
-        const messageInput = document.getElementById('smsMessage');
-        const statusDiv = document.getElementById('smsStatus');
-        
-        const mobile = mobileInput.value.trim();
-        const message = messageInput.value.trim();
+  }
 
-        statusDiv.classList.remove('error', 'initial');
-        statusDiv.innerHTML = `<p>Sending SMS... <span class="spinner"></span></p>`;
+  async function sendCrownOneSms() {
+    const mobileInput = document.getElementById('smsMobile');
+    const messageInput = document.getElementById('smsMessage');
+    const statusDiv = document.getElementById('smsStatus');
 
-        if (!/^03[0-9]{9}$/.test(mobile)) {
-            statusDiv.classList.add('error');
-            statusDiv.innerHTML = "❌ Invalid mobile number format. Use 03XXXXXXXXX.";
-            return;
-        }
+    const mobile = mobileInput.value.trim();
+    const message = messageInput.value.trim();
 
-        if (message.length === 0) {
-            statusDiv.classList.add('error');
-            statusDiv.innerHTML = "❌ Message cannot be empty.";
-            return;
-        }
-        
-        try {
-            const res = await fetch('/send-sms', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mobile, message })
-            });
+    statusDiv.classList.remove('error', 'initial');
+    statusDiv.innerHTML = `<p>Sending SMS... <span class="spinner"></span></p>`;
 
-            const result = await res.json();
-            
-            if (res.ok && result.success) {
-                statusDiv.innerHTML = `<strong>✅ Success:</strong> Message sent!`;
-                mobileInput.value = '';
-                messageInput.value = '';
-            } else {
-                statusDiv.classList.add('error');
-                statusDiv.innerHTML = `<strong>❌ Failed:</strong> ${result.error || 'Server error.'}`;
-            }
-        } catch (err) {
-            statusDiv.classList.add('error');
-            statusDiv.innerHTML = "❌ Failed to connect to server.";
-        }
+    if (!/^03\d{9}$/.test(mobile)) {
+      statusDiv.classList.add('error');
+      statusDiv.innerHTML = "❌ Invalid mobile number format. Use 03XXXXXXXXX.";
+      return;
     }
-  </script>
+
+    if (message.length === 0) {
+      statusDiv.classList.add('error');
+      statusDiv.innerHTML = "❌ Message cannot be empty.";
+      return;
+    }
+
+    try {
+      const res = await fetch('/send-sms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile, message })
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        statusDiv.innerHTML = `<strong>✅ Success:</strong> Message sent!`;
+        mobileInput.value = '';
+        messageInput.value = '';
+      } else {
+        statusDiv.classList.add('error');
+        statusDiv.innerHTML = `<strong>❌ Failed:</strong> ${result.error || 'Server error.'}`;
+      }
+    } catch (err) {
+      statusDiv.classList.add('error');
+      statusDiv.innerHTML = "❌ Failed to connect to server.";
+    }
+  }
+</script>
 </body>
-  </html>
-    
+</html>
