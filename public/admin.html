@@ -311,6 +311,33 @@
       border: 1px solid var(--border-color);
     }
 
+    .stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .stats-card {
+        flex-grow: 1;
+        text-align: center;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    .stats-card h3 {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 5px;
+    }
+
+    .stats-card p {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
     @media (max-width: 768px) {
       .table-desktop {
         display: none;
@@ -332,6 +359,9 @@
         width: 100%;
       }
       .admin-controls {
+        flex-direction: column;
+      }
+      .stats-container {
         flex-direction: column;
       }
     }
@@ -379,6 +409,20 @@
         </div>
       </div>
 
+      <div class="card stats-card-container">
+        <h2>Statistics</h2>
+        <div class="stats-container">
+          <div class="stats-card">
+            <h3>Total Messages Sent</h3>
+            <p id="totalMessages">0</p>
+          </div>
+          <div class="stats-card">
+            <h3>Total Visitors</h3>
+            <p id="totalVisitors">0</p>
+          </div>
+        </div>
+      </div>
+
       <div class="card logs-section">
         <h2>SMS Logs</h2>
         <div class="table-desktop">
@@ -418,7 +462,7 @@
       <pre id="modalMessage" class="modal-message-body"></pre>
     </div>
   </div>
-  <script>
+    <script>
     // Variables
     const loginSection = document.getElementById('loginSection');
     const adminSection = document.getElementById('adminSection');
@@ -431,8 +475,10 @@
     const filterButton = document.getElementById('filterButton');
     const clearFilterButton = document.getElementById('clearFilterButton');
     const messageModal = document.getElementById('messageModal');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
     const modalMessage = document.getElementById('modalMessage');
+    const totalMessagesElement = document.getElementById('totalMessages');
+    const totalVisitorsElement = document.getElementById('totalVisitors');
 
     let isLoggedIn = false;
     let allLogs = [];
@@ -474,6 +520,23 @@
         renderLogs(currentFilteredLogs);
       }
     });
+
+    // --- NEW FUNCTION TO FETCH STATS ---
+    async function fetchStatistics() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
+        const data = await res.json();
+        if (data.success) {
+          totalMessagesElement.textContent = data.totalMessages;
+          totalVisitorsElement.textContent = data.totalVisitors;
+        }
+      } catch (error) {
+        console.error('Stats fetch failed:', error);
+        totalMessagesElement.textContent = 'Error';
+        totalVisitorsElement.textContent = 'Error';
+      }
+    }
 
     async function updateStatus() {
       try {
@@ -664,7 +727,7 @@
     filterInput.addEventListener('input', debounce(applyFilter, 300));
     
     async function refreshData() {
-      await Promise.all([fetchBlockedIps(), fetchLogs(), updateStatus()]);
+      await Promise.all([fetchBlockedIps(), fetchLogs(), updateStatus(), fetchStatistics()]);
     }
 
     async function handleLogin() {
@@ -737,3 +800,4 @@
   </script>
 </body>
 </html>
+
