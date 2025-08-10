@@ -462,7 +462,7 @@
       <pre id="modalMessage" class="modal-message-body"></pre>
     </div>
   </div>
-    <script>
+  <script>
     // Variables
     const loginSection = document.getElementById('loginSection');
     const adminSection = document.getElementById('adminSection');
@@ -475,7 +475,7 @@
     const filterButton = document.getElementById('filterButton');
     const clearFilterButton = document.getElementById('clearFilterButton');
     const messageModal = document.getElementById('messageModal');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
     const modalMessage = document.getElementById('modalMessage');
     const totalMessagesElement = document.getElementById('totalMessages');
     const totalVisitorsElement = document.getElementById('totalVisitors');
@@ -502,8 +502,7 @@
       modalCloseBtn.focus();
     }
     function closeMessageModal() {
-      modalMessage.textContent = '';
-      messageModal.style.display = 'none';
+      modalMessage.style.display = 'none';
     }
     modalCloseBtn.addEventListener('click', closeMessageModal);
     window.addEventListener('click', (e) => {
@@ -572,7 +571,7 @@
       }
       
       const fragment = document.createDocumentFragment();
-      logs.forEach((log, idx) => {
+      logs.forEach((log) => {
         const isBlocked = blockedIps.has(log.ip);
         const truncated = log.message.length > 30 ? log.message.substring(0,30) + '...' : log.message;
         
@@ -584,7 +583,7 @@
         tr.innerHTML = `
           <td>${log.ip}</td>
           <td>${log.mobile}</td>
-          <td><button class="view-message-btn" data-index="${idx}">${truncated}</button></td>
+          <td><button class="view-message-btn" data-message="${escapeHtml(log.message)}">${truncated}</button></td>
           <td>${new Date(log.timestamp).toLocaleString()}</td>
           <td>${log.type}</td>
           <td>
@@ -597,6 +596,7 @@
         fragment.appendChild(tr);
       });
       logsTableBody.appendChild(fragment);
+      setupLogEventListeners();
     }
     
     function renderMobileList(logs) {
@@ -607,7 +607,7 @@
       }
 
       const fragment = document.createDocumentFragment();
-      logs.forEach((log, idx) => {
+      logs.forEach((log) => {
         const isBlocked = blockedIps.has(log.ip);
         const truncated = log.message.length > 30 ? log.message.substring(0, 30) + '...' : log.message;
         
@@ -620,7 +620,7 @@
         div.innerHTML = `
           <div class="log-card-item"><strong>IP Address:</strong> <span>${log.ip}</span></div>
           <div class="log-card-item"><strong>Number:</strong> <span>${log.mobile}</span></div>
-          <div class="log-card-item"><strong>Message:</strong> <button class="view-message-btn" data-index="${idx}">${truncated}</button></div>
+          <div class="log-card-item"><strong>Message:</strong> <button class="view-message-btn" data-message="${escapeHtml(log.message)}">${truncated}</button></div>
           <div class="log-card-item"><strong>Timestamp:</strong> <span>${new Date(log.timestamp).toLocaleString()}</span></div>
           <div class="log-card-item"><strong>Type:</strong> <span>${log.type}</span></div>
           <div class="log-card-item">
@@ -635,12 +635,17 @@
         fragment.appendChild(div);
       });
       logsListBody.appendChild(fragment);
+      setupLogEventListeners();
     }
     
     function renderLogs(logs) {
       currentFilteredLogs = logs;
-      isMobile ? renderMobileList(logs) : renderDesktopTable(logs);
-      setupLogEventListeners();
+      isMobile = window.innerWidth <= 768; // Check on render
+      if (isMobile) {
+        renderMobileList(logs);
+      } else {
+        renderDesktopTable(logs);
+      }
     }
 
     function setupLogEventListeners() {
@@ -653,14 +658,23 @@
       });
     }
     
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     async function handleLogAction(e) {
       const btn = e.target;
-      const index = parseInt(btn.getAttribute('data-index'));
       const ip = btn.getAttribute('data-ip');
+      const message = btn.getAttribute('data-message');
       
       if (btn.classList.contains('view-message-btn')) {
-        if (!isNaN(index) && allLogs[index]) {
-          openMessageModal(allLogs[index].message);
+        if (message) {
+          openMessageModal(message);
         }
       } else if (btn.classList.contains('btn-block')) {
         if (ip && confirm(`Block IP ${ip}?`)) {
@@ -680,11 +694,15 @@
         const res = await fetch('/api/admin/logs');
         if (!res.ok) throw new Error(`HTTP status ${res.status}`);
         const data = await res.json();
-        allLogs = data.success && Array.isArray(data.logs) ? data.logs : [];
+        allLogs = data.success && Array.isArray(data.logs) ? data.logs.reverse() : []; // Reverse to show latest first
         applyFilter();
       } catch (error) {
         console.error('Logs fetch failed:', error);
-        logsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--danger); padding:20px;">Failed to load logs.</td></tr>`;
+        if(isMobile) {
+            logsListBody.innerHTML = `<div class="log-card"><div class="log-card-item"><span style="color: var(--danger);">Failed to load logs.</span></div></div>`;
+        } else {
+            logsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--danger); padding:20px;">Failed to load logs.</td></tr>`;
+        }
       }
     }
 
@@ -794,10 +812,13 @@
           }
         }
       } catch (error) {
-        console.error('Session check failed:', error);
+        // This is a normal scenario if no session exists
+        console.info('No active admin session found.');
       }
     });
+
+    // Initial check for mobile view on load
+    isMobile = window.innerWidth <= 768;
   </script>
 </body>
 </html>
-
