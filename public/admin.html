@@ -501,9 +501,11 @@
       messageModal.style.display = 'flex';
       modalCloseBtn.focus();
     }
+    
     function closeMessageModal() {
-      modalMessage.style.display = 'none';
+      messageModal.style.display = 'none';
     }
+    
     modalCloseBtn.addEventListener('click', closeMessageModal);
     window.addEventListener('click', (e) => {
       if (e.target === messageModal) closeMessageModal();
@@ -628,7 +630,7 @@
               ${isBlocked
                 ? `<button class="btn btn-success btn-unblock" data-ip="${log.ip}">Unblock</button>`
                 : `<button class="btn btn-danger btn-block" data-ip="${log.ip}">Block</button>`
-              }
+            }
             </div>
           </div>
         `;
