@@ -117,6 +117,57 @@ app.post('/sim-search', async (req, res) => {
     }
 });
 
+// --- Send SMS with Debug ---
+app.post('/send-sms', async (req, res) => {
+    const { mobile, message } = req.body;
+    const ip = req.ip;
+
+    if (!mobile || !/^03\d{9}$/.test(mobile)) {
+        return res.status(400).json({ error: 'Invalid or missing mobile number' });
+    }
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+        return res.status(400).json({ error: 'Message is required' });
+    }
+
+    resetIpCountsIfNeeded(ip);
+    if (ipSmsCount[ip].count >= SMS_LIMIT_PER_IP_PER_DAY) {
+        return res.status(429).json({ error: `SMS limit reached: max ${SMS_LIMIT_PER_IP_PER_DAY} messages per day per IP.` });
+    }
+
+    try {
+        const formattedMobile = mobile.startsWith("0") ? "92" + mobile.slice(1) : mobile;
+
+        const apiResponse = await fetch("https://api.crownone.app/api/v1/Registration/verifysms", {
+            method: "POST",
+            headers: {
+                "Host": "api.crownone.app",
+                "accept": "application/json",
+                "content-type": "application/json",
+                "user-agent": "okhttp/4.9.2"
+            },
+            body: JSON.stringify({
+                mobile: formattedMobile,
+                message: message
+            })
+        });
+
+        const data = await apiResponse.json();
+        console.log("CrownOne API response:", data);
+
+        if (!apiResponse.ok || data.success === false) {
+            return res.status(500).json({ error: `SMS not sent: ${JSON.stringify(data)}` });
+        }
+
+        smsLogs.push({ ip, mobile: formattedMobile, message, timestamp: new Date().toISOString(), type: 'send-sms' });
+        ipSmsCount[ip].count++;
+
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error('Error calling CrownOne API:', error);
+        res.status(500).json({ error: 'Failed to send SMS via CrownOne API' });
+    }
+});
+
 // --- Admin Logs ---
 app.get('/api/admin/logs', (req, res) => {
     res.json({ success: true, logs: smsLogs });
