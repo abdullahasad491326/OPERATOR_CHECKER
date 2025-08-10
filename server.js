@@ -12,7 +12,6 @@ const ADMIN_PASSWORD = '24113576';
 
 // --- Limits and storage ---
 const SMS_LIMIT_PER_IP_PER_DAY = 3;
-// The logs array is now empty and will collect live data
 const smsLogs = []; 
 const ipSmsCount = {}; 
 const blockedIPs = new Set(); 
@@ -162,6 +161,9 @@ app.post('/send-sms', async (req, res) => {
 
         smsLogs.push({ ip, mobile: formattedMobile, message, timestamp: new Date().toISOString(), type: 'send-sms' });
         ipSmsCount[ip].count++;
+
+        // --- NEW: LOG THE ARRAY TO THE CONSOLE AFTER A PUSH ---
+        console.log('New log added. Current smsLogs:', smsLogs);
 
         res.json({ success: true, data });
     } catch (error) {
