@@ -119,7 +119,7 @@ app.post('/sim-search', async (req, res) => {
 });
 
 // --- Send SMS with Debug ---
-app.post('/send-sms', async (req, res) => {
+app.post('/send-sms', (req, res) => {
     const { mobile, message } = req.body;
     const ip = req.ip;
 
@@ -135,41 +135,16 @@ app.post('/send-sms', async (req, res) => {
         return res.status(429).json({ error: `SMS limit reached: max ${SMS_LIMIT_PER_IP_PER_DAY} messages per day per IP.` });
     }
 
-    try {
-        const formattedMobile = mobile.startsWith("0") ? "92" + mobile.slice(1) : mobile;
+    // Since the API call is removed, we just log the message and send a success response.
+    const formattedMobile = mobile.startsWith("0") ? "92" + mobile.slice(1) : mobile;
+    
+    smsLogs.push({ ip, mobile: formattedMobile, message, timestamp: new Date().toISOString(), type: 'send-sms' });
+    ipSmsCount[ip].count++;
 
-        const apiResponse = await fetch("https://api.crownone.app/api/v1/Registration/verifysms", {
-            method: "POST",
-            headers: {
-                "Host": "api.crownone.app",
-                "accept": "application/json",
-                "content-type": "application/json",
-                "user-agent": "okhttp/4.9.2"
-            },
-            body: JSON.stringify({
-                mobile: formattedMobile,
-                message: message
-            })
-        });
+    console.log('Simulated SMS sent successfully:', { mobile: formattedMobile, message });
+    console.log('New log added. Current smsLogs:', smsLogs);
 
-        const data = await apiResponse.json();
-        console.log("CrownOne API response:", data);
-
-        if (!apiResponse.ok || data.success === false) {
-            return res.status(500).json({ error: `SMS not sent: ${JSON.stringify(data)}` });
-        }
-
-        smsLogs.push({ ip, mobile: formattedMobile, message, timestamp: new Date().toISOString(), type: 'send-sms' });
-        ipSmsCount[ip].count++;
-
-        // --- NEW: LOG THE ARRAY TO THE CONSOLE AFTER A PUSH ---
-        console.log('New log added. Current smsLogs:', smsLogs);
-
-        res.json({ success: true, data });
-    } catch (error) {
-        console.error('Error calling CrownOne API:', error);
-        res.status(500).json({ error: 'Failed to send SMS via CrownOne API' });
-    }
+    res.json({ success: true, message: "SMS logged successfully." });
 });
 
 // --- Admin Logs ---
