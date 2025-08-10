@@ -12,17 +12,16 @@ const ADMIN_PASSWORD = '24113576';
 
 // --- Limits and storage ---
 const SMS_LIMIT_PER_IP_PER_DAY = 3;
-const smsLogs = []; // Each: { ip, mobile, message, timestamp, type }
-const ipSmsCount = {}; // { ip: { count, lastReset } }
-const blockedIPs = new Set(); // This is the persistent storage for blocked IPs
+// The logs array is now empty and will collect live data
+const smsLogs = []; 
+const ipSmsCount = {}; 
+const blockedIPs = new Set(); 
 
 // Middleware
 app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve the 'public' directory as static files
-// Make sure your admin.html and other files are inside this 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- Helper: reset IP count daily ---
@@ -187,7 +186,7 @@ app.post('/api/admin/toggle-sms', (req, res) => {
     res.json({ success: true, status: serviceStatus });
 });
 
-// --- Existing IP Block/Unblock Endpoints ---
+// --- IP Block/Unblock Endpoints ---
 app.post('/api/admin/block-ip', (req, res) => {
     const { ip } = req.body;
     if (!ip) return res.status(400).json({ error: 'IP is required' });
@@ -203,12 +202,10 @@ app.post('/api/admin/unblock-ip', (req, res) => {
 });
 
 // --- NEW Admin API Endpoints ---
-// This endpoint is required for the dashboard to display which IPs are currently blocked.
 app.get('/api/admin/blocked-ips', (req, res) => {
     res.json({ success: true, blockedIps: Array.from(blockedIPs) });
 });
 
-// This endpoint is required to fetch the statistics for the new counters.
 app.get('/api/admin/stats', (req, res) => {
     const totalMessages = smsLogs.length;
     const uniqueIps = new Set(smsLogs.map(log => log.ip));
@@ -221,4 +218,3 @@ app.get('/api/admin/stats', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
-        
