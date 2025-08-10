@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     :root {
       --bg-color: #121212;
@@ -33,137 +32,307 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
     }
 
     .dashboard-container {
       width: 100%;
       max-width: 1100px;
-      margin: auto;
       display: grid;
-      gap: 20px;
-      animation: fadeIn 0.8s ease-in-out;
+      gap: 15px;
+      animation: fadeIn 0.5s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .card {
       background-color: var(--card-bg);
-      padding: 25px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .header {
       text-align: center;
-      margin-bottom: 10px;
     }
 
     .header h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: var(--primary-color);
       margin-bottom: 5px;
     }
 
     .header p {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
-    /* Login form */
-    .login-form {
-      max-width: 400px;
-      margin: 10px auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .form-group {
+      margin-bottom: 15px;
     }
 
-    .input-group {
-      position: relative;
-    }
-
-    .input-group input {
+    .form-input {
       width: 100%;
-      padding: 12px 15px 12px 45px;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 6px;
       border: 1px solid var(--border-color);
       background-color: #2c2c2c;
       color: var(--text-color);
       outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: border-color 0.2s ease;
     }
 
-    .input-group input:focus {
+    .form-input:focus {
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
 
-    .input-group .icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      font-size: 1rem;
+    .btn {
+      width: 100%;
+      padding: 10px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
     }
 
-    .input-group input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .login-form button {
+    .btn-primary {
       background-color: var(--primary-color);
       color: #fff;
-      font-weight: 700;
-      padding: 14px 0;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .login-form button:hover:not(:disabled) {
+    .btn-primary:hover:not(:disabled) {
       background-color: var(--primary-hover);
-      transform: translateY(-2px);
     }
 
-    .login-form button:disabled {
+    .btn-success {
+      background-color: var(--success);
+      color: #fff;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: var(--success-hover);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: var(--danger-hover);
+    }
+
+    .btn-secondary {
+      background-color: #555;
+      color: #fff;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: #666;
+    }
+
+    .btn:disabled {
       background-color: #555;
       cursor: not-allowed;
     }
 
+    .login-form {
+      max-width: 350px;
+      margin: 10px auto;
+    }
+
     .login-message {
-      margin-top: 10px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-align: center;
       color: var(--danger);
       min-height: 1.2em;
     }
 
-    /* Admin section hidden initially */
     #adminSection.hidden {
       display: none;
     }
 
+    .admin-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .status-control, .filter-control {
+      flex-grow: 1;
+    }
+
+    .admin-controls h2 {
+      margin-bottom: 8px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-group input {
+      flex-grow: 1;
+    }
+
+    .logs-section h2 {
+      margin-bottom: 10px;
+    }
+
+    .table-desktop {
+      display: block;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+
+    .table-desktop table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    
+    .table-desktop th, .table-desktop td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .table-desktop thead {
+      background-color: #2c2c2c;
+    }
+    
+    .table-desktop tbody tr.blocked-ip {
+      background-color: var(--blocked-row-bg);
+    }
+
+    .view-message-btn {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .table-mobile {
+      display: none;
+    }
+
+    .log-card {
+      background-color: #2c2c2c;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .log-card-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .log-card-item strong {
+      color: var(--primary-color);
+      flex-basis: 30%;
+    }
+
+    .log-card-item span {
+      text-align: right;
+      flex-basis: 70%;
+    }
+    
+    .log-card-item button {
+        margin-left: auto;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 10px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 20px;
+      max-width: 450px;
+      width: 100%;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--danger);
+      cursor: pointer;
+    }
+    
+    .modal-message-body {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 250px;
+      overflow-y: auto;
+      font-family: monospace;
+      padding: 8px;
+      background-color: #0d0d0d;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .table-desktop {
+        display: none;
+      }
+      .table-mobile {
+        display: block;
+      }
+      .btn {
+        width: auto;
+        flex: 1;
+      }
+      .btn-group {
+        flex-direction: row;
+      }
+      .filter-group {
+        flex-direction: column;
+      }
+      .filter-group .btn {
+        width: 100%;
+      }
+      .admin-controls {
+        flex-direction: column;
+      }
+    }
   </style>
-  <!-- We'll add JS scripts in parts 2-4 -->
 </head>
 <body>
   <main class="dashboard-container">
-
-    <!-- Login Section -->
     <section id="loginSection">
       <header class="card header">
         <h1>Admin Login</h1>
@@ -171,54 +340,51 @@
       </header>
       <div class="card">
         <form class="login-form" onsubmit="event.preventDefault(); handleLogin();">
-          <div class="input-group">
-            <span class="icon"><i class="fas fa-user"></i></span>
-            <input type="text" id="username" placeholder="Username" required autocomplete="username" />
+          <div class="form-group">
+            <input class="form-input" type="text" id="username" placeholder="Username" required autocomplete="username" />
           </div>
-          <div class="input-group">
-            <span class="icon"><i class="fas fa-lock"></i></span>
-            <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+          <div class="form-group">
+            <input class="form-input" type="password" id="password" placeholder="Password" required autocomplete="current-password" />
           </div>
-          <button type="submit" id="loginButton">Login</button>
+          <button type="submit" id="loginButton" class="btn btn-primary">Login</button>
           <p id="loginMessage" class="login-message"></p>
         </form>
       </div>
     </section>
 
-    <!-- Admin Section -->
     <section id="adminSection" class="hidden">
       <header class="card header">
         <h1>Admin Dashboard</h1>
         <p>Manage SMS Service and View Logs</p>
       </header>
 
-      <div class="card admin-controls" style="display:flex; justify-content: space-between; align-items:center; flex-wrap: wrap; gap: 15px;">
-        <div>
-          <h2 style="margin-bottom:8px;">SMS Service Status</h2>
-          <button id="toggleButton" style="padding: 12px 25px; font-weight:700; border:none; border-radius:8px; cursor:pointer;">Loading...</button>
+      <div class="card admin-controls">
+        <div class="status-control">
+          <h2>SMS Service Status</h2>
+          <button id="toggleButton" class="btn btn-secondary">Loading...</button>
         </div>
-
-        <div style="flex-grow:1; max-width: 400px;">
-          <h2 style="margin-bottom:8px;">Filter Logs</h2>
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="filterInput" placeholder="Filter by IP, Number, or Message" style="flex-grow:1; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:#2c2c2c; color: var(--text-color);" />
-            <button id="filterButton" style="background-color: var(--primary-color); color:#fff; border:none; border-radius:8px; padding:8px 15px; cursor:pointer;">Filter</button>
-            <button id="clearFilterButton" style="background-color: #555; color:#fff; border:none; border-radius:8px; padding:8px 15px; cursor:pointer;">Clear</button>
+        <div class="filter-control">
+          <h2>Filter Logs</h2>
+          <div class="filter-group">
+            <input type="text" id="filterInput" class="form-input" placeholder="Filter by IP, Number, or Message" />
+            <button id="filterButton" class="btn btn-primary">Filter</button>
+            <button id="clearFilterButton" class="btn btn-secondary">Clear</button>
           </div>
         </div>
       </div>
-      <div class="card logs-section" style="margin-top: 20px;">
+
+      <div class="card logs-section">
         <h2>SMS Logs</h2>
-        <div class="table-responsive" style="overflow-x:auto; border-radius:8px;">
-          <table style="width:100%; border-collapse: separate; border-spacing:0; font-size:0.95rem;">
-            <thead style="background-color:#2c2c2c;">
+        <div class="table-desktop">
+          <table>
+            <thead>
               <tr>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">IP Address</th>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">Number</th>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">Message</th>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">Timestamp</th>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">Type</th>
-                <th style="padding:15px; text-align:left; color: var(--primary-color); font-weight:700; text-transform: uppercase;">Action</th>
+                <th>IP Address</th>
+                <th>Number</th>
+                <th>Message</th>
+                <th>Timestamp</th>
+                <th>Type</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="logsTableBody">
@@ -228,27 +394,32 @@
             </tbody>
           </table>
         </div>
+        <div id="logsListBody" class="table-mobile">
+          <div class="log-card">
+            <div class="log-card-item">
+              <span style="color: var(--text-muted);">No logs to display.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
   </main>
-
-  <!-- Full Message Modal -->
-  <div id="messageModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.75); justify-content:center; align-items:center; z-index:1000;">
-    <div style="background: var(--card-bg); color: var(--text-color); padding: 20px 25px; max-width: 500px; width: 90%; border-radius: 10px; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.7);">
-      <button id="modalCloseBtn" aria-label="Close full message" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:1.5rem; color: var(--danger); cursor:pointer;">&times;</button>
-      <h3 style="margin-bottom:15px;">Full Message</h3>
-      <pre id="modalMessage" style="white-space: pre-wrap; word-wrap: break-word; max-height: 300px; overflow-y: auto; font-family: monospace;"></pre>
+  <div id="messageModal" class="modal-overlay">
+    <div class="modal-content">
+      <button id="modalCloseBtn" aria-label="Close full message" class="modal-close-btn">&times;</button>
+      <h3>Full Message</h3>
+      <pre id="modalMessage" class="modal-message-body"></pre>
     </div>
-  </div>
-
-  <script>
+      </div>
+        <script>
     // Variables
     const loginSection = document.getElementById('loginSection');
     const adminSection = document.getElementById('adminSection');
     const loginButton = document.getElementById('loginButton');
     const toggleButton = document.getElementById('toggleButton');
     const logsTableBody = document.getElementById('logsTableBody');
+    const logsListBody = document.getElementById('logsListBody');
     const loginMessage = document.getElementById('loginMessage');
     const filterInput = document.getElementById('filterInput');
     const filterButton = document.getElementById('filterButton');
@@ -260,14 +431,26 @@
     let isLoggedIn = false;
     let allLogs = [];
     let blockedIps = new Set();
+    let currentFilteredLogs = [];
+    let isMobile = window.innerWidth <= 768;
+    
+    // --- UTILITY FUNCTIONS ---
+    
+    function debounce(func, delay) {
+      let timeoutId;
+      return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
 
-    // Modal open/close
     function openMessageModal(message) {
       modalMessage.textContent = message;
       messageModal.style.display = 'flex';
       modalCloseBtn.focus();
     }
     function closeMessageModal() {
+      modalMessage.textContent = '';
       messageModal.style.display = 'none';
     }
     modalCloseBtn.addEventListener('click', closeMessageModal);
@@ -278,150 +461,176 @@
       if (e.key === 'Escape' && messageModal.style.display === 'flex') closeMessageModal();
     });
 
-    // Update SMS service status
+    window.addEventListener('resize', () => {
+      const wasMobile = isMobile;
+      isMobile = window.innerWidth <= 768;
+      if (wasMobile !== isMobile) {
+        renderLogs(currentFilteredLogs);
+      }
+    });
+
     async function updateStatus() {
       try {
         const res = await fetch('/api/admin/status');
         if (!res.ok) throw new Error(`HTTP status ${res.status}`);
         const data = await res.json();
-        if (data.success) {
-          toggleButton.innerText = data.status ? 'Service ON' : 'Service OFF';
-          toggleButton.classList.toggle('on', data.status);
-          toggleButton.classList.toggle('off', !data.status);
-        } else {
-          toggleButton.innerText = 'Error';
-        }
+        toggleButton.innerText = data.success ? (data.status ? 'Service ON' : 'Service OFF') : 'Error';
+        toggleButton.className = data.success ? (data.status ? 'btn btn-success' : 'btn btn-danger') : 'btn btn-secondary';
       } catch (error) {
         console.error('Status fetch failed:', error);
         toggleButton.innerText = 'Error';
+        toggleButton.className = 'btn btn-secondary';
       }
     }
 
-    // Fetch blocked IPs from backend
     async function fetchBlockedIps() {
       try {
         const res = await fetch('/api/admin/blocked-ips');
         if (!res.ok) throw new Error(`HTTP status ${res.status}`);
         const data = await res.json();
-        if (data.success && Array.isArray(data.blockedIps)) {
-          blockedIps = new Set(data.blockedIps);
-        } else {
-          blockedIps = new Set();
-        }
+        blockedIps = new Set(data.success && Array.isArray(data.blockedIps) ? data.blockedIps : []);
       } catch (error) {
         console.error('Blocked IPs fetch failed:', error);
         blockedIps = new Set();
       }
     }
-      // Render logs with block/unblock buttons and full message view
-    function renderLogs(logs) {
+
+    function renderDesktopTable(logs) {
       logsTableBody.innerHTML = '';
-      if (!logs.length) {
-        logsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding:20px;">No SMS logs found.</td></tr>`;
+      if (logs.length === 0) {
+        logsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding:20px;">No logs found.</td></tr>`;
         return;
       }
-
+      
+      const fragment = document.createDocumentFragment();
       logs.forEach((log, idx) => {
         const isBlocked = blockedIps.has(log.ip);
         const truncated = log.message.length > 30 ? log.message.substring(0,30) + '...' : log.message;
-
+        
         const tr = document.createElement('tr');
         if (isBlocked) {
-          tr.style.backgroundColor = 'var(--blocked-row-bg)';
+          tr.classList.add('blocked-ip');
         }
+        
         tr.innerHTML = `
           <td>${log.ip}</td>
           <td>${log.mobile}</td>
-          <td><button class="view-message-btn" data-index="${idx}" style="background:none; border:none; color: var(--primary-color); cursor:pointer; text-align:left;">${truncated}</button></td>
+          <td><button class="view-message-btn" data-index="${idx}">${truncated}</button></td>
           <td>${new Date(log.timestamp).toLocaleString()}</td>
           <td>${log.type}</td>
           <td>
-            ${
-              isBlocked
-                ? `<button class="btn-unblock" data-ip="${log.ip}" style="background:#28a745; color:#fff; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;">Unblock IP</button>`
-                : `<button class="btn-block" data-ip="${log.ip}" style="background:#dc3545; color:#fff; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;">Block IP</button>`
+            ${isBlocked
+                ? `<button class="btn btn-success btn-unblock" data-ip="${log.ip}">Unblock</button>`
+                : `<button class="btn btn-danger btn-block" data-ip="${log.ip}">Block</button>`
             }
           </td>
         `;
-        logsTableBody.appendChild(tr);
+        fragment.appendChild(tr);
       });
+      logsTableBody.appendChild(fragment);
+    }
+    
+    function renderMobileList(logs) {
+      logsListBody.innerHTML = '';
+      if (logs.length === 0) {
+        logsListBody.innerHTML = `<div class="log-card"><div class="log-card-item"><span style="color: var(--text-muted);">No logs found.</span></div></div>`;
+        return;
+      }
 
-      // Add event listeners for view message buttons
-      document.querySelectorAll('.view-message-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-          const idx = parseInt(e.target.getAttribute('data-index'));
-          if (!isNaN(idx) && allLogs[idx]) {
-            openMessageModal(allLogs[idx].message);
-          }
-        });
-      });
+      const fragment = document.createDocumentFragment();
+      logs.forEach((log, idx) => {
+        const isBlocked = blockedIps.has(log.ip);
+        const truncated = log.message.length > 30 ? log.message.substring(0, 30) + '...' : log.message;
+        
+        const div = document.createElement('div');
+        div.className = 'log-card';
+        if (isBlocked) {
+          div.style.backgroundColor = 'var(--blocked-row-bg)';
+        }
 
-      // Add event listeners for block/unblock buttons
-      document.querySelectorAll('.btn-block').forEach(btn => {
-        btn.addEventListener('click', async e => {
-          const ip = e.target.getAttribute('data-ip');
-          if (ip && confirm(`Block IP ${ip}?`)) {
-            await blockIp(ip);
-            await refreshData();
-          }
-        });
+        div.innerHTML = `
+          <div class="log-card-item"><strong>IP Address:</strong> <span>${log.ip}</span></div>
+          <div class="log-card-item"><strong>Number:</strong> <span>${log.mobile}</span></div>
+          <div class="log-card-item"><strong>Message:</strong> <button class="view-message-btn" data-index="${idx}">${truncated}</button></div>
+          <div class="log-card-item"><strong>Timestamp:</strong> <span>${new Date(log.timestamp).toLocaleString()}</span></div>
+          <div class="log-card-item"><strong>Type:</strong> <span>${log.type}</span></div>
+          <div class="log-card-item">
+            <div class="btn-group">
+              ${isBlocked
+                ? `<button class="btn btn-success btn-unblock" data-ip="${log.ip}">Unblock</button>`
+                : `<button class="btn btn-danger btn-block" data-ip="${log.ip}">Block</button>`
+              }
+            </div>
+          </div>
+        `;
+        fragment.appendChild(div);
       });
-
-      document.querySelectorAll('.btn-unblock').forEach(btn => {
-        btn.addEventListener('click', async e => {
-          const ip = e.target.getAttribute('data-ip');
-          if (ip && confirm(`Unblock IP ${ip}?`)) {
-            await unblockIp(ip);
-            await refreshData();
-          }
-        });
-      });
+      logsListBody.appendChild(fragment);
+    }
+    
+    function renderLogs(logs) {
+      currentFilteredLogs = logs;
+      isMobile ? renderMobileList(logs) : renderDesktopTable(logs);
+      setupLogEventListeners();
     }
 
-    // Fetch logs from backend
+    function setupLogEventListeners() {
+      document.querySelectorAll('.view-message-btn, .btn-block, .btn-unblock').forEach(btn => {
+        btn.removeEventListener('click', handleLogAction);
+      });
+      
+      document.querySelectorAll('.view-message-btn, .btn-block, .btn-unblock').forEach(btn => {
+        btn.addEventListener('click', handleLogAction);
+      });
+    }
+    
+    async function handleLogAction(e) {
+      const btn = e.target;
+      const index = parseInt(btn.getAttribute('data-index'));
+      const ip = btn.getAttribute('data-ip');
+      
+      if (btn.classList.contains('view-message-btn')) {
+        if (!isNaN(index) && allLogs[index]) {
+          openMessageModal(allLogs[index].message);
+        }
+      } else if (btn.classList.contains('btn-block')) {
+        if (ip && confirm(`Block IP ${ip}?`)) {
+          await blockIp(ip);
+          await refreshData();
+        }
+      } else if (btn.classList.contains('btn-unblock')) {
+        if (ip && confirm(`Unblock IP ${ip}?`)) {
+          await unblockIp(ip);
+          await refreshData();
+        }
+      }
+    }
+
     async function fetchLogs() {
       try {
         const res = await fetch('/api/admin/logs');
         if (!res.ok) throw new Error(`HTTP status ${res.status}`);
         const data = await res.json();
-        if (data.success && Array.isArray(data.logs)) {
-          allLogs = data.logs;
-          applyFilter();
-        } else {
-          allLogs = [];
-          renderLogs([]);
-        }
+        allLogs = data.success && Array.isArray(data.logs) ? data.logs : [];
+        applyFilter();
       } catch (error) {
         console.error('Logs fetch failed:', error);
         logsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--danger); padding:20px;">Failed to load logs.</td></tr>`;
       }
     }
 
-    // Block IP request
     async function blockIp(ip) {
       try {
-        const res = await fetch('/api/admin/block-ip', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ip }),
-        });
-        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
+        const res = await fetch('/api/admin/block-ip', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip }) });
         const data = await res.json();
         if (!data.success) throw new Error(data.message || 'Failed to block IP');
       } catch (error) {
         alert('Error blocking IP: ' + error.message);
       }
     }
-
-    // Unblock IP request
     async function unblockIp(ip) {
       try {
-        const res = await fetch('/api/admin/unblock-ip', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ip }),
-        });
-        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
+        const res = await fetch('/api/admin/unblock-ip', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip }) });
         const data = await res.json();
         if (!data.success) throw new Error(data.message || 'Failed to unblock IP');
       } catch (error) {
@@ -429,37 +638,29 @@
       }
     }
 
-    // Apply filter to logs
-    function applyFilter() {
+    const applyFilter = () => {
       const filterText = filterInput.value.trim().toLowerCase();
-      if (!filterText) {
-        renderLogs(allLogs);
-        return;
-      }
-      const filtered = allLogs.filter(log => {
-        return (
-          log.ip.toLowerCase().includes(filterText) ||
-          log.mobile.toLowerCase().includes(filterText) ||
-          log.message.toLowerCase().includes(filterText)
-        );
-      });
+      const filtered = filterText 
+        ? allLogs.filter(log =>
+            log.ip.toLowerCase().includes(filterText) ||
+            log.mobile.toLowerCase().includes(filterText) ||
+            log.message.toLowerCase().includes(filterText)
+          )
+        : allLogs;
       renderLogs(filtered);
-    }
+    };
 
     filterButton.addEventListener('click', applyFilter);
     clearFilterButton.addEventListener('click', () => {
       filterInput.value = '';
       applyFilter();
     });
-
-    // Refresh all data: logs + blocked IPs + status
+    filterInput.addEventListener('input', debounce(applyFilter, 300));
+    
     async function refreshData() {
-      await fetchBlockedIps();
-      await fetchLogs();
-      await updateStatus();
+      await Promise.all([fetchBlockedIps(), fetchLogs(), updateStatus()]);
     }
 
-    // Handle admin login
     async function handleLogin() {
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
@@ -481,10 +682,10 @@
           adminSection.classList.remove('hidden');
           await refreshData();
         } else {
-          loginMessage.textContent = data.message || 'Invalid credentials. Please try again.';
+          loginMessage.textContent = data.message || 'Invalid credentials.';
         }
       } catch (error) {
-        loginMessage.textContent = 'An error occurred. Please check your connection.';
+        loginMessage.textContent = 'An error occurred.';
         console.error('Login error:', error);
       } finally {
         loginButton.disabled = false;
@@ -492,10 +693,10 @@
       }
     }
 
-    // Toggle SMS service status
     toggleButton.addEventListener('click', async () => {
       if (!isLoggedIn) return;
       toggleButton.disabled = true;
+      const originalText = toggleButton.textContent;
       toggleButton.textContent = 'Toggling...';
       try {
         const res = await fetch('/api/admin/toggle-sms', { method: 'POST' });
@@ -505,12 +706,12 @@
         await updateStatus();
       } catch (error) {
         alert('Failed to toggle SMS service: ' + error.message);
+        toggleButton.textContent = originalText;
       } finally {
         toggleButton.disabled = false;
       }
     });
 
-    // On page load, check session and refresh
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const res = await fetch('/api/admin/session-check');
@@ -528,5 +729,5 @@
       }
     });
   </script>
-  </body>
+</body>
 </html>
