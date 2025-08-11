@@ -12,9 +12,10 @@ A versatile Node.js web application designed to offer a suite of web tools for m
 
 ### Table of Contents
 
+-   [Getting Started](#-getting-started)
 -   [Features](#-features)
 -   [Prerequisites](#-prerequisites)
--   [Installation & Setup](#-installation--setup)
+-   [Installation](#-installation)
 -   [Configuration](#-configuration)
 -   [API Endpoints](#-api-endpoints)
 -   [Usage](#-usage)
@@ -24,7 +25,17 @@ A versatile Node.js web application designed to offer a suite of web tools for m
 
 ---
 
-### 🚀 Features
+### 🚀 Getting Started
+
+Follow these steps to quickly get the application up and running.
+
+1.  **Install Dependencies:** Run `npm install` in your project folder.
+2.  **Configure Admin Credentials:** Set your `ADMIN_USERNAME` and `ADMIN_PASSWORD` in `server.js` or using environment variables.
+3.  **Start the Server:** Execute `node server.js` to launch the application.
+
+---
+
+### ✨ Features
 
 -   **Admin Dashboard:** A password-protected web interface to manage service settings.
 -   **IP Access Control:** Dynamically block and unblock specific IP addresses to control who can access the service.
@@ -41,10 +52,10 @@ A versatile Node.js web application designed to offer a suite of web tools for m
 
 ---
 
-### 🔧 Installation & Setup
+### 🔧 Installation
 
-1.  **Set up the project structure:**
-    Create a project folder, then place your `server.js` file inside. Create a `public` subfolder and place `admin.html` and `Operator.html` within it.
+1.  **Project Structure:**
+    Ensure your project folder contains a `server.js` file and a `public` directory with `admin.html` and `Operator.html` inside it.
 
     ```
     /your-project-folder/
@@ -65,11 +76,33 @@ A versatile Node.js web application designed to offer a suite of web tools for m
 ### ⚙️ Configuration
 
 -   **Admin Credentials:**
-    Modify the `ADMIN_USERNAME` and `ADMIN_PASSWORD` constants in `server.js` to secure your admin dashboard.
+    The application's admin credentials are set in the `server.js` file. For a production environment, it is highly recommended to use environment variables for sensitive information.
+
+    **Method 1: Direct File Modification**
+    Open `server.js` and modify the values for `ADMIN_USERNAME` and `ADMIN_PASSWORD`.
+
     ```javascript
-    const ADMIN_USERNAME = 'PAKCYBER';
-    const ADMIN_PASSWORD = '24113576';
+    // Change these values to your desired username and password
+    const ADMIN_USERNAME = 'your-secure-username';
+    const ADMIN_PASSWORD = 'your-secure-password';
     ```
+
+    **Method 2: Using Environment Variables (Recommended)**
+    To avoid hardcoding credentials, you can use environment variables. Create a `.env` file in your project's root directory and add your credentials there. Then, modify `server.js` to read from these variables.
+
+    `.env` file:
+    ```
+    ADMIN_USERNAME='your-secure-username'
+    ADMIN_PASSWORD='your-secure-password'
+    ```
+
+    `server.js` file:
+    ```javascript
+    // Use an environment variable, falling back to a default if not set
+    const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'default_user';
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'default_password';
+    ```
+    *(Note: This method requires installing the `dotenv` package with `npm install dotenv` and adding `require('dotenv').config()` at the top of your `server.js` file.)*
 
 ---
 
@@ -90,7 +123,6 @@ A versatile Node.js web application designed to offer a suite of web tools for m
 | `GET`  | `/api/admin/blocked-ips` | **(Protected)** Retrieves a list of all blocked IPs.                     |
 | `POST` | `/api/admin/block-ip` | **(Protected)** Adds an IP address to the blocked list.                      |
 | `POST` | `/api/admin/unblock-ip` | **(Protected)** Removes an IP address from the blocked list.                 |
-
 
 ---
 
