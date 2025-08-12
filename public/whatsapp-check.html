@@ -17,14 +17,11 @@
   pre{margin-top:12px;background:#03101a;color:#cfe8ff;padding:10px;border-radius:8px;overflow:auto;max-height:220px}
   .muted{color:#9fb0c8;font-size:13px}
 
-  /* Floating buttons container */
+  /* Floating button container */
   .floating-buttons {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
     z-index: 9999;
   }
 
@@ -70,13 +67,10 @@
     <p class="muted" style="margin-top:10px">Replace <code>API_KEY</code> below with your RapidAPI key.</p>
   </div>
 
-  <!-- Floating Buttons -->
+  <!-- Floating Join Channel Button -->
   <div class="floating-buttons">
     <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" rel="noopener noreferrer" title="Join WhatsApp Channel">
       Join Channel
-    </a>
-    <a href="https://wa.me/cyberexperpk" target="_blank" rel="noopener noreferrer" title="Contact Admin on WhatsApp">
-      Contact Admin
     </a>
   </div>
 
@@ -189,8 +183,6 @@ function parsePicture(resp){
   }
   return null;
 }
-
-const SMS_LIMIT_PER_IP_PER_DAY = 3;
 
 el.go.addEventListener('click', async ()=>{
   const raw = cleanNum(el.phone.value);
