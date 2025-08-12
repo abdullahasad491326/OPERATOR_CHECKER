@@ -16,6 +16,36 @@
   img.dp{max-width:220px;border-radius:8px;border:3px solid rgba(255,255,255,0.03);display:block}
   pre{margin-top:12px;background:#03101a;color:#cfe8ff;padding:10px;border-radius:8px;overflow:auto;max-height:220px}
   .muted{color:#9fb0c8;font-size:13px}
+
+  /* Floating buttons container */
+  .floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+  }
+
+  .floating-buttons a {
+    display: inline-block;
+    padding: 12px 16px;
+    background-color: #25D366;
+    color: #04210d;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+
+  .floating-buttons a:hover {
+    background-color: #128c42;
+  }
 </style>
 </head>
 <body>
@@ -37,11 +67,22 @@
 
     <pre id="raw" style="display:none"></pre>
 
-    <p class="muted" style="margin-top:10px">This page uses your own server proxy for WhatsApp data.</p>
+    <p class="muted" style="margin-top:10px">Replace <code>API_KEY</code> below with your RapidAPI key.</p>
+  </div>
+
+  <!-- Floating Buttons -->
+  <div class="floating-buttons">
+    <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" rel="noopener noreferrer" title="Join WhatsApp Channel">
+      Join Channel
+    </a>
+    <a href="https://wa.me/cyberexperpk" target="_blank" rel="noopener noreferrer" title="Contact Admin on WhatsApp">
+      Contact Admin
+    </a>
   </div>
 
 <script>
-const API_KEY = "15fcbc8c6dmshaab7e0f690476fcp133d61jsn4a33a16a8bf8"; // Your server proxy key
+const API_KEY = "15fcbc8c6dmshaab7e0f690476fcp133d61jsn4a33a16a8bf8"; // <-- put your key
+const HOST = "whatsapp-data.p.rapidapi.com";
 
 const el = {
   phone: document.getElementById('phone'),
@@ -67,7 +108,11 @@ function toIntlPak(n){
 async function fetchText(url){
   const res = await fetch(url, {
     method: 'GET',
-    headers: { 'Accept': 'application/json,text/plain,*/*' }
+    headers: {
+      'x-rapidapi-host': HOST,
+      'x-rapidapi-key': API_KEY,
+      'Accept': 'application/json,text/plain,*/*'
+    }
   });
   const txt = await res.text();
   let json = null;
@@ -77,6 +122,7 @@ async function fetchText(url){
 
 function parseRegistered(resp){
   if(!resp) return false;
+
   if(resp.json !== null){
     const j = resp.json;
     if(typeof j === 'boolean') return j;
@@ -84,8 +130,18 @@ function parseRegistered(resp){
       return !!(j.registered || j.isWhatsappNumber || j.exists || j.result || j.success);
     }
   }
-  const t = (resp.text||'').trim().toLowerCase();
-  if(t === 'true' || t === '"true"' || t === '1') return true;
+  
+  let t = (resp.text||'').trim().toLowerCase();
+
+  if(t.startsWith('"') && t.endsWith('"')){
+    try {
+      const parsed = JSON.parse(t);
+      if(parsed === true) return true;
+    } catch(e){}
+  }
+
+  if(t === 'true' || t === '1') return true;
+
   return false;
 }
 
@@ -134,6 +190,8 @@ function parsePicture(resp){
   return null;
 }
 
+const SMS_LIMIT_PER_IP_PER_DAY = 3;
+
 el.go.addEventListener('click', async ()=>{
   const raw = cleanNum(el.phone.value);
   const intl = toIntlPak(raw);
@@ -151,24 +209,26 @@ el.go.addEventListener('click', async ()=>{
   }
   el.outNumber.textContent = raw;
 
-  const types = ['wchk', 'about', 'wspicture'];
-  try {
-    const results = await Promise.all(types.map(type => 
-      fetchText(`/api/whatsapp?phone=${encodeURIComponent(intl)}&type=${type}&key=${API_KEY}`)
-    ));
-    
-    el.raw.style.display = 'block';
-    el.raw.textContent = 
-      `=== wchk (/api/whatsapp?type=wchk) ===\n${results[0].text}\n\n` +
-      `=== about (/api/whatsapp?type=about) ===\n${results[1].text}\n\n` +
-      `=== wspicture (/api/whatsapp?type=wspicture) ===\n${results[2].text}\n`;
+  const regUrl = `https://${HOST}/wchk?phone=${encodeURIComponent(intl)}`;
+  const aboutUrl = `https://${HOST}/about?phone=${encodeURIComponent(intl)}`;
+  const picUrl = `https://${HOST}/wspicture?phone=${encodeURIComponent(intl)}`;
 
-    const isReg = parseRegistered(results[0]);
+  try{
+    const [reg, about, pic] = await Promise.all([
+      fetchText(regUrl),
+      fetchText(aboutUrl),
+      fetchText(picUrl)
+    ]);
+
+    el.raw.style.display = 'block';
+    el.raw.textContent = `=== wchk (${regUrl}) ===\n${reg.text}\n\n=== about (${aboutUrl}) ===\n${about.text}\n\n=== wspicture (${picUrl}) ===\n${pic.text}\n`;
+
+    const isReg = parseRegistered(reg);
     el.outRegistered.textContent = isReg ? 'Yes' : 'No';
 
-    el.outAbout.textContent = parseAbout(results[1]);
+    el.outAbout.textContent = parseAbout(about);
 
-    const imageSrc = parsePicture(results[2]);
+    const imageSrc = parsePicture(pic);
     if(imageSrc){
       const img = document.createElement('img');
       img.className = 'dp';
@@ -180,7 +240,7 @@ el.go.addEventListener('click', async ()=>{
     }
 
     el.info.style.display = 'block';
-  } catch(e){
+  }catch(e){
     alert('Request failed: ' + e.message);
     console.error(e);
   }
