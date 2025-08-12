@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WhatsApp Quick Check (Pakistan)</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#071223;color:#e8f0ff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}
+  .box{width:100%;max-width:720px;background:linear-gradient(180deg,#081423,#061420);padding:18px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+  h2{margin:0 0 10px}
+  .row{display:flex;gap:8px}
+  input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:#071526;color:#eaf6ff}
+  button{padding:10px 12px;border-radius:8px;border:none;background:#25D366;color:#04210d;font-weight:700;cursor:pointer}
+  .info{margin-top:14px;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px}
+  .info div{margin:6px 0}
+  img.dp{max-width:220px;border-radius:8px;border:3px solid rgba(255,255,255,0.03);display:block}
+  pre{margin-top:12px;background:#03101a;color:#cfe8ff;padding:10px;border-radius:8px;overflow:auto;max-height:220px}
+  .muted{color:#9fb0c8;font-size:13px}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h2>🇵🇰 WhatsApp Quick Check</h2>
+    <p class="muted">Enter Pakistani number (e.g. <code>03348544535</code>) — shows registered, about, and profile picture.</p>
+
+    <div class="row" style="margin-top:8px">
+      <input id="phone" type="text" placeholder="03001234567" maxlength="11" inputmode="numeric" />
+      <button id="go">Check</button>
+    </div>
+
+    <div id="info" class="info" style="display:none">
+      <div><strong>Number:</strong> <span id="out-number"></span></div>
+      <div><strong>Registered:</strong> <span id="out-registered"></span></div>
+      <div><strong>About / Status:</strong> <span id="out-about"></span></div>
+      <div><strong>Profile Picture:</strong><div id="picwrap" style="margin-top:8px"></div></div>
+    </div>
+
+    <pre id="raw" style="display:none"></pre>
+
+    <p class="muted" style="margin-top:10px">This page uses your own server proxy for WhatsApp data.</p>
+  </div>
+
+<script>
+const API_KEY = "15fcbc8c6dmshaab7e0f690476fcp133d61jsn4a33a16a8bf8"; // Your server proxy key
+
+const el = {
+  phone: document.getElementById('phone'),
+  go: document.getElementById('go'),
+  info: document.getElementById('info'),
+  outNumber: document.getElementById('out-number'),
+  outRegistered: document.getElementById('out-registered'),
+  outAbout: document.getElementById('out-about'),
+  picwrap: document.getElementById('picwrap'),
+  raw: document.getElementById('raw')
+};
+
+function cleanNum(s){
+  return (s||'').replace(/[^\d]/g,'').trim();
+}
+function toIntlPak(n){
+  if(/^03\d{9}$/.test(n)) return '92' + n.slice(1);
+  if(/^3\d{9}$/.test(n)) return '92' + n;
+  if(/^92\d{10}$/.test(n)) return n;
+  return null;
+}
+
+async function fetchText(url){
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: { 'Accept': 'application/json,text/plain,*/*' }
+  });
+  const txt = await res.text();
+  let json = null;
+  try{ json = JSON.parse(txt); }catch(e){ json = null; }
+  return { status: res.status, text: txt, json };
+}
+
+function parseRegistered(resp){
+  if(!resp) return false;
+  if(resp.json !== null){
+    const j = resp.json;
+    if(typeof j === 'boolean') return j;
+    if(typeof j === 'object'){
+      return !!(j.registered || j.isWhatsappNumber || j.exists || j.result || j.success);
+    }
+  }
+  const t = (resp.text||'').trim().toLowerCase();
+  if(t === 'true' || t === '"true"' || t === '1') return true;
+  return false;
+}
+
+function parseAbout(resp){
+  if(!resp) return 'Not available';
+  if(resp.json !== null){
+    if(typeof resp.json === 'string') return resp.json;
+    if(typeof resp.json === 'object'){
+      return resp.json.about || resp.json.status || resp.json.message || resp.json.bio || JSON.stringify(resp.json);
+    }
+  }
+  let t = (resp.text||'').trim();
+  if(t.startsWith('"') && t.endsWith('"')) {
+    try { return JSON.parse(t); } catch(e) { return t.slice(1,-1); }
+  }
+  return t || 'Not available';
+}
+
+function parsePicture(resp){
+  if(!resp) return null;
+  if(resp.json !== null){
+    const j = resp.json;
+    if(typeof j === 'string' && j.startsWith('http')) return j;
+    if(typeof j === 'object'){
+      if(j.profilePic && typeof j.profilePic === 'string') return j.profilePic;
+      if(j.profile_pic && typeof j.profile_pic === 'string') return j.profile_pic;
+      if(j.url && typeof j.url === 'string') return j.url;
+      if(j.profilePicUrl && typeof j.profilePicUrl === 'string') return j.profilePicUrl;
+      if(j.profilePicture && typeof j.profilePicture === 'string') return j.profilePicture;
+      if(j.data && j.data.url) return j.data.url;
+      const maybeBase = j.image || j.base64 || (j.data && j.data.image);
+      if(typeof maybeBase === 'string' && maybeBase.length>100 && /^[A-Za-z0-9+/=\s]+$/.test(maybeBase.replace(/\s+/g,''))){
+        return 'data:image/jpeg;base64,' + maybeBase.replace(/\s+/g,'');
+      }
+    }
+  }
+  let t = (resp.text||'').trim();
+  if(!t) return null;
+  if(t.startsWith('"') && t.endsWith('"')){
+    try{ t = JSON.parse(t); }catch(e){ t = t.slice(1,-1); }
+  }
+  if(t.startsWith('http')) return t;
+  if(t.length > 100 && /^[A-Za-z0-9+/=\s]+$/.test(t.replace(/\s+/g,''))){
+    return 'data:image/jpeg;base64,' + t.replace(/\s+/g,'');
+  }
+  return null;
+}
+
+el.go.addEventListener('click', async ()=>{
+  const raw = cleanNum(el.phone.value);
+  const intl = toIntlPak(raw);
+  el.info.style.display = 'none';
+  el.raw.style.display = 'none';
+  el.raw.textContent = '';
+  el.picwrap.innerHTML = '';
+  el.outNumber.textContent = '';
+  el.outRegistered.textContent = '';
+  el.outAbout.textContent = '';
+
+  if(!intl){
+    alert('Enter a valid Pakistani number like 03001234567');
+    return;
+  }
+  el.outNumber.textContent = raw;
+
+  const types = ['wchk', 'about', 'wspicture'];
+  try {
+    const results = await Promise.all(types.map(type => 
+      fetchText(`/api/whatsapp?phone=${encodeURIComponent(intl)}&type=${type}&key=${API_KEY}`)
+    ));
+    
+    el.raw.style.display = 'block';
+    el.raw.textContent = 
+      `=== wchk (/api/whatsapp?type=wchk) ===\n${results[0].text}\n\n` +
+      `=== about (/api/whatsapp?type=about) ===\n${results[1].text}\n\n` +
+      `=== wspicture (/api/whatsapp?type=wspicture) ===\n${results[2].text}\n`;
+
+    const isReg = parseRegistered(results[0]);
+    el.outRegistered.textContent = isReg ? 'Yes' : 'No';
+
+    el.outAbout.textContent = parseAbout(results[1]);
+
+    const imageSrc = parsePicture(results[2]);
+    if(imageSrc){
+      const img = document.createElement('img');
+      img.className = 'dp';
+      img.src = imageSrc;
+      img.alt = 'Profile picture';
+      el.picwrap.appendChild(img);
+    } else {
+      el.picwrap.textContent = 'No profile picture available.';
+    }
+
+    el.info.style.display = 'block';
+  } catch(e){
+    alert('Request failed: ' + e.message);
+    console.error(e);
+  }
+});
+</script>
+</body>
+</html>
