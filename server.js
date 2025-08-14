@@ -8,23 +8,19 @@ const PORT = process.env.PORT || 10000;
 
 // --- Admin Configuration ---
 const ADMIN_USERNAME = 'PAKCYBER';
-const ADMIN_PASSWORD = '24113576';
+const ADMIN_PASSWORD = '82214760';
 
 // --- Limits and storage ---
 const SMS_LIMIT_PER_IP_PER_DAY = 3;
-const WHATSAPP_LIMIT_PER_IP_PER_MONTH = 2;
 const smsLogs = []; 
 const ipSmsCount = {}; 
-const ipWhatsAppCount = {};
 const blockedIPs = new Set(); 
-
-// API Key for WhatsApp check
-const WHATSAPP_API_KEY = "15fcbc8c6dmshaab7e0f690476fcp133d61jsn4a33a16a8bf8";
 
 // Middleware
 app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- Helper: reset IP count daily ---
@@ -45,23 +41,6 @@ function resetIpCountsIfNeeded(ip) {
     }
 }
 
-// --- Helper: reset WhatsApp check count monthly ---
-function resetWhatsAppCountsIfNeeded(ip) {
-    const now = new Date();
-    if (!ipWhatsAppCount[ip]) {
-        ipWhatsAppCount[ip] = { count: 0, lastReset: now };
-    } else {
-        const lastReset = ipWhatsAppCount[ip].lastReset;
-        if (
-            now.getFullYear() !== lastReset.getFullYear() ||
-            now.getMonth() !== lastReset.getMonth()
-        ) {
-            ipWhatsAppCount[ip].count = 0;
-            ipWhatsAppCount[ip].lastReset = now;
-        }
-    }
-}
-
 // --- IP Block Middleware ---
 app.use((req, res, next) => {
     if (blockedIPs.has(req.ip)) {
@@ -73,49 +52,6 @@ app.use((req, res, next) => {
 // --- Routes ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Operator.html'));
-});
-
-// Serve WhatsApp Quick Check HTML
-app.get('/whatsapp-check', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'whatsapp-check.html'));
-});
-
-// API to proxy WhatsApp RapidAPI calls with IP limit + API key check
-app.get('/api/whatsapp', async (req, res) => {
-    const ip = req.ip;
-    const { phone, type, key } = req.query;
-
-    if (key !== WHATSAPP_API_KEY) {
-        return res.status(401).json({ error: "Invalid API key" });
-    }
-
-    if (!phone || !type) {
-        return res.status(400).json({ error: "Missing phone or type" });
-    }
-
-    resetWhatsAppCountsIfNeeded(ip);
-    if (ipWhatsAppCount[ip].count >= WHATSAPP_LIMIT_PER_IP_PER_MONTH) {
-        return res.status(429).json({ error: `Limit reached: ${WHATSAPP_LIMIT_PER_IP_PER_MONTH} checks per month.` });
-    }
-
-    try {
-        const url = `https://whatsapp-data.p.rapidapi.com/${type}?phone=${encodeURIComponent(phone)}`;
-        const apiRes = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-host': 'whatsapp-data.p.rapidapi.com',
-                'x-rapidapi-key': WHATSAPP_API_KEY
-            }
-        });
-
-        const text = await apiRes.text();
-        ipWhatsAppCount[ip].count++;
-
-        res.setHeader('Content-Type', apiRes.headers.get('content-type') || 'application/json');
-        res.send(text);
-    } catch (err) {
-        res.status(500).json({ error: "WhatsApp API request failed" });
-    }
 });
 
 // --- Admin Login ---
@@ -199,12 +135,15 @@ app.post('/send-sms', (req, res) => {
         return res.status(429).json({ error: `SMS limit reached: max ${SMS_LIMIT_PER_IP_PER_DAY} messages per day per IP.` });
     }
 
+    // Since the API call is removed, we just log the message and send a success response.
     const formattedMobile = mobile.startsWith("0") ? "92" + mobile.slice(1) : mobile;
     
     smsLogs.push({ ip, mobile: formattedMobile, message, timestamp: new Date().toISOString(), type: 'send-sms' });
     ipSmsCount[ip].count++;
 
     console.log('Simulated SMS sent successfully:', { mobile: formattedMobile, message });
+    console.log('New log added. Current smsLogs:', smsLogs);
+
     res.json({ success: true, message: "SMS logged successfully." });
 });
 
@@ -251,6 +190,7 @@ app.get('/api/admin/stats', (req, res) => {
     
     res.json({ success: true, totalMessages, totalVisitors });
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
