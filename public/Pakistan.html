@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Independence Day - Pakistan Zindabad</title>
+    <title>Happy Independence Day - Pakistan</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* General Reset & Variables */
-        * {
+        /* Modern CSS Reset & Variables */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-        
+
         :root {
             /* Color Palette */
-            --color-dark-bg: #030303;
+            --color-dark-bg: #0A0A0A;
             --color-dark-surface: #1C1C1C;
             --color-accent-gold: #FFD700;
             --color-text-light: #F0F0F0;
             --color-text-secondary: #B0B0B0;
             --color-neon-green: #00FF7F;
             --color-neon-white: #FFFFFF;
+            --color-neon-bg: rgba(0, 255, 127, 0.1);
 
             /* Fonts */
             --font-family-heading: 'Oswald', sans-serif;
@@ -33,10 +37,11 @@
             /* Spacing & Sizing */
             --spacing-unit: 1rem;
             --border-radius-sm: 8px;
-            --border-radius-md: 16px;
+            --border-radius-md: 12px;
         }
         
-        /* Base & Layout Styles */
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: var(--font-family-body);
             min-height: 100vh;
@@ -46,12 +51,14 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
-            overflow-x: hidden;
+            padding: 0.5rem;
             position: relative;
+            overflow-x: hidden;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
-
-        /* Animated background particles */
+        
+        /* Dynamic Background Particles */
         .particles-js-canvas-el {
             position: fixed;
             top: 0;
@@ -63,10 +70,10 @@
 
         .container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 800px;
             display: grid;
-            gap: 1.5rem;
-            align-items: center;
+            gap: 1rem;
+            align-items: start;
             z-index: 10;
         }
         
@@ -76,193 +83,241 @@
             }
         }
         
-        /* Header Section */
+        /* Main Header & Title Card */
         .header {
             text-align: center;
-            margin-bottom: 1.5rem;
             width: 100%;
             animation: fadeIn 1.2s ease-out;
             grid-column: 1 / -1;
         }
-        
+
         .header__title {
             font-family: var(--font-family-heading);
-            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-size: clamp(1.8rem, 7vw, 3rem);
             color: var(--color-neon-green);
-            /* Corrected text-shadow for sharpness */
-            text-shadow: 0 0 1px #fff, 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green);
-            margin-bottom: 0.5rem;
-            letter-spacing: 3px;
-            white-space: nowrap;
-            animation: neon-glow 1.5s ease-in-out infinite alternate;
-        }
-
-        .neon-card {
-            background-color: var(--color-dark-surface);
-            border: 2px solid var(--color-neon-green);
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            box-shadow: 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green), inset 0 0 5px var(--color-neon-green);
-            margin: 0 auto;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .neon-card:hover {
-            box-shadow: 0 0 10px var(--color-neon-green), 0 0 20px var(--color-neon-green), inset 0 0 10px var(--color-neon-green);
-            transform: scale(1.05);
+            text-shadow: 0 0 4px #fff, 0 0 8px var(--color-neon-green), 0 0 12px var(--color-neon-green);
+            margin-bottom: 0.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: neon-glow 2s ease-in-out infinite alternate;
         }
         
-        .header__subtitle {
-            font-family: var(--font-family-body);
-            font-size: clamp(0.9rem, 4vw, 1.5rem);
-            color: var(--color-text-secondary);
-            font-weight: 300;
-            margin-top: 0.5rem;
-        }
-        
-        /* Glass Card Effect */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+        /* Card Styles */
+        .card {
+            background: var(--color-dark-surface);
             border-radius: var(--border-radius-md);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             animation: fadeInUp 1s ease-out;
-        }
-        
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-        }
-        
-        .glass-card__title {
-            font-family: var(--font-family-heading);
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            color: var(--color-accent-gold);
-            text-align: center;
-            margin-bottom: 1rem;
-            position: relative;
-            letter-spacing: 2px;
-        }
-        
-        .glass-card__title::after {
-            content: "";
-            display: block;
-            width: 50px;
-            height: 2px;
-            background: var(--color-accent-gold);
-            margin: 0.5rem auto 0;
+            margin: 0 auto;
+            max-width: 350px;
+            width: 100%;
         }
 
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .card.neon-border {
+            border: 2px solid var(--color-neon-green);
+            box-shadow: 0 0 4px var(--color-neon-green), 0 0 8px var(--color-neon-green), inset 0 0 4px var(--color-neon-green);
+        }
+        
+        .card__title {
+            font-family: var(--font-family-heading);
+            font-size: clamp(1rem, 3.5vw, 1.8rem);
+            color: var(--color-accent-gold);
+            text-align: center;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .card__title::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--color-accent-gold);
+            margin: 0.4rem auto 0;
+            border-radius: 5px;
+        }
+
+        .card__text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            margin-top: -0.3rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Hero Flag Section */
+        .hero-flag-container {
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            grid-column: 1 / -1;
+            margin-top: 0.5rem;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-flag-container__img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease-out;
+        }
+        
         /* Form & Buttons */
-        .form-group { margin-bottom: 1.2rem; }
+        .form-group { margin-bottom: 0.8rem; }
         .form-group__label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
             color: var(--color-text-light);
+            font-weight: 600;
         }
         
         .form-control {
             width: 100%;
             padding: 0.6rem 0.8rem;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.05);
             color: var(--color-text-light);
-            font-size: 1rem;
+            font-size: 0.8rem;
             transition: all 0.3s;
         }
         
         .form-control:focus, .form-control:focus-visible {
             outline: none;
             border-color: var(--color-accent-gold);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
         }
         
         .form-control::placeholder { color: var(--color-text-secondary); }
         
         .btn {
             width: 100%;
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1rem;
             background: linear-gradient(45deg, #FFD700, #FF8C00);
             color: var(--color-dark-bg);
             border: none;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 0.8rem;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-            font-size: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 3px 8px rgba(255, 140, 0, 0.3);
+            font-size: 0.9rem;
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.5);
         }
         
         .message-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--color-neon-bg);
             border-radius: var(--border-radius-sm);
-            padding: 0.8rem;
-            margin-top: 1rem;
+            padding: 0.7rem;
+            margin-top: 0.8rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-height: 60px;
+            border: 1px solid var(--color-neon-green);
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            animation: fadeIn 1s ease-out;
         }
         
         .message-box__text {
-            font-size: 1rem;
+            font-size: 0.8rem;
             color: var(--color-accent-gold);
+            font-weight: 400;
         }
         
-        /* Share & Social Links */
+        .link-container {
+            display: none;
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+        
+        .link-container__label {
+            color: var(--color-text-secondary);
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+        
+        #linkBox {
+            cursor: pointer;
+            padding: 0.6rem 0.7rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            word-wrap: break-word;
+            font-size: 0.75rem;
+        }
+
+        #generatedLink {
+            color: var(--color-accent-gold);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        #generatedLink:hover {
+            color: var(--color-neon-green);
+        }
+
         .social-sharing {
             display: flex;
             justify-content: center;
-            gap: 0.8rem;
-            margin-top: 1rem;
+            gap: 0.7rem;
+            margin-top: 0.8rem;
         }
         
         .social-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
             cursor: pointer;
         }
         
         .social-btn:hover {
-            transform: scale(1.1);
+            animation: pulse-jump 0.5s ease-in-out;
+        }
+
+        @keyframes pulse-jump {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .whatsapp { background: #25D366; }
         .facebook { background: #3b5998; }
         .twitter { background: #1DA1F2; }
         
-        /* Flag and Image Section */
-        .flag {
-            width: 100%;
-            max-width: 300px;
-            margin: 1.5rem auto;
-            animation: scaleIn 1.2s ease-out;
-        }
-        
+        /* Image Section */
         .image-box {
             text-align: center;
             padding: 0.8rem;
@@ -270,85 +325,179 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius-md);
             animation: fadeInUp 1s ease-out;
+            max-width: 350px;
+            margin: 0 auto;
         }
         
         .image-box__img {
             max-width: 100%;
             height: auto;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             border: 2px solid var(--color-accent-gold);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin: 0 auto;
         }
         
         .text-body {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--color-text-secondary);
-            line-height: 1.6;
-            margin-top: 0.8rem;
+            line-height: 1.5;
+            margin-top: 0.6rem;
         }
         
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            font-size: 0.75rem;
-            color: var(--color-text-secondary);
-            grid-column: 1 / -1;
+        .text-body.highlight {
+            font-weight: 600;
+            color: var(--color-accent-gold);
+            margin-top: 0.8rem;
+        }
+
+        .fact-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.8rem;
+        }
+
+        .fact-list li {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+
+        .fact-list li i {
+            color: var(--color-accent-gold);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+
+        .fact-list li span {
+            flex: 1;
+        }
+
+        .fact-list li strong {
+            color: var(--color-neon-green);
+            font-weight: 600;
+        }
+        
+        /* Floating Buttons */
+        .floating-btn {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s, box-shadow 0.3s;
+            z-index: 99;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .scroll-top-btn {
+            background: var(--color-neon-green);
+            color: var(--color-dark-bg);
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            opacity: 0;
+            visibility: hidden;
+            border-radius: 50%;
+        }
+
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .whatsapp-fab {
+            background: #25D366;
+            color: #fff;
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            bottom: 1rem;
+            right: 5rem; /* Adjusted to prevent overlap */
+        }
+        @media (max-width: 767px) {
+            .whatsapp-fab {
+                right: 4.5rem;
+            }
+        }
+        .whatsapp-fab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
         }
         
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes scaleIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes neon-glow {
+            from { text-shadow: 0 0 3px #fff, 0 0 6px var(--color-neon-green), 0 0 10px var(--color-neon-green); }
+            to { text-shadow: 0 0 6px #fff, 0 0 9px var(--color-neon-white), 0 0 15px var(--color-neon-green), 0 0 18px var(--color-neon-green); }
         }
+        
+        /* Confetti & Firework Animations */
         .firework {
             position: fixed;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             pointer-events: none;
             opacity: 0;
+            z-index: 100;
             animation: firework-burst 1s ease-out forwards;
         }
         @keyframes firework-burst {
             0% { transform: scale(0); opacity: 1; }
             100% { transform: scale(2); opacity: 0; }
         }
-        @keyframes neon-glow {
-            from { text-shadow: 0 0 1px #fff, 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green); }
-            to { text-shadow: 0 0 5px #fff, 0 0 10px var(--color-neon-white), 0 0 15px var(--color-neon-green), 0 0 20px var(--color-neon-green); }
+
+        .confetti {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background-color: transparent;
+            border-radius: 50%;
+            transform-origin: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
     <canvas id="particles-js" class="particles-js-canvas-el"></canvas>
     
-    <div class="container">
-        <div class="header">
-            <div class="neon-card">
-                <h1 class="header__title">HAPPY INDEPENDENCE DAY</h1>
+    <main class="container">
+        <header class="header">
+            <div class="card neon-border" style="padding: 0.6rem; max-width: 350px; margin-bottom: 1rem;">
+                <h1 class="card__title" style="font-size: 1.5rem; margin-bottom: 0.1rem; text-shadow: 0 0 7px var(--color-neon-green);">HAPPY INDEPENDENCE DAY</h1>
+                <p class="card__text" style="color: var(--color-text-secondary); margin-top: 0; font-size: 0.7rem;">by PAK UPDATES ✅</p>
             </div>
-            <h2 class="header__subtitle">Pakistan Zindabad</h2>
             
-            <div class="image-box" style="margin-top: 2rem;">
-                <img src="https://raw.githubusercontent.com/abdullahasad491326/OPERATOR_CHECKER/main/public/pakistan-flag.jpg" alt="Pakistan's national flag" class="image-box__img">
+            <div class="hero-flag-container">
+                <img id="heroFlag" src="https://raw.githubusercontent.com/abdullahasad491326/OPERATOR_CHECKER/main/public/pakistan-flag.jpg" alt="Pakistan's national flag" class="hero-flag-container__img">
             </div>
-        </div>
+        </header>
         
-        <div class="glass-card">
-            <h3 class="glass-card__title">Generate a Custom Message</h3>
+        <section class="card">
+            <h2 class="card__title">Generate a Custom Message</h2>
             <div class="form-group">
                 <label for="friendName" class="form-group__label">Friend's Name</label>
-                <input type="text" id="friendName" class="form-control" placeholder="Enter name">
+                <input type="text" id="friendName" class="form-control" placeholder="e.g., Ali or Fatima">
             </div>
             <button id="generateBtn" class="btn">
                 <i class="fas fa-star"></i> Generate Message
@@ -358,39 +507,63 @@
                 <p id="message" class="message-box__text">Your personalized message will appear here.</p>
             </div>
             
-            <div id="linkContainer" style="display: none; margin-top: 1.5rem;">
-                <h4 style="color: var(--color-text-secondary); font-size: 0.9rem; text-align: center; margin-bottom: 0.5rem;">Share this link:</h4>
-                <div class="form-control" style="cursor: pointer;" id="linkBox">
-                    <a id="generatedLink" href="#" target="_blank" style="color: var(--color-accent-gold); text-decoration: none;">Click to copy link</a>
+            <div id="linkContainer" class="link-container">
+                <p class="link-container__label">Share this link:</p>
+                <div id="linkBox" role="button" aria-label="Copy generated link">
+                    <a id="generatedLink" href="#" target="_blank">Click to copy link</a>
                 </div>
             </div>
             
             <div class="social-sharing">
-                <div id="whatsappShareBtn" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></div>
-                <div id="facebookShareBtn" class="social-btn facebook"><i class="fab fa-facebook-f"></i></div>
-                <div id="twitterShareBtn" class="social-btn twitter"><i class="fab fa-twitter"></i></div>
+                <a href="#" id="whatsappShareBtn" class="social-btn whatsapp" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" id="facebookShareBtn" class="social-btn facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" id="twitterShareBtn" class="social-btn twitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
             </div>
-        </div>
+        </section>
         
-        <div class="glass-card">
-            <h3 class="glass-card__title">A Day of Pride</h3>
+        <section class="card">
+            <h2 class="card__title">A Day of Pride</h2>
             <div class="image-box">
                 <img src="https://raw.githubusercontent.com/abdullahasad491326/OPERATOR_CHECKER/main/public/pakistan-flag.jpg" alt="Pakistan's national flag" class="image-box__img">
             </div>
             <p class="text-body">
                 On this day, we honor the sacrifices of our heroes and celebrate the freedom and unity we cherish. The journey to independence was a testament to our strength and resilience.
             </p>
-            <p class="text-body" style="font-weight: 600; color: var(--color-accent-gold);">
+            <p class="text-body highlight">
                 Pakistan is not just a country, it's an emotion. We are all Pakistanis, this is our identity.
             </p>
-        </div>
-        
-        <div class="footer">
-            <p>Made with ❤️ for Pakistan | Happy Independence Day, August 14th</p>
-            <p>© 2025 Pak Updates</p>
-        </div>
-    </div>
+        </section>
+
+        <section class="card" style="grid-column: 1 / -1; max-width: none;">
+            <h2 class="card__title">Facts About Independence</h2>
+            <ul class="fact-list">
+                <li>
+                    <i class="fas fa-calendar-alt"></i> <span>The Date: Pakistan was declared a sovereign state on August 14, 1947, a day before India.</span>
+                </li>
+                <li>
+                    <i class="fas fa-landmark"></i> <span>The Capital: Karachi was the first capital of Pakistan. It was later moved to Islamabad in 1960.</span>
+                </li>
+                <li>
+                    <i class="fas fa-user-tie"></i> <span>The Founder: Quaid-e-Azam Muhammad Ali Jinnah was sworn in as the first Governor-General.</span>
+                </li>
+                <li>
+                    <i class="fas fa-moon"></i> <span>Ramadan 27: The night of August 14–15, 1947, coincided with the 27th of Ramadan, a highly sacred night in the Islamic calendar.</span>
+                </li>
+            </ul>
+        </section>
+    </main>
     
+    <footer class="footer">
+        <p>Made with ❤️ for Pakistan | Happy Independence Day, August 14th</p>
+        <p>© 2025 Pak Updates</p>
+    </footer>
+
+    <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" target="_blank" class="floating-btn whatsapp-fab" aria-label="Join WhatsApp Channel">
+        <i class="fab fa-whatsapp"></i> Join Channel
+    </a>
+
+    <button id="scrollTopBtn" class="floating-btn scroll-top-btn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -403,6 +576,15 @@
             const whatsappShareBtn = document.getElementById('whatsappShareBtn');
             const facebookShareBtn = document.getElementById('facebookShareBtn');
             const twitterShareBtn = document.getElementById('twitterShareBtn');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            const heroFlag = document.getElementById('heroFlag');
+            
+            // Parallax effect for the hero image
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                heroFlag.style.transform = `translate(-${x * 20}px, -${y * 20}px)`;
+            });
 
             // Initialize Particles.js background
             particlesJS('particles-js', {
@@ -423,7 +605,7 @@
                 "retina_detect": true
             });
 
-            // Animation functions
+            // Firework and confetti animations
             const createFirework = () => {
                 const firework = document.createElement('div');
                 firework.classList.add('firework');
@@ -437,8 +619,8 @@
                 
                 const animationDuration = Math.random() * 2 + 1;
                 firework.animate([
-                    { transform: 'translateY(0) scale(1)', opacity: 1 },
-                    { transform: `translateY(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}px) translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}px) scale(0.2)`, opacity: 0 }
+                    { transform: 'scale(0)', opacity: 1 },
+                    { transform: `scale(${Math.random() * 1.5 + 0.5})`, opacity: 0 }
                 ], {
                     duration: animationDuration * 1000,
                     easing: 'ease-out'
@@ -446,9 +628,35 @@
                 setTimeout(() => firework.remove(), animationDuration * 1000);
             };
 
+            const createConfetti = () => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                const posX = Math.random() * window.innerWidth;
+                const colors = ['#FFD700', '#FFFFFF', '#008000', '#FF4500'];
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${posX}px`;
+                confetti.style.top = `${-20}px`;
+                
+                document.body.appendChild(confetti);
+
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg) scale(1)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 2000 + Math.random() * 1000,
+                    easing: 'ease-in'
+                });
+                setTimeout(() => confetti.remove(), 3500);
+            };
+
             const triggerCelebratoryAnimations = () => {
+                // Fireworks
                 for (let i = 0; i < 30; i++) {
                     setTimeout(createFirework, i * 80);
+                }
+                // Confetti
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(createConfetti, i * 50);
                 }
             };
             
@@ -472,17 +680,13 @@
                 triggerCelebratoryAnimations();
             };
             
-            const handleShare = (shareUrl) => {
-                const message = messageBox.textContent;
-                const link = generatedLink.href;
-                const shareText = `${message}\n\n${link}`;
-
+            const handleShare = (shareUrl, message, link) => {
                 if (navigator.share) {
                     navigator.share({
                         title: 'Happy Independence Day!',
-                        text: shareText,
+                        text: message,
                         url: link
-                    });
+                    }).catch(error => console.error('Error sharing:', error));
                 } else if (shareUrl) {
                     window.open(shareUrl, '_blank');
                 }
@@ -498,19 +702,22 @@
                 generateMessage(friendName);
             });
 
-            whatsappShareBtn.addEventListener('click', () => {
+            whatsappShareBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 const whatsappText = encodeURIComponent(`${messageBox.textContent}\n\n${generatedLink.href}`);
-                handleShare(`https://wa.me/?text=${whatsappText}`);
+                handleShare(`https://wa.me/?text=${whatsappText}`, messageBox.textContent, generatedLink.href);
             });
             
-            facebookShareBtn.addEventListener('click', () => {
+            facebookShareBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 const facebookLink = encodeURIComponent(generatedLink.href);
-                handleShare(`https://www.facebook.com/sharer/sharer.php?u=${facebookLink}`);
+                handleShare(`https://www.facebook.com/sharer/sharer.php?u=${facebookLink}`, messageBox.textContent, generatedLink.href);
             });
 
-            twitterShareBtn.addEventListener('click', () => {
+            twitterShareBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 const twitterText = encodeURIComponent(`${messageBox.textContent.substring(0, 100)}... ${generatedLink.href}`);
-                handleShare(`https://twitter.com/intent/tweet?text=${twitterText}`);
+                handleShare(`https://twitter.com/intent/tweet?text=${twitterText}`, messageBox.textContent, generatedLink.href);
             });
 
             linkBox.addEventListener('click', (e) => {
@@ -521,6 +728,22 @@
                         generatedLink.textContent = "Link Copied!";
                         setTimeout(() => generatedLink.textContent = originalText, 2000);
                     });
+            });
+
+            // Scroll-to-top functionality
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
 
             // Initial URL check for sharing
