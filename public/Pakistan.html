@@ -3,413 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pakistan Zindabad - The Ultimate Experience!</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Happy Independence Day - Pakistan Zindabad</title>
     
-    <style>
-        /* ULTRA-PLUS Modern CSS */
-        :root {
-            --green-primary: #004d26;
-            --white-primary: #FFFFFF;
-            --font-display: 'Orbitron', sans-serif;
-            --font-body: 'Montserrat', sans-serif;
-            --glow-color: rgba(255, 255, 255, 0.8);
-            --button-color: #25D366; /* WhatsApp Green */
-            --button-hover: #1da851;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-        /* Base styles */
+    <style>
+        /* General Reset & Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
+        :root {
+            /* Color Palette */
+            --color-dark-bg: #030303;
+            --color-dark-surface: #1C1C1C;
+            --color-accent-gold: #FFD700;
+            --color-text-light: #F0F0F0;
+            --color-text-secondary: #B0B0B0;
+            --color-neon-green: #00FF7F;
+            --color-neon-white: #FFFFFF;
 
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            cursor: none;
+            /* Fonts */
+            --font-family-heading: 'Oswald', sans-serif;
+            --font-family-body: 'Poppins', sans-serif;
+
+            /* Spacing & Sizing */
+            --spacing-unit: 1rem;
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
         }
-
+        
+        /* Base & Layout Styles */
         body {
-            font-family: var(--font-body);
-            color: var(--white-primary);
-            background-color: #000;
+            font-family: var(--font-family-body);
+            min-height: 100vh;
+            color: var(--color-text-light);
+            background-color: var(--color-dark-bg);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            perspective: 1500px;
+            justify-content: center;
+            padding: 1rem;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--white-primary);
+        /* Animated background particles */
+        .particles-js-canvas-el {
             position: fixed;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: width 0.2s, height 0.2s;
-        }
-
-        /* Parallax Background and Particles */
-        .parallax-background {
-            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: radial-gradient(circle, #006633 1px, transparent 2px);
-            background-size: 50px 50px;
-        }
-
-        .landmark-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: clamp(300px, 60vw, 800px);
-            height: auto;
-            opacity: 0.1;
             z-index: -1;
-            transform: translate(-50%, -50%) scale(1.2);
-            transition: transform 0.2s ease-out;
-            pointer-events: none;
-            filter: grayscale(100%) brightness(50%);
-            animation: image-pulse 30s infinite alternate;
-        }
-
-        @keyframes image-pulse {
-            0% { transform: translate(-50%, -50%) scale(1.1); }
-            100% { transform: translate(-50%, -50%) scale(1.3); }
-        }
-
-        /* Firework particle system */
-        .fireworks-container {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -3;
         }
 
-        .firework {
-            position: absolute;
-            width: 5px;
-            height: 5px;
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            gap: 1.5rem;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            animation: fadeIn 1.2s ease-out;
+            grid-column: 1 / -1;
+        }
+        
+        .header__title {
+            font-family: var(--font-family-heading);
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            color: var(--color-neon-green);
+            /* Corrected text-shadow for sharpness */
+            text-shadow: 0 0 1px #fff, 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green);
+            margin-bottom: 0.5rem;
+            letter-spacing: 3px;
+            white-space: nowrap;
+            animation: neon-glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .neon-card {
+            background-color: var(--color-dark-surface);
+            border: 2px solid var(--color-neon-green);
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green), inset 0 0 5px var(--color-neon-green);
+            margin: 0 auto;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .neon-card:hover {
+            box-shadow: 0 0 10px var(--color-neon-green), 0 0 20px var(--color-neon-green), inset 0 0 10px var(--color-neon-green);
+            transform: scale(1.05);
+        }
+        
+        .header__subtitle {
+            font-family: var(--font-family-body);
+            font-size: clamp(0.9rem, 4vw, 1.5rem);
+            color: var(--color-text-secondary);
+            font-weight: 300;
+            margin-top: 0.5rem;
+        }
+        
+        /* Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-card__title {
+            font-family: var(--font-family-heading);
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: var(--color-accent-gold);
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+            letter-spacing: 2px;
+        }
+        
+        .glass-card__title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--color-accent-gold);
+            margin: 0.5rem auto 0;
+        }
+
+        /* Form & Buttons */
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group__label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: var(--color-text-light);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-control:focus-visible {
+            outline: none;
+            border-color: var(--color-accent-gold);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+        
+        .form-control::placeholder { color: var(--color-text-secondary); }
+        
+        .btn {
+            width: 100%;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: var(--color-dark-bg);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.8rem;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+        
+        .message-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            padding: 0.8rem;
+            margin-top: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .message-box__text {
+            font-size: 1rem;
+            color: var(--color-accent-gold);
+        }
+        
+        /* Share & Social Links */
+        .social-sharing {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: var(--white-primary);
-            box-shadow: 0 0 10px var(--white-primary), 0 0 20px #00ff00;
-            animation: fireworkShot 2s ease-out forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
-
-        @keyframes fireworkShot {
+        
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp { background: #25D366; }
+        .facebook { background: #3b5998; }
+        .twitter { background: #1DA1F2; }
+        
+        /* Flag and Image Section */
+        .flag {
+            width: 100%;
+            max-width: 300px;
+            margin: 1.5rem auto;
+            animation: scaleIn 1.2s ease-out;
+        }
+        
+        .image-box {
+            text-align: center;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .image-box__img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid var(--color-accent-gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-body {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-top: 0.8rem;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .firework {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: firework-burst 1s ease-out forwards;
+        }
+        @keyframes firework-burst {
             0% { transform: scale(0); opacity: 1; }
-            50% { transform: scale(1); opacity: 0.5; }
             100% { transform: scale(2); opacity: 0; }
         }
-
-        /* Hero section and container */
-        .hero {
-            position: relative;
-            transform-style: preserve-3d;
-            animation: enter-scene 3s ease-out forwards;
-            padding: 20px;
-            text-align: center;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        @keyframes enter-scene {
-            from { transform: translateZ(-500px) translateY(100px); opacity: 0; }
-            to { transform: translateZ(0) translateY(0); opacity: 1; }
-        }
-
-        .title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 700;
-            text-shadow: 0 0 15px var(--glow-color);
-            letter-spacing: 5px;
-            margin-bottom: 0.5rem;
-            animation: text-glow 2s infinite alternate;
-        }
-
-        @keyframes text-glow {
-            from { text-shadow: 0 0 10px var(--glow-color); }
-            to { text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--white-primary); }
-        }
-
-        .subtitle-3d {
-            font-family: var(--font-body);
-            font-size: clamp(1rem, 4vw, 1.8rem);
-            font-weight: 300;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-            transform-style: preserve-3d;
-            transform: rotateX(20deg) rotateY(0deg) translateZ(0);
-            animation: subtitle-animate 15s infinite alternate ease-in-out;
-        }
-
-        @keyframes subtitle-animate {
-            from { transform: rotateX(15deg) rotateY(-5deg) translateZ(-50px); }
-            to { transform: rotateX(15deg) rotateY(5deg) translateZ(-50px); }
-        }
-
-        /* 3D animated flag with multiple layers */
-        .flag-box {
-            position: relative;
-            width: 400px;
-            height: 250px;
-            margin: 0 auto;
-            transform-style: preserve-3d;
-            animation: flag-rotate 10s infinite linear;
-        }
-
-        @keyframes flag-rotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-
-        .flag-box .flag-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            transition: transform 0.5s ease;
-            background-image: url('pakistan_flag.svg');
-        }
-
-        .flag-box:hover .flag-face {
-            transform: translateZ(50px) scale(1.1);
-        }
-
-        .flag-aura {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, #fff 0%, rgba(0,0,0,0) 70%);
-            opacity: 0.2;
-            transform: translate(-50%, -50%) translateZ(-20px);
-            animation: aura-pulse 3s infinite alternate;
-        }
-
-        @keyframes aura-pulse {
-            from { opacity: 0.1; }
-            to { opacity: 0.3; }
-        }
-
-        /* Countdown and Interactive Section */
-        .interactive-section {
-            margin-top: 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #countdown {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 6vw, 3rem);
-            font-weight: 700;
-            text-shadow: 0 0 10px var(--white-primary);
-            margin-bottom: 1.5rem;
-            animation: text-glow 2s infinite alternate;
-        }
-
-        .whatsapp-button {
-            padding: 15px 30px;
-            background-color: var(--button-color);
-            border: none;
-            color: var(--white-primary);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-weight: 700;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-size: clamp(0.8rem, 3vw, 1.2rem);
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
-        }
-
-        .whatsapp-button:hover {
-            background-color: var(--button-hover);
-            transform: scale(1.1);
-            box-shadow: 0 0 30px var(--button-color);
-        }
-
-        .whatsapp-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
-
-        /* Audio Controls */
-        .audio-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            color: var(--white-primary);
-        }
-
-        .audio-controls:hover {
-            background: rgba(0, 0, 0, 0.8);
+        @keyframes neon-glow {
+            from { text-shadow: 0 0 1px #fff, 0 0 5px var(--color-neon-green), 0 0 10px var(--color-neon-green); }
+            to { text-shadow: 0 0 5px #fff, 0 0 10px var(--color-neon-white), 0 0 15px var(--color-neon-green), 0 0 20px var(--color-neon-green); }
         }
     </style>
 </head>
 <body>
-
-    <div class="cursor"></div>
-
-    <div class="parallax-background"></div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Badshahi_mosque_lahore.jpg" alt="Badshahi Mosque" class="landmark-image">
-    <div class="fireworks-container"></div>
-
-    <audio id="anthem-audio" src="anthem.ogg" preload="auto" loop></audio>
-    <div class="audio-controls" id="audio-toggle">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path id="play-icon" d="M8 5v14l11-7z" style="display: none;"/>
-            <path id="pause-icon" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
-    </div>
-
-    <div class="hero">
-        <div class="title">Pakistan Zindabad!</div>
-        <div class="subtitle-3d">Celebrating Independence Day with PAK UPDATES ✅</div>
-        <div class="flag-box">
-            <div class="flag-aura"></div>
-            <div class="flag-face"></div>
+    <canvas id="particles-js" class="particles-js-canvas-el"></canvas>
+    
+    <div class="container">
+        <div class="header">
+            <div class="neon-card">
+                <h1 class="header__title">HAPPY INDEPENDENCE DAY</h1>
+            </div>
+            <h2 class="header__subtitle">Pakistan Zindabad</h2>
+            
+            <div class="image-box" style="margin-top: 2rem;">
+                <img src="https://raw.githubusercontent.com/abdullahasad491326/OPERATOR_CHECKER/main/public/pakistan-flag.jpg" alt="Pakistan's national flag" class="image-box__img">
+            </div>
         </div>
-        <div class="interactive-section">
-            <div id="countdown"></div>
-            <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" class="whatsapp-button" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
-                Join Our Channel
-            </a>
+        
+        <div class="glass-card">
+            <h3 class="glass-card__title">Generate a Custom Message</h3>
+            <div class="form-group">
+                <label for="friendName" class="form-group__label">Friend's Name</label>
+                <input type="text" id="friendName" class="form-control" placeholder="Enter name">
+            </div>
+            <button id="generateBtn" class="btn">
+                <i class="fas fa-star"></i> Generate Message
+            </button>
+            
+            <div class="message-box">
+                <p id="message" class="message-box__text">Your personalized message will appear here.</p>
+            </div>
+            
+            <div id="linkContainer" style="display: none; margin-top: 1.5rem;">
+                <h4 style="color: var(--color-text-secondary); font-size: 0.9rem; text-align: center; margin-bottom: 0.5rem;">Share this link:</h4>
+                <div class="form-control" style="cursor: pointer;" id="linkBox">
+                    <a id="generatedLink" href="#" target="_blank" style="color: var(--color-accent-gold); text-decoration: none;">Click to copy link</a>
+                </div>
+            </div>
+            
+            <div class="social-sharing">
+                <div id="whatsappShareBtn" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></div>
+                <div id="facebookShareBtn" class="social-btn facebook"><i class="fab fa-facebook-f"></i></div>
+                <div id="twitterShareBtn" class="social-btn twitter"><i class="fab fa-twitter"></i></div>
+            </div>
+        </div>
+        
+        <div class="glass-card">
+            <h3 class="glass-card__title">A Day of Pride</h3>
+            <div class="image-box">
+                <img src="https://raw.githubusercontent.com/abdullahasad491326/OPERATOR_CHECKER/main/public/pakistan-flag.jpg" alt="Pakistan's national flag" class="image-box__img">
+            </div>
+            <p class="text-body">
+                On this day, we honor the sacrifices of our heroes and celebrate the freedom and unity we cherish. The journey to independence was a testament to our strength and resilience.
+            </p>
+            <p class="text-body" style="font-weight: 600; color: var(--color-accent-gold);">
+                Pakistan is not just a country, it's an emotion. We are all Pakistanis, this is our identity.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>Made with ❤️ for Pakistan | Happy Independence Day, August 14th</p>
+            <p>© 2025 Pak Updates</p>
         </div>
     </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // JavaScript for all advanced interactions
-        const body = document.body;
-        const cursor = document.querySelector('.cursor');
-        const audio = document.getElementById('anthem-audio');
-        const audioToggle = document.getElementById('audio-toggle');
-        const playIcon = document.getElementById('play-icon');
-        const pauseIcon = document.getElementById('pause-icon');
-        const landmarkImage = document.querySelector('.landmark-image');
-        const fireworksContainer = document.querySelector('.fireworks-container');
-        const hero = document.querySelector('.hero');
-        
-        let isPlaying = false;
-        
-        // Custom Cursor functionality
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
+        document.addEventListener('DOMContentLoaded', () => {
+            const friendNameInput = document.getElementById('friendName');
+            const generateBtn = document.getElementById('generateBtn');
+            const messageBox = document.getElementById('message');
+            const linkContainer = document.getElementById('linkContainer');
+            const generatedLink = document.getElementById('generatedLink');
+            const linkBox = document.getElementById('linkBox');
+            const whatsappShareBtn = document.getElementById('whatsappShareBtn');
+            const facebookShareBtn = document.getElementById('facebookShareBtn');
+            const twitterShareBtn = document.getElementById('twitterShareBtn');
+
+            // Initialize Particles.js background
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": ["#FFD700", "#FFFFFF", "#008000"] },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": false },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 4, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } }
+                },
+                "retina_detect": true
+            });
+
+            // Animation functions
+            const createFirework = () => {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                firework.style.left = `${posX}px`;
+                firework.style.top = `${posY}px`;
+                const colors = ['#FFD700', '#FFFFFF', '#008000'];
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(firework);
+                
+                const animationDuration = Math.random() * 2 + 1;
+                firework.animate([
+                    { transform: 'translateY(0) scale(1)', opacity: 1 },
+                    { transform: `translateY(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}px) translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}px) scale(0.2)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'ease-out'
+                });
+                setTimeout(() => firework.remove(), animationDuration * 1000);
+            };
+
+            const triggerCelebratoryAnimations = () => {
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(createFirework, i * 80);
+                }
+            };
+            
+            // Core functionality
+            const generateMessage = (friendName) => {
+                const messages = [
+                    `${friendName}, wishing you and your family a very Happy Independence Day! Pakistan Zindabad!`,
+                    `${friendName}, may this day bring prosperity and peace to our nation. Happy Independence Day!`,
+                    `${friendName}, celebrating the spirit of freedom and unity with you. Happy Independence Day!`,
+                    `${friendName}, a sincere wish for a joyous Independence Day to you and all Pakistanis.`,
+                    `${friendName}, let's honor the sacrifices and celebrate our great nation. Happy Independence Day!`,
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                messageBox.textContent = randomMessage;
+                
+                const baseUrl = window.location.href.split('?')[0];
+                const shareableLink = `${baseUrl}?name=${encodeURIComponent(friendName)}`;
+                generatedLink.href = shareableLink;
+                linkContainer.style.display = 'block';
+
+                triggerCelebratoryAnimations();
+            };
+            
+            const handleShare = (shareUrl) => {
+                const message = messageBox.textContent;
+                const link = generatedLink.href;
+                const shareText = `${message}\n\n${link}`;
+
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Happy Independence Day!',
+                        text: shareText,
+                        url: link
+                    });
+                } else if (shareUrl) {
+                    window.open(shareUrl, '_blank');
+                }
+            };
+
+            // Event Listeners
+            generateBtn.addEventListener('click', () => {
+                const friendName = friendNameInput.value.trim();
+                if (!friendName) {
+                    alert("Please enter a friend's name.");
+                    return;
+                }
+                generateMessage(friendName);
+            });
+
+            whatsappShareBtn.addEventListener('click', () => {
+                const whatsappText = encodeURIComponent(`${messageBox.textContent}\n\n${generatedLink.href}`);
+                handleShare(`https://wa.me/?text=${whatsappText}`);
+            });
+            
+            facebookShareBtn.addEventListener('click', () => {
+                const facebookLink = encodeURIComponent(generatedLink.href);
+                handleShare(`https://www.facebook.com/sharer/sharer.php?u=${facebookLink}`);
+            });
+
+            twitterShareBtn.addEventListener('click', () => {
+                const twitterText = encodeURIComponent(`${messageBox.textContent.substring(0, 100)}... ${generatedLink.href}`);
+                handleShare(`https://twitter.com/intent/tweet?text=${twitterText}`);
+            });
+
+            linkBox.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(generatedLink.href)
+                    .then(() => {
+                        const originalText = generatedLink.textContent;
+                        generatedLink.textContent = "Link Copied!";
+                        setTimeout(() => generatedLink.textContent = originalText, 2000);
+                    });
+            });
+
+            // Initial URL check for sharing
+            const checkUrlForName = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const name = urlParams.get('name');
+                if (name) {
+                    const decodedName = decodeURIComponent(name);
+                    friendNameInput.value = decodedName;
+                    generateMessage(decodedName);
+                }
+            };
+            checkUrlForName();
         });
-        
-        // Parallax Effect on Landmark Image and Hero Section
-        body.addEventListener('mousemove', e => {
-            const x = (e.clientX / window.innerWidth - 0.5) * -50;
-            const y = (e.clientY / window.innerHeight - 0.5) * -50;
-            landmarkImage.style.transform = `translate(-50%, -50%) scale(1.2) rotateY(${x / 20}deg) rotateX(${y / 20}deg)`;
-            hero.style.transform = `rotateY(${x / 50}deg) rotateX(${y / 50}deg)`;
-        });
-
-        // Countdown Timer
-        const countdownElement = document.getElementById('countdown');
-        function updateCountdown() {
-            // Target time is midnight on August 15th
-            const now = new Date();
-            const endOfDay = new Date(now.getFullYear(), 7, 15, 0, 0, 0); // Month 7 is August
-            
-            const distance = endOfDay - now;
-            
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            countdownElement.innerHTML = `Ending in: ${hours}h ${minutes}m ${seconds}s`;
-            
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownElement.innerHTML = "Independence Day has concluded.";
-            }
-        }
-        
-        updateCountdown();
-        const countdownInterval = setInterval(updateCountdown, 1000);
-
-        // Firework Particle System
-        function createFirework(x, y) {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            firework.style.left = `${x}px`;
-            firework.style.top = `${y}px`;
-            fireworksContainer.appendChild(firework);
-
-            setTimeout(() => {
-                firework.remove();
-            }, 2000);
-        }
-
-        setInterval(() => {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
-            createFirework(x, y);
-        }, 500);
-
-        // Audio controls
-        let hasInteracted = false;
-        
-        document.addEventListener('click', () => {
-            if (!hasInteracted) {
-                audio.play().catch(e => console.error("Audio playback failed: " + e));
-                pauseIcon.style.display = 'block';
-                playIcon.style.display = 'none';
-                isPlaying = true;
-                hasInteracted = true;
-            }
-        }, { once: true });
-        
-        audioToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-            } else {
-                audio.play().catch(e => console.error("Audio playback failed: " + e));
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-            }
-            isPlaying = !isPlaying;
-        });
-        
     </script>
 </body>
 </html>
