@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistan Zindabad - The Ultimate Experience!</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ULTRA-PLUS Modern CSS */
+        :root {
+            --green-primary: #004d26;
+            --white-primary: #FFFFFF;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+            --glow-color: rgba(255, 255, 255, 0.8);
+            --button-color: #25D366; /* WhatsApp Green */
+            --button-hover: #1da851;
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--white-primary);
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--white-primary);
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* Parallax Background and Particles */
+        .parallax-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle, #006633 1px, transparent 2px);
+            background-size: 50px 50px;
+        }
+
+        .landmark-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: clamp(300px, 60vw, 800px);
+            height: auto;
+            opacity: 0.1;
+            z-index: -1;
+            transform: translate(-50%, -50%) scale(1.2);
+            transition: transform 0.2s ease-out;
+            pointer-events: none;
+            filter: grayscale(100%) brightness(50%);
+            animation: image-pulse 30s infinite alternate;
+        }
+
+        @keyframes image-pulse {
+            0% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* Firework particle system */
+        .fireworks-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -3;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--white-primary);
+            box-shadow: 0 0 10px var(--white-primary), 0 0 20px #00ff00;
+            animation: fireworkShot 2s ease-out forwards;
+        }
+
+        @keyframes fireworkShot {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Hero section and container */
+        .hero {
+            position: relative;
+            transform-style: preserve-3d;
+            animation: enter-scene 3s ease-out forwards;
+            padding: 20px;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        @keyframes enter-scene {
+            from { transform: translateZ(-500px) translateY(100px); opacity: 0; }
+            to { transform: translateZ(0) translateY(0); opacity: 1; }
+        }
+
+        .title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 700;
+            text-shadow: 0 0 15px var(--glow-color);
+            letter-spacing: 5px;
+            margin-bottom: 0.5rem;
+            animation: text-glow 2s infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from { text-shadow: 0 0 10px var(--glow-color); }
+            to { text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--white-primary); }
+        }
+
+        .subtitle-3d {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            transform-style: preserve-3d;
+            transform: rotateX(20deg) rotateY(0deg) translateZ(0);
+            animation: subtitle-animate 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes subtitle-animate {
+            from { transform: rotateX(15deg) rotateY(-5deg) translateZ(-50px); }
+            to { transform: rotateX(15deg) rotateY(5deg) translateZ(-50px); }
+        }
+
+        /* 3D animated flag with multiple layers */
+        .flag-box {
+            position: relative;
+            width: 400px;
+            height: 250px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            animation: flag-rotate 10s infinite linear;
+        }
+
+        @keyframes flag-rotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .flag-box .flag-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+            background-image: url('pakistan_flag.svg');
+        }
+
+        .flag-box:hover .flag-face {
+            transform: translateZ(50px) scale(1.1);
+        }
+
+        .flag-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, #fff 0%, rgba(0,0,0,0) 70%);
+            opacity: 0.2;
+            transform: translate(-50%, -50%) translateZ(-20px);
+            animation: aura-pulse 3s infinite alternate;
+        }
+
+        @keyframes aura-pulse {
+            from { opacity: 0.1; }
+            to { opacity: 0.3; }
+        }
+
+        /* Countdown and Interactive Section */
+        .interactive-section {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #countdown {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 6vw, 3rem);
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--white-primary);
+            margin-bottom: 1.5rem;
+            animation: text-glow 2s infinite alternate;
+        }
+
+        .whatsapp-button {
+            padding: 15px 30px;
+            background-color: var(--button-color);
+            border: none;
+            color: var(--white-primary);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-button:hover {
+            background-color: var(--button-hover);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--button-color);
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            color: var(--white-primary);
+        }
+
+        .audio-controls:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <div class="parallax-background"></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Badshahi_mosque_lahore.jpg" alt="Badshahi Mosque" class="landmark-image">
+    <div class="fireworks-container"></div>
+
+    <audio id="anthem-audio" src="anthem.ogg" preload="auto" loop></audio>
+    <div class="audio-controls" id="audio-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path id="play-icon" d="M8 5v14l11-7z" style="display: none;"/>
+            <path id="pause-icon" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </div>
+
+    <div class="hero">
+        <div class="title">Pakistan Zindabad!</div>
+        <div class="subtitle-3d">Celebrating Independence Day with PAK UPDATES ✅</div>
+        <div class="flag-box">
+            <div class="flag-aura"></div>
+            <div class="flag-face"></div>
+        </div>
+        <div class="interactive-section">
+            <div id="countdown"></div>
+            <a href="https://whatsapp.com/channel/0029Vb9shWp4o7qPSrCXS603" class="whatsapp-button" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+                Join Our Channel
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for all advanced interactions
+        const body = document.body;
+        const cursor = document.querySelector('.cursor');
+        const audio = document.getElementById('anthem-audio');
+        const audioToggle = document.getElementById('audio-toggle');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const landmarkImage = document.querySelector('.landmark-image');
+        const fireworksContainer = document.querySelector('.fireworks-container');
+        const hero = document.querySelector('.hero');
+        
+        let isPlaying = false;
+        
+        // Custom Cursor functionality
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+        });
+        
+        // Parallax Effect on Landmark Image and Hero Section
+        body.addEventListener('mousemove', e => {
+            const x = (e.clientX / window.innerWidth - 0.5) * -50;
+            const y = (e.clientY / window.innerHeight - 0.5) * -50;
+            landmarkImage.style.transform = `translate(-50%, -50%) scale(1.2) rotateY(${x / 20}deg) rotateX(${y / 20}deg)`;
+            hero.style.transform = `rotateY(${x / 50}deg) rotateX(${y / 50}deg)`;
+        });
+
+        // Countdown Timer
+        const countdownElement = document.getElementById('countdown');
+        function updateCountdown() {
+            // Target time is midnight on August 15th
+            const now = new Date();
+            const endOfDay = new Date(now.getFullYear(), 7, 15, 0, 0, 0); // Month 7 is August
+            
+            const distance = endOfDay - now;
+            
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            countdownElement.innerHTML = `Ending in: ${hours}h ${minutes}m ${seconds}s`;
+            
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = "Independence Day has concluded.";
+            }
+        }
+        
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Firework Particle System
+        function createFirework(x, y) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = `${x}px`;
+            firework.style.top = `${y}px`;
+            fireworksContainer.appendChild(firework);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+
+        setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            createFirework(x, y);
+        }, 500);
+
+        // Audio controls
+        let hasInteracted = false;
+        
+        document.addEventListener('click', () => {
+            if (!hasInteracted) {
+                audio.play().catch(e => console.error("Audio playback failed: " + e));
+                pauseIcon.style.display = 'block';
+                playIcon.style.display = 'none';
+                isPlaying = true;
+                hasInteracted = true;
+            }
+        }, { once: true });
+        
+        audioToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            } else {
+                audio.play().catch(e => console.error("Audio playback failed: " + e));
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+    </script>
+</body>
+</html>
